@@ -1,5 +1,7 @@
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
+import { prisma } from "@/lib/prisma";
+import bcrypt from "bcrypt";
 
 // Define your admin users here (replace with DB lookup)
 const ADMIN_USERS = [
@@ -32,21 +34,41 @@ export const authOptions = {
 
         const { email, password } = parsed.data;
 
-        // Find user in your database or static list
-        const user = ADMIN_USERS.find(
-          (u) => u.email === email && u.password === password
-        );
+        try {
+          // Find user in PostgreSQL database
+          const user = await prisma.user.findUnique({
+            where: { email },
+          });
 
-        if (!user) {
+          if (!user) {
+            throw new Error("Invalid email or password");
+          }
+
+          // For now, compare plaintext passwords (update to use bcrypt in production)
+          // const isPasswordValid = await bcrypt.compare(password, user.password);
+          const isPasswordValid = password === user.password;
+
+          if (!isPasswordValid) {
+            throw new Error("Invalid email or password");
+          }
+
+          // Check if user is admin
+          if (user.role !== "admin") {
+            throw new Error("Unauthorized: Admin access required");
+          }
+
+          // Return user object (without password)
+          return {
+            id: String(user.id),
+            email: user.email,
+            name: user.name,
+          };
+        } catch (error: any) {
+          if (error.message.includes("Unauthorized")) {
+            throw error;
+          }
           throw new Error("Invalid email or password");
         }
-
-        // Return user object (without password)
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-        };
       },
     }),
   ],
