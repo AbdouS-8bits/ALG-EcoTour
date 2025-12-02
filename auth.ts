@@ -3,16 +3,6 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcrypt";
 
-// Define your admin users here (replace with DB lookup)
-const ADMIN_USERS = [
-  {
-    id: "1",
-    email: "admin@ecotour.com",
-    password: "Admin@123", // In production, use hashed passwords
-    name: "Admin User",
-  },
-];
-
 const credentialsSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
@@ -44,9 +34,8 @@ export const authOptions = {
             throw new Error("Invalid email or password");
           }
 
-          // For now, compare plaintext passwords (update to use bcrypt in production)
-          // const isPasswordValid = await bcrypt.compare(password, user.password);
-          const isPasswordValid = password === user.password;
+          // Compare password with bcrypt hashed password
+          const isPasswordValid = await bcrypt.compare(password, user.password);
 
           if (!isPasswordValid) {
             throw new Error("Invalid email or password");

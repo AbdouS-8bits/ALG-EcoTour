@@ -36,6 +36,7 @@ export default function AdminLogin() {
         <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
           Login Page
         </h1>
+        
         <form className="mt-8 w-full max-w-sm" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-zinc-200" htmlFor="email">
