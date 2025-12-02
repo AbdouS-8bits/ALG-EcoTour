@@ -1,37 +1,55 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# ALG-EcoTour
 
-First, run the development server:
+**Easy Dev Setup (for `dev` branch)**
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Follow these quick steps to get the project running locally (minimal, copy-paste):
+
+- Clone and switch to the `dev` branch:
+
+```powershell
+git clone <repo-url>
+cd ALG-EcoTour
+git switch dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```powershell
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Create a local env file (`.env.local`) in the repo root containing:
 
-## Learn More
+```env
+# Example dev values — replace with your own database credentials
+DATABASE_URL="postgresql://postgres:1234@localhost:5432/ecotour_db"
+NEXTAUTH_SECRET="<generate-a-secure-secret>"
+NEXTAUTH_URL="http://localhost:3000"
+```
 
-To learn more about Next.js, take a look at the following resources:
+- Generate Prisma client and run migrations (creates DB schema):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+npx prisma generate
+npx prisma migrate dev --name init
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- (Optional) Seed the DB with the default admin user (plain-text password for dev convenience):
 
-## Deploy on Vercel
+```powershell
+node --input-type=module --eval "import('./scripts/seed.mjs')"
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Start the dev server:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ALG-EcoTour
+```powershell
+npm run dev
+```
+
+- Open the app: http://localhost:3000 and then go to the admin login: http://localhost:3000/admin/login
+
+Notes:
+- Use Prisma Studio to inspect or edit data: `npx prisma studio --url "<your database url>"`.
+- This project pins Prisma v6 for compatibility with the committed schema. If you see schema errors, ensure you have `prisma@6.x` and `@prisma/client@6.x` installed.
+- For production, always hash passwords (bcrypt) and never commit `.env.local`.
