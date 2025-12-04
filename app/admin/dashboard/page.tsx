@@ -14,6 +14,10 @@ export default function AdminDashboard() {
     }
   }, [status, router]);
 
+  const gotours = () => {
+    router.push("/admin/EcoTours");
+  }
+
   if (status === "loading") {
     return <div className="p-8">Loading...</div>;
   }
@@ -55,7 +59,7 @@ export default function AdminDashboard() {
           <div className="bg-white rounded shadow p-6">
             <h3 className="text-lg font-semibold mb-2">Tours</h3>
             <p className="text-gray-600">Manage eco-tour listings</p>
-            <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            <button onClick={gotours} className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
               View Tours
             </button>
           </div>
