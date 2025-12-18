@@ -47,6 +47,7 @@ export async function POST(req: NextRequest) {
             price,
             location,
             maxParticipants,
+            photoUrl: "", // Placeholder, can be updated later
         },
     });
 
@@ -61,6 +62,8 @@ export async function POST(req: NextRequest) {
         price: newTour.price,
         location: newTour.location,
         maxParticipants: newTour.maxParticipants,
+        photoUrl: newTour.photoUrl,
+
       }
     },
     { status: 201 }
