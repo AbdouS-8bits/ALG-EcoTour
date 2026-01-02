@@ -37,6 +37,8 @@ model EcoTour {
   title String
   description String?
   location String
+  latitude Float?
+  longitude Float?
   price Float
   maxParticipants Int
   photoURL String?

@@ -1,20 +1,35 @@
 'use client';
 
 import { useState, useEffect, use } from 'react';
+import { useSession } from 'next-auth/react';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+
+// Dynamically import MapDisplay to avoid SSR issues
+const MapDisplay = dynamic(() => import('@/app/components/MapDisplay'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-96 bg-gray-100 rounded-lg flex items-center justify-center">
+      <p className="text-gray-500">Loading map...</p>
+    </div>
+  ),
+});
 
 interface Tour {
   id: number;
   title: string;
   description: string | null;
   location: string;
+  latitude: number | null;
+  longitude: number | null;
   price: number;
   maxParticipants: number;
   photoURL: string | null;
 }
 
 export default function TourDetailPage({ params }: { params: Promise<{ tourId: string }> }) {
-  // Unwrap the params Promise
   const { tourId } = use(params);
+  const { data: session } = useSession();
   
   const [tour, setTour] = useState<Tour | null>(null);
   const [loading, setLoading] = useState(true);
@@ -31,6 +46,16 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
   useEffect(() => {
     fetchTour();
   }, [tourId]);
+
+  useEffect(() => {
+    if (session?.user) {
+      setBookingData(prev => ({
+        ...prev,
+        guestName: session.user.name || '',
+        guestEmail: session.user.email || '',
+      }));
+    }
+  }, [session]);
 
   const fetchTour = async () => {
     try {
@@ -72,14 +97,15 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
         body: JSON.stringify({
           ...bookingData,
           tourId: parseInt(tourId),
+          userId: session?.user?.id || null,
         }),
       });
 
       if (response.ok) {
         setBookingMessage({ type: 'success', text: 'Booking submitted successfully!' });
         setBookingData({
-          guestName: '',
-          guestEmail: '',
+          guestName: session?.user?.name || '',
+          guestEmail: session?.user?.email || '',
           guestPhone: '',
           participants: 1,
         });
@@ -116,7 +142,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        {/* Tour Details */}
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           {tour.photoURL && (
             <img 
@@ -147,7 +172,27 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
               </p>
             )}
 
-            {/* BOOKING BUTTON */}
+            {/* Map Display */}
+            {tour.latitude && tour.longitude && (
+              <div className="mb-8">
+                <MapDisplay 
+                  latitude={tour.latitude}
+                  longitude={tour.longitude}
+                  title={tour.title}
+                />
+              </div>
+            )}
+
+            {!session && (
+              <div className="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <p className="text-blue-800 text-sm">
+                  💡 <Link href="/auth/login" className="font-semibold underline">Sign in</Link> or{' '}
+                  <Link href="/auth/signup" className="font-semibold underline">create an account</Link>{' '}
+                  to book faster with auto-filled information!
+                </p>
+              </div>
+            )}
+
             <button
               onClick={() => setShowBookingModal(true)}
               className="w-full bg-emerald-600 text-white font-semibold py-4 px-8 rounded-lg hover:bg-emerald-700 transition duration-200 shadow-lg hover:shadow-xl text-lg"
@@ -158,11 +203,9 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
         </div>
       </div>
 
-      {/* BOOKING MODAL */}
       {showBookingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
-            {/* Close Button */}
+          <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowBookingModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
@@ -173,6 +216,14 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
             </button>
 
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Book Your Tour</h2>
+
+            {session && (
+              <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
+                <p className="text-green-800 text-sm">
+                  ✓ Logged in as <strong>{session.user?.email}</strong>
+                </p>
+              </div>
+            )}
 
             {bookingMessage.text && (
               <div className={`mb-4 p-3 rounded-lg ${
@@ -185,7 +236,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
             )}
 
             <div className="space-y-4">
-              {/* Name */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Full Name *
@@ -195,12 +245,12 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
                   name="guestName"
                   value={bookingData.guestName}
                   onChange={handleBookingInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  disabled={!!session?.user?.name}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none disabled:bg-gray-100"
                   placeholder="John Doe"
                 />
               </div>
 
-              {/* Email */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Email *
@@ -210,12 +260,12 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
                   name="guestEmail"
                   value={bookingData.guestEmail}
                   onChange={handleBookingInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  disabled={!!session?.user?.email}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none disabled:bg-gray-100"
                   placeholder="john@example.com"
                 />
               </div>
 
-              {/* Phone */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Phone *
@@ -230,7 +280,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
                 />
               </div>
 
-              {/* Participants */}
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">
                   Number of Participants *
@@ -246,7 +295,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
                 />
               </div>
 
-              {/* Total Price */}
               <div className="bg-emerald-50 p-4 rounded-lg">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700 font-semibold">Total Price:</span>
@@ -256,7 +304,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
                 onClick={handleBookingSubmit}
                 disabled={submitting}
@@ -264,6 +311,15 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
               >
                 {submitting ? 'Submitting...' : 'Confirm Booking'}
               </button>
+
+              {!session && (
+                <p className="text-center text-sm text-gray-600">
+                  <Link href="/auth/login" className="text-emerald-600 hover:text-emerald-700 font-semibold">
+                    Sign in
+                  </Link>
+                  {' '}to save your info for next time
+                </p>
+              )}
             </div>
           </div>
         </div>
