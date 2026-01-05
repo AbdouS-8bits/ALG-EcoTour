@@ -51,6 +51,7 @@ export const authOptions = {
             id: String(user.id),
             email: user.email,
             name: user.name,
+            role: user.role,
           };
         } catch (error: any) {
           if (error.message.includes("Unauthorized")) {

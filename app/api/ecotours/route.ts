@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
             price,
             location,
             maxParticipants,
-            photoUrl: "", // Placeholder, can be updated later
+            photoURL: "", // Placeholder, can be updated later
         },
     });
 
@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
         price: newTour.price,
         location: newTour.location,
         maxParticipants: newTour.maxParticipants,
-        photoUrl: newTour.photoUrl,
+        photoURL: newTour.photoURL,
 
       }
     },
@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     } catch (error) {
 
     console.error("❌ Tour creation error:", error);
-    return NextRequest.json(
+    return NextResponse.json(
       { error: "Internal Server Error" },
       { status: 500 }
     );
