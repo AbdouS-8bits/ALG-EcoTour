@@ -291,7 +291,7 @@ export default function EcoTourPage() {
                     placeholder="ابحث عن رحلة..."
                     value={filters.search}
                     onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                    className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                   />
                 </div>
               </div>
@@ -302,7 +302,7 @@ export default function EcoTourPage() {
                 <select
                   value={filters.location}
                   onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white"
                 >
                   <option value="">الكل</option>
                   <option value="الجزائر العاصمة">الجزائر العاصمة</option>
@@ -320,17 +320,19 @@ export default function EcoTourPage() {
                   <input
                     type="number"
                     placeholder="الحد الأدنى"
+                    min="0"
                     value={filters.minPrice}
                     onChange={(e) => setFilters({ ...filters, minPrice: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                   />
                   <span className="text-gray-500">-</span>
                   <input
                     type="number"
                     placeholder="الحد الأعلى"
+                    min="0"
                     value={filters.maxPrice}
                     onChange={(e) => setFilters({ ...filters, maxPrice: Number(e.target.value) })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                   />
                 </div>
               </div>
@@ -368,7 +370,7 @@ export default function EcoTourPage() {
                   min="1"
                   value={filters.participants}
                   onChange={(e) => setFilters({ ...filters, participants: Number(e.target.value) })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                 />
               </div>
             </div>
@@ -551,7 +553,7 @@ export default function EcoTourPage() {
                         placeholder="ابحث عن رحلة..."
                         value={filters.search}
                         onChange={(e) => setFilters({ ...filters, search: e.target.value })}
-                        className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full pr-10 pl-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                       />
                     </div>
                   </div>
@@ -562,7 +564,7 @@ export default function EcoTourPage() {
                     <select
                       value={filters.location}
                       onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white"
                     >
                       <option value="">الكل</option>
                       <option value="الجزائر العاصمة">الجزائر العاصمة</option>
@@ -580,17 +582,19 @@ export default function EcoTourPage() {
                       <input
                         type="number"
                         placeholder="الحد الأدنى"
+                        min="0"
                         value={filters.minPrice}
                         onChange={(e) => setFilters({ ...filters, minPrice: Number(e.target.value) })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                       />
                       <span className="text-gray-500">-</span>
                       <input
                         type="number"
                         placeholder="الحد الأعلى"
+                        min="0"
                         value={filters.maxPrice}
                         onChange={(e) => setFilters({ ...filters, maxPrice: Number(e.target.value) })}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                       />
                     </div>
                   </div>
@@ -628,7 +632,7 @@ export default function EcoTourPage() {
                       min="1"
                       value={filters.participants}
                       onChange={(e) => setFilters({ ...filters, participants: Number(e.target.value) })}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent text-gray-900 bg-white placeholder-gray-500"
                     />
                   </div>
 

@@ -1,9 +1,11 @@
 'use client';
 
-import { useState, useEffect, use } from 'react';
+import { useState, useEffect, use, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { ArrowLeft, MapPin, Calendar, Users, DollarSign, Star, Clock } from 'lucide-react';
 
 // Dynamically import MapDisplay to avoid SSR issues
 const MapDisplay = dynamic(() => import('@/app/components/MapDisplay'), {
@@ -14,6 +16,17 @@ const MapDisplay = dynamic(() => import('@/app/components/MapDisplay'), {
     </div>
   ),
 });
+
+// Wrap MapDisplay in Suspense for better error handling
+const MapWithSuspense = ({ latitude, longitude, title }: { latitude: number; longitude: number; title: string }) => (
+  <Suspense fallback={
+    <div className="w-full h-96 bg-gray-100 rounded-lg flex items-center justify-center">
+      <p className="text-gray-500">Loading map...</p>
+    </div>
+  }>
+    <MapDisplay latitude={latitude} longitude={longitude} title={title} />
+  </Suspense>
+);
 
 interface Tour {
   id: number;
@@ -30,15 +43,19 @@ interface Tour {
 export default function TourDetailPage({ params }: { params: Promise<{ tourId: string }> }) {
   const { tourId } = use(params);
   const { data: session } = useSession();
+  const router = useRouter();
   
   const [tour, setTour] = useState<Tour | null>(null);
   const [loading, setLoading] = useState(true);
   const [showBookingModal, setShowBookingModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'details' | 'location'>('details');
   const [bookingData, setBookingData] = useState({
-    guestName: '',
-    guestEmail: '',
+    guestName: session?.user?.name || '',
+    guestEmail: session?.user?.email || '',
     guestPhone: '',
     participants: 1,
+    tourDate: '',
+    specialRequests: '',
   });
   const [bookingMessage, setBookingMessage] = useState({ type: '', text: '' });
   const [submitting, setSubmitting] = useState(false);
@@ -46,16 +63,6 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
   useEffect(() => {
     fetchTour();
   }, [tourId]);
-
-  useEffect(() => {
-    if (session?.user) {
-      setBookingData(prev => ({
-        ...prev,
-        guestName: session.user.name || '',
-        guestEmail: session.user.email || '',
-      }));
-    }
-  }, [session]);
 
   const fetchTour = async () => {
     try {
@@ -71,17 +78,16 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
     }
   };
 
-  const handleBookingInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setBookingData(prev => ({
-      ...prev,
-      [name]: name === 'participants' ? parseInt(value) : value
-    }));
+  const handleBookingInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setBookingData({
+      ...bookingData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   const handleBookingSubmit = async () => {
-    if (!bookingData.guestName || !bookingData.guestEmail || !bookingData.guestPhone) {
-      setBookingMessage({ type: 'error', text: 'Please fill in all fields' });
+    if (!bookingData.guestName || !bookingData.guestEmail || !bookingData.guestPhone || !bookingData.tourDate) {
+      setBookingMessage({ type: 'error', text: 'Please fill in all required fields' });
       return;
     }
 
@@ -108,6 +114,8 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
           guestEmail: session?.user?.email || '',
           guestPhone: '',
           participants: 1,
+          tourDate: '',
+          specialRequests: '',
         });
         setTimeout(() => {
           setShowBookingModal(false);
@@ -141,68 +149,175 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          الرجوع
+        </button>
+        
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          {/* Hero Image */}
           {tour.photoURL && (
             <img 
               src={tour.photoURL} 
               alt={tour.title}
               className="w-full h-96 object-cover"
+              loading="lazy"
             />
           )}
           
           <div className="p-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">{tour.title}</h1>
-            
-            <div className="flex items-center gap-4 mb-6">
-              <span className="text-2xl font-bold text-emerald-600">
-                {tour.price.toLocaleString()} DZD
-              </span>
-              <span className="text-gray-600">
-                📍 {tour.location}
-              </span>
-              <span className="text-gray-600">
-                👥 Max: {tour.maxParticipants} people
-              </span>
+            {/* Title and Basic Info */}
+            <div className="mb-8">
+              <h1 className="text-4xl font-bold text-gray-900 mb-6">{tour.title}</h1>
+              
+              <div className="grid md:grid-cols-4 gap-4 mb-6">
+                <div className="flex items-center gap-2">
+                  <DollarSign className="w-5 h-5 text-green-600" />
+                  <div>
+                    <div className="text-2xl font-bold text-green-600">
+                      {tour.price.toLocaleString()} د.ج
+                    </div>
+                    <div className="text-sm text-gray-600">للشخص الواحد</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-gray-600" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{tour.location}</div>
+                    <div className="text-sm text-gray-600">الموقع</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Users className="w-5 h-5 text-gray-600" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{tour.maxParticipants} شخص</div>
+                    <div className="text-sm text-gray-600">السعة القصوى</div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2">
+                  <Clock className="w-5 h-5 text-gray-600" />
+                  <div>
+                    <div className="font-semibold text-gray-900">3 أيام</div>
+                    <div className="text-sm text-gray-600">المدة التقريبية</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {tour.description && (
-              <p className="text-gray-700 mb-8 leading-relaxed">
-                {tour.description}
-              </p>
-            )}
+            {/* Tabs */}
+            <div className="border-b border-gray-200 mb-8">
+              <nav className="flex space-x-8">
+                <button
+                  onClick={() => setActiveTab('details')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'details'
+                      ? 'border-green-500 text-green-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  التفاصيل
+                </button>
+                <button
+                  onClick={() => setActiveTab('location')}
+                  className={`py-2 px-1 border-b-2 font-medium text-sm transition-colors ${
+                    activeTab === 'location'
+                      ? 'border-green-500 text-green-600'
+                      : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  }`}
+                >
+                  الموقع
+                </button>
+              </nav>
+            </div>
 
-            {/* Map Display */}
-            {tour.latitude && tour.longitude && (
-              <div className="mb-8">
-                <MapDisplay 
-                  latitude={tour.latitude}
-                  longitude={tour.longitude}
-                  title={tour.title}
-                />
+            {/* Tab Content */}
+            {activeTab === 'details' && (
+              <div>
+                {tour.description && (
+                  <div className="mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-4">عن الرحلة</h2>
+                    <p className="text-gray-700 leading-relaxed">
+                      {tour.description}
+                    </p>
+                  </div>
+                )}
+
+                {/* Features */}
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">ما يتضمن</h2>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-gray-900">إرشاد سياحي محترف</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-gray-900">وجبات طعام</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-gray-900">نقل مريح</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
+                      <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                      </div>
+                      <span className="text-gray-900">تأمين شامل</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* CTA */}
+                <div className="text-center">
+                  <button
+                    onClick={() => setShowBookingModal(true)}
+                    className="px-8 py-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition duration-200 shadow-lg hover:shadow-xl text-lg"
+                  >
+                    احجز الآن
+                  </button>
+                </div>
               </div>
             )}
 
-            {!session && (
-              <div className="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                <p className="text-blue-800 text-sm">
-                  💡 <Link href="/auth/login" className="font-semibold underline">Sign in</Link> or{' '}
-                  <Link href="/auth/signup" className="font-semibold underline">create an account</Link>{' '}
-                  to book faster with auto-filled information!
-                </p>
+            {activeTab === 'location' && (
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">موقع الرحلة</h2>
+                {tour.latitude && tour.longitude && (
+                  <MapWithSuspense 
+                    latitude={tour.latitude}
+                    longitude={tour.longitude}
+                    title={tour.title}
+                  />
+                )}
               </div>
             )}
-
-            <button
-              onClick={() => setShowBookingModal(true)}
-              className="w-full bg-emerald-600 text-white font-semibold py-4 px-8 rounded-lg hover:bg-emerald-700 transition duration-200 shadow-lg hover:shadow-xl text-lg"
-            >
-              Book This Tour
-            </button>
           </div>
         </div>
       </div>
 
+      {/* Booking Modal */}
       {showBookingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative max-h-[90vh] overflow-y-auto">
@@ -215,12 +330,12 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
               </svg>
             </button>
 
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Book Your Tour</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">احجز رحلتك</h2>
 
             {session && (
               <div className="mb-4 bg-green-50 border border-green-200 rounded-lg p-3">
                 <p className="text-green-800 text-sm">
-                  ✓ Logged in as <strong>{session.user?.email}</strong>
+                  ✓ مسجل كـ <strong>{session.user?.email}</strong>
                 </p>
               </div>
             )}
@@ -235,92 +350,105 @@ export default function TourDetailPage({ params }: { params: Promise<{ tourId: s
               </div>
             )}
 
-            <div className="space-y-4">
+            <form className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Full Name *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">الاسم الكامل *</label>
                 <input
                   type="text"
                   name="guestName"
                   value={bookingData.guestName}
                   onChange={handleBookingInputChange}
                   disabled={!!session?.user?.name}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none disabled:bg-gray-100"
-                  placeholder="John Doe"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none disabled:bg-gray-100 text-gray-900 bg-white placeholder-gray-500"
+                  placeholder="أدخل اسمك الكامل"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">البريد الإلكتروني *</label>
                 <input
                   type="email"
                   name="guestEmail"
                   value={bookingData.guestEmail}
                   onChange={handleBookingInputChange}
                   disabled={!!session?.user?.email}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none disabled:bg-gray-100"
-                  placeholder="john@example.com"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none disabled:bg-gray-100 text-gray-900 bg-white placeholder-gray-500"
+                  placeholder="example@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Phone *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">رقم الهاتف *</label>
                 <input
                   type="tel"
                   name="guestPhone"
                   value={bookingData.guestPhone}
                   onChange={handleBookingInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 bg-white placeholder-gray-500"
                   placeholder="+213 XXX XXX XXX"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Number of Participants *
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">تاريخ الرحلة *</label>
                 <input
-                  type="number"
-                  name="participants"
-                  value={bookingData.participants}
+                  type="date"
+                  name="tourDate"
+                  value={bookingData.tourDate}
                   onChange={handleBookingInputChange}
-                  min="1"
-                  max={tour.maxParticipants}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 bg-white"
                 />
               </div>
 
-              <div className="bg-emerald-50 p-4 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700 font-semibold">Total Price:</span>
-                  <span className="text-2xl font-bold text-emerald-600">
-                    {(tour.price * bookingData.participants).toLocaleString()} DZD
-                  </span>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">عدد المشاركين *</label>
+                <select
+                  name="participants"
+                  value={bookingData.participants}
+                  onChange={handleBookingInputChange}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 bg-white"
+                >
+                  {[...Array(tour.maxParticipants)].map((_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1} {i === 0 ? 'شخص' : 'أشخاص'}
+                    </option>
+                  ))}
+                </select>
               </div>
 
-              <button
-                onClick={handleBookingSubmit}
-                disabled={submitting}
-                className="w-full bg-emerald-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-emerald-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition duration-200"
-              >
-                {submitting ? 'Submitting...' : 'Confirm Booking'}
-              </button>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">طلبات خاصة</label>
+                <textarea
+                  name="specialRequests"
+                  value={bookingData.specialRequests}
+                  onChange={handleBookingInputChange}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none text-gray-900 bg-white placeholder-gray-500 resize-none"
+                  placeholder="أي طلبات خاصة..."
+                />
+              </div>
 
-              {!session && (
-                <p className="text-center text-sm text-gray-600">
-                  <Link href="/auth/login" className="text-emerald-600 hover:text-emerald-700 font-semibold">
-                    Sign in
-                  </Link>
-                  {' '}to save your info for next time
+              <div className="flex items-center justify-between pt-4">
+                <p className="text-sm text-gray-600">
+                  الحقول المطلوبة مسبوقة بعلامة *
                 </p>
-              )}
-            </div>
+                <button
+                  type="button"
+                  onClick={handleBookingSubmit}
+                  disabled={submitting}
+                  className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                >
+                  {submitting ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin inline-block ml-2"></div>
+                      جاري الإرسال...
+                    </>
+                  ) : (
+                    'تأكيد الحجز'
+                  )}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
