@@ -76,7 +76,7 @@ export default function TourCard({ tour, index }: TourCardProps) {
             {tour.price} د.ج
           </div>
           <Link 
-            href={`/ecoTour/${tour.id}`}
+            href={`/EcoTour/${tour.id}`}
             className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
           >
             عرض التفاصيل

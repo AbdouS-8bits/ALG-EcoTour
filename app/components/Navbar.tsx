@@ -24,7 +24,7 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
-    { href: '/ecoTour', label: 'الرحلات' },
+    { href: '/EcoTour', label: 'الرحلات' },
     { href: '/about', label: 'من نحن' },
     { href: '/contact', label: 'اتصل بنا' },
   ];

@@ -103,7 +103,7 @@ export default function HomePage() {
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
             <Link
-              href="/ecoTour"
+              href="/EcoTour"
               className="px-8 py-4 bg-white text-green-600 rounded-full font-semibold text-lg hover:bg-green-50 transition-colors"
             >
               استكشف الرحلات
@@ -216,7 +216,7 @@ export default function HomePage() {
               انضم إلينا واستكشف جمال الجزائر بطريقة مسؤولة ومستدامة
             </p>
             <Link
-              href="/ecoTour"
+              href="/EcoTour"
               className="inline-block px-8 py-4 bg-white text-green-600 rounded-full font-semibold text-lg hover:bg-green-50 transition-colors"
             >
               احجز رحلتك الآن
