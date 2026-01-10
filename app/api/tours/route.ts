@@ -1,23 +1,62 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = searchParams.get('limit') || '6';
     
-    const tours = await prisma.ecoTour.findMany({
-      take: parseInt(limit),
-      orderBy: {
-        createdAt: 'desc',
-      },
+    // Pagination
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const skip = (page - 1) * limit;
+    
+    // Filters
+    const location = searchParams.get('location');
+    const minPrice = searchParams.get('minPrice');
+    const maxPrice = searchParams.get('maxPrice');
+    const sortBy = searchParams.get('sortBy') || 'createdAt';
+    const order = searchParams.get('order') || 'desc';
+
+    // Build where clause
+    const where: any = {};
+    
+    if (location) {
+      where.location = {
+        contains: location,
+        mode: 'insensitive'
+      };
+    }
+    
+    if (minPrice || maxPrice) {
+      where.price = {};
+      if (minPrice) where.price.gte = parseFloat(minPrice);
+      if (maxPrice) where.price.lte = parseFloat(maxPrice);
+    }
+
+    // Get tours with pagination
+    const [tours, total] = await Promise.all([
+      prisma.ecoTour.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: {
+          [sortBy]: order
+        }
+      }),
+      prisma.ecoTour.count({ where })
+    ]);
+
+    return NextResponse.json({
+      tours,
+      pagination: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit)
+      }
     });
-    
-    console.log('Tours from database:', tours);
-    
-    return NextResponse.json(tours);
   } catch (error) {
-    console.error('Error fetching tours:', error);
+    console.error('Get tours error:', error);
     return NextResponse.json(
       { error: 'Failed to fetch tours' },
       { status: 500 }

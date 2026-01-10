@@ -12,20 +12,28 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  email     String    @unique
+  email     String   @unique
   name      String?
-  password  String    // Store hashed passwords in production
-  role      String    @default("user") // "admin" or "user"
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  password  String
+  role      String   @default("user")
 
-  // Relations
-  bookings       Booking[]
-  reviews        Review[]
-  adminAuditLogs AdminAuditLog[]
+  emailVerified        Boolean   @default(false)
+  verificationToken    String?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking[]
+  reviews  Review[]
+  logs     AdminAuditLog[]
+
+  @@index([verificationToken])
+  @@index([resetPasswordToken])
   @@map("users")
 }
+
 
 model AdminAuditLog {
   id        Int      @id @default(autoincrement())
@@ -48,8 +56,8 @@ model EcoTour {
   price           Float
   maxParticipants Int
   photoURL        String?
-  duration   Int    @default(1)
-  difficulty String @default("easy")
+  duration        Int  @default(0)                   // number of days
+  difficulty      String  @default("easy")               // easy/medium/hard
   categoryId      Int?
   category        Category?  @relation(fields: [categoryId], references: [id])
   status          String      @default("active")
@@ -75,7 +83,7 @@ model Booking {
   guestEmail    String
   guestPhone    String
   participants  Int
-  totalPrice Float @default(0)
+  totalPrice    Float @default(0)
   status        String   @default("pending") // "pending", "confirmed", "cancelled"
   paymentStatus String   @default("pending")
   createdAt     DateTime @default(now())

@@ -1,0 +1,535 @@
+{
+  "info": {
+    "name": "ALG EcoTour API",
+    "description": "Complete API collection for ALG EcoTour platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Categories",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Get Category by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Adventure\",\n  \"description\": \"Adventure tours for thrill seekers\",\n  \"icon\": \"🏔️\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories"]
+            }
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Adventure\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/categories/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "categories", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tours",
+      "item": [
+        {
+          "name": "Search Tours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/search?search=mountain&difficulty=moderate&minPrice=50&maxPrice=200&page=1&limit=10&sortBy=price&sortOrder=ASC",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "search"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "mountain"
+                },
+                {
+                  "key": "difficulty",
+                  "value": "moderate"
+                },
+                {
+                  "key": "minPrice",
+                  "value": "50"
+                },
+                {
+                  "key": "maxPrice",
+                  "value": "200"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "price"
+                },
+                {
+                  "key": "sortOrder",
+                  "value": "ASC"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Featured Tours",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/featured",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "featured"]
+            }
+          }
+        },
+        {
+          "name": "Get Tour Statistics",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/stats",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "stats"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reviews",
+      "item": [
+        {
+          "name": "Get Tour Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "reviews"]
+            }
+          }
+        },
+        {
+          "name": "Create Review",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"rating\": 5,\n  \"comment\": \"Amazing tour! Highly recommended!\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "reviews"]
+            }
+          }
+        },
+        {
+          "name": "Update Review",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rating\": 4,\n  \"comment\": \"Updated review comment\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/reviews/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "reviews", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Review",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/reviews/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "reviews", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Itineraries",
+      "item": [
+        {
+          "name": "Get Tour Itineraries",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/itineraries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "itineraries"]
+            }
+          }
+        },
+        {
+          "name": "Create Itinerary",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayNumber\": 1,\n  \"title\": \"Day 1: Arrival and Orientation\",\n  \"description\": \"Arrive at base camp, meet the team, and get oriented with the equipment.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/itineraries",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "itineraries"]
+            }
+          }
+        },
+        {
+          "name": "Update Itinerary",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayNumber\": 1,\n  \"title\": \"Updated Day 1\",\n  \"description\": \"Updated description\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/itineraries/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "itineraries", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Itinerary",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/itineraries/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "itineraries", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tour Images",
+      "item": [
+        {
+          "name": "Get Tour Images",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "images"]
+            }
+          }
+        },
+        {
+          "name": "Create Tour Image",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/image.jpg\",\n  \"alt\": \"Beautiful mountain view\",\n  \"isMain\": false\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/images",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "images"]
+            }
+          }
+        },
+        {
+          "name": "Update Tour Image",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com/new-image.jpg\",\n  \"alt\": \"Updated mountain view\",\n  \"isMain\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "images", "1"]
+            }
+          }
+        },
+        {
+          "name": "Delete Tour Image",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/tours/1/images/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tours", "1", "images", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users?page=1&limit=10&search=john",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": "john"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Name\",\n  \"email\": \"newemail@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/users/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "1"]
+            }
+          }
+        },
+        {
+          "name": "Get User Bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/1/bookings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "1", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Get User Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/users/1/reviews",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "users", "1", "reviews"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/dashboard",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "dashboard"]
+            }
+          }
+        },
+        {
+          "name": "Get Audit Logs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/audit-logs?page=1&limit=20",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "audit-logs"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Audit Log",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"action\": \"CREATE_TOUR\",\n  \"details\": \"Created new tour: Mountain Adventure\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/audit-logs",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "admin", "audit-logs"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}
