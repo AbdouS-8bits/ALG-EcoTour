@@ -1,0 +1,11 @@
+{
+  "name": "alg-ecotour",
+  "version": "1.0.0",
+  "description": "Eco-tourism platform with analytics",
+  "dependencies": {
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@types/uuid": "^9.0.7"
+  }
+}
