@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import dynamic from 'next/dynamic';
 
 const MapContainer = dynamic(
@@ -36,9 +36,14 @@ interface TourMapProps {
 
 export default function TourMap({ tours, className }: TourMapProps) {
   const [mounted, setMounted] = useState(false);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMounted(true);
+    }
   }, []);
 
   const toursWithCoordinates = tours.filter(

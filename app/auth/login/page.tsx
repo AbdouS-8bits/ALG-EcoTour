@@ -4,22 +4,15 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Eye, EyeOff, Mail, Lock, Leaf } from 'lucide-react';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  });
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const [error, setError] = useState('');
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,135 +21,174 @@ export default function LoginPage() {
 
     try {
       const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
+        email,
+        password,
         redirect: false,
       });
 
       if (result?.error) {
-        setError('Invalid email or password');
+        setError('البريد الإلكتروني أو كلمة المرور غير صحيحة');
       } else {
-        router.push('/');
-        router.refresh();
+        router.push('/ecoTour');
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (error) {
+      setError('حدث خطأ ما. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <Link href="/auth/signup" className="font-medium text-emerald-600 hover:text-emerald-500">
-              create a new account
-            </Link>
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        {/* Logo Section */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Leaf className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">مرحباً بعودتك</h1>
+          <p className="text-gray-600">سجل دخولك للوصول إلى رحلاتك</p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow-xl rounded-lg sm:px-10">
-          {error && (
-            <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
-            </div>
-          )}
-
-          <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Login Form Card */}
+        <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Email address
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                البريد الإلكتروني
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Mail className="w-5 h-5" />
+                </div>
                 <input
                   id="email"
-                  name="email"
                   type="email"
-                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="you@example.com"
+                  className="
+                    w-full pr-10 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="example@email.com"
                 />
               </div>
             </div>
 
+            {/* Password Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Password
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                كلمة المرور
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Lock className="w-5 h-5" />
+                </div>
                 <input
                   id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="••••••••"
+                  className="
+                    w-full pr-20 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="•••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
             </div>
 
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900 dark:text-white">
-                  Remember me
-                </label>
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                {error}
               </div>
+            )}
 
-              <div className="text-sm">
-                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500">
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Signing in...' : 'Sign in'}
-              </button>
-            </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="
+                w-full py-3
+                bg-gradient-to-r from-green-600 to-teal-600
+                text-white font-semibold
+                rounded-lg
+                hover:scale-105 transition-transform
+                shadow-lg
+                disabled:opacity-50 disabled:cursor-not-allowed
+                disabled:hover:scale-100
+              "
+            >
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ml-2"></div>
+                  جاري تسجيل الدخول...
+                </div>
+              ) : (
+                'تسجيل الدخول'
+              )}
+            </button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  New to Algeria EcoTourism?
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <Link
-                href="/auth/signup"
-                className="w-full flex justify-center py-2 px-4 border border-emerald-600 rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          {/* Footer Links */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-600 mb-4">
+              ليس لديك حساب؟{' '}
+              <Link 
+                href="/auth/signup" 
+                className="text-green-600 hover:text-green-700 font-semibold transition-colors"
               >
-                Create an account
+                سجل الآن
               </Link>
+            </p>
+            <Link 
+              href="/contact" 
+              className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+            >
+              نسيت كلمة المرور؟
+            </Link>
+          </div>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="mt-8 text-center">
+          <div className="flex items-center justify-center space-x-6 text-gray-500">
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">آمن</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">سريع</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">موثوق</span>
             </div>
           </div>
         </div>

@@ -1,0 +1,72 @@
+{
+  "models": [
+    {
+      "name": "User",
+      "fields": [
+        {"name": "id", "type": "Int", "nullable": false, "default": "autoincrement()", "constraints": ["@id", "@default(autoincrement())"]},
+        {"name": "email", "type": "String", "nullable": false, "constraints": ["@unique"]},
+        {"name": "name", "type": "String", "nullable": true},
+        {"name": "password", "type": "String", "nullable": false},
+        {"name": "role", "type": "String", "nullable": false, "default": "\"user\""},
+        {"name": "createdAt", "type": "DateTime", "nullable": false, "default": "now()", "constraints": ["@default(now())"]},
+        {"name": "updatedAt", "type": "DateTime", "nullable": false, "constraints": ["@updatedAt"]}
+      ],
+      "relations": [
+        {"name": "adminAuditLogs", "type": "hasMany", "target": "AdminAuditLog"}
+      ],
+      "tableName": "users"
+    },
+    {
+      "name": "AdminAuditLog",
+      "fields": [
+        {"name": "id", "type": "Int", "nullable": false, "default": "autoincrement()", "constraints": ["@id", "@default(autoincrement())"]},
+        {"name": "userId", "type": "Int", "nullable": false},
+        {"name": "action", "type": "String", "nullable": false},
+        {"name": "details", "type": "String", "nullable": true},
+        {"name": "createdAt", "type": "DateTime", "nullable": false, "default": "now()", "constraints": ["@default(now())"]}
+      ],
+      "relations": [
+        {"name": "user", "type": "belongsTo", "target": "User", "foreignKey": "userId"}
+      ],
+      "tableName": "admin_audit_logs"
+    },
+    {
+      "name": "EcoTour",
+      "fields": [
+        {"name": "id", "type": "Int", "nullable": false, "default": "autoincrement()", "constraints": ["@id", "@default(autoincrement())"]},
+        {"name": "title", "type": "String", "nullable": false},
+        {"name": "description", "type": "String", "nullable": false, "dbType": "Text"},
+        {"name": "location", "type": "String", "nullable": false},
+        {"name": "latitude", "type": "Float", "nullable": false},
+        {"name": "longitude", "type": "Float", "nullable": false},
+        {"name": "price", "type": "Float", "nullable": false},
+        {"name": "maxParticipants", "type": "Int", "nullable": false},
+        {"name": "photoURL", "type": "String", "nullable": true},
+        {"name": "createdAt", "type": "DateTime", "nullable": false, "default": "now()", "constraints": ["@default(now())"]},
+        {"name": "updatedAt", "type": "DateTime", "nullable": false, "constraints": ["@updatedAt"]}
+      ],
+      "relations": [],
+      "tableName": "eco_tours"
+    },
+    {
+      "name": "Booking",
+      "fields": [
+        {"name": "id", "type": "Int", "nullable": false, "default": "autoincrement()", "constraints": ["@id", "@default(autoincrement())"]},
+        {"name": "tourId", "type": "Int", "nullable": false},
+        {"name": "guestName", "type": "String", "nullable": false},
+        {"name": "guestEmail", "type": "String", "nullable": false},
+        {"name": "guestPhone", "type": "String", "nullable": false},
+        {"name": "participants", "type": "Int", "nullable": false},
+        {"name": "status", "type": "String", "nullable": false, "default": "\"pending\""},
+        {"name": "createdAt", "type": "DateTime", "nullable": false, "default": "now()", "constraints": ["@default(now())"]},
+        {"name": "updatedAt", "type": "DateTime", "nullable": false, "constraints": ["@updatedAt"]}
+      ],
+      "relations": [],
+      "tableName": "bookings"
+    }
+  ],
+  "database": {
+    "provider": "postgresql",
+    "connection": "env(\"DATABASE_URL\")"
+  }
+}

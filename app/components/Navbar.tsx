@@ -24,7 +24,8 @@ export default function Navbar() {
 
   const navLinks = [
     { href: '/', label: 'الرئيسية' },
-    { href: '/EcoTour', label: 'الرحلات' },
+    { href: '/ecoTour', label: 'الرحلات' },
+    { href: '/map', label: 'الخريطة' },
     { href: '/about', label: 'من نحن' },
     { href: '/contact', label: 'اتصل بنا' },
   ];
@@ -48,7 +49,11 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
+            <Link 
+              href="/" 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="flex items-center gap-2 group"
+            >
               <Mountain className="w-6 h-6 text-green-600 group-hover:scale-110 transition-transform" />
               <span className="font-bold text-xl text-slate-800 group-hover:text-green-600 transition-colors">
                 ALG EcoTour
@@ -201,7 +206,10 @@ export default function Navbar() {
                   <Link 
                     href="/" 
                     className="flex items-center gap-2"
-                    onClick={() => setMobileMenuOpen(false)}
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }}
                   >
                     <Mountain className="w-6 h-6 text-green-600" />
                     <span className="font-bold text-xl text-slate-800">

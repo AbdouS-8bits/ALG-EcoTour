@@ -1,0 +1,56 @@
+
+> algeria-ecotourism@0.1.0 build
+> next build
+
+▲ Next.js 16.1.1 (Turbopack)
+- Environments: .env
+
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+✓ Compiled successfully in 3.4s
+  Running TypeScript ...
+  Collecting page data using 11 workers ...
+  Generating static pages using 11 workers (0/27) ...
+  Generating static pages using 11 workers (6/27) 
+  Generating static pages using 11 workers (13/27) 
+  Generating static pages using 11 workers (20/27) 
+prisma:query SELECT "public"."eco_tours"."id", "public"."eco_tours"."updatedAt" FROM "public"."eco_tours" WHERE 1=1 OFFSET $1
+✓ Generating static pages using 11 workers (27/27) in 310.9ms
+  Finalizing page optimization ...
+
+Route (app)
+┌ ○ /
+├ ○ /_not-found
+├ ○ /about
+├ ○ /admin/dashboard
+├ ○ /admin/EcoTours
+├ ○ /admin/login
+├ ○ /admin/SighUp
+├ ƒ /api/admin/tours
+├ ƒ /api/auth/[...nextauth]
+├ ƒ /api/auth/register
+├ ƒ /api/auth/signup
+├ ƒ /api/bookings
+├ ƒ /api/ecotours
+├ ƒ /api/tours
+├ ƒ /api/tours/[tourId]
+├ ƒ /api/upload
+├ ○ /auth/login
+├ ○ /auth/signup
+├ ○ /bookings
+├ ○ /contact
+├ ○ /ecoTour
+├ ƒ /ecoTour/[tourId]
+├ ○ /map
+├ ○ /profile
+├ ○ /robots.txt
+├ ○ /settings
+├ ○ /sitemap.xml
+└ ○ /test
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -16,6 +16,9 @@ export default function Header({ className }: HeaderProps) {
             <Link href="/ecoTour" className="text-gray-700 hover:text-emerald-600">
               Tours
             </Link>
+            <Link href="/map" className="text-gray-700 hover:text-emerald-600">
+              Map
+            </Link>
             <Link href="/auth/login" className="text-gray-700 hover:text-emerald-600">
               Login
             </Link>

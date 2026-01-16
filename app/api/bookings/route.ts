@@ -1,50 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/auth';
+import { bookingCreateSchema, validateRequest } from '@/lib/validation';
+import { getUserBookings, getAllBookings, createBooking } from '@/lib/bookings';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    // Validate required fields
-    const { tourId, guestName, guestEmail, guestPhone, participants } = body;
-    
-    if (!tourId || !guestName || !guestEmail || !guestPhone || !participants) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    // Validate input
+    const validation = validateRequest(bookingCreateSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(validation.error, { status: 400 });
     }
 
-    // Check if tour exists
-    const tour = await prisma.ecoTour.findUnique({
-      where: { id: tourId },
-    });
-
-    if (!tour) {
-      return NextResponse.json(
-        { error: 'Tour not found' },
-        { status: 404 }
-      );
-    }
-
-    // Check if participants exceed max
-    if (participants > tour.maxParticipants) {
-      return NextResponse.json(
-        { error: `Maximum participants allowed: ${tour.maxParticipants}` },
-        { status: 400 }
-      );
-    }
+    const { tourId, guestName, guestEmail, guestPhone, participants, paymentStatus, paymentInfo } = validation.data;
 
     // Create booking
-    const booking = await prisma.booking.create({
-      data: {
-        tourId: parseInt(tourId),
-        guestName,
-        guestEmail,
-        guestPhone,
-        participants: parseInt(participants),
-        status: 'pending',
-      },
+    const booking = await createBooking({
+      tourId,
+      guestName,
+      guestEmail,
+      guestPhone,
+      participants,
+      paymentStatus: paymentStatus || 'PENDING',
+      paymentInfo,
     });
 
     return NextResponse.json(booking, { status: 201 });
@@ -59,27 +39,30 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
   try {
+    const session = await getServerSession();
     const { searchParams } = new URL(request.url);
     const tourId = searchParams.get('tourId');
+    const status = searchParams.get('status') as 'pending' | 'confirmed' | 'cancelled' | undefined;
+    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
+    const offset = searchParams.get('offset') ? parseInt(searchParams.get('offset')!) : undefined;
 
     let bookings;
-    
-    if (tourId) {
-      // Get bookings for specific tour
-      bookings = await prisma.booking.findMany({
-        where: {
-          tourId: parseInt(tourId),
-        },
-        orderBy: {
-          createdAt: 'desc',
-        },
+
+    if (session?.user?.email) {
+      // Authenticated user - get their bookings
+      bookings = await getUserBookings(session.user.email, {
+        status,
+        tourId: tourId ? parseInt(tourId) : undefined,
+        limit,
+        offset,
       });
     } else {
-      // Get all bookings
-      bookings = await prisma.booking.findMany({
-        orderBy: {
-          createdAt: 'desc',
-        },
+      // Admin or public access - get all bookings (you might want to restrict this)
+      bookings = await getAllBookings({
+        status,
+        tourId: tourId ? parseInt(tourId) : undefined,
+        limit,
+        offset,
       });
     }
 

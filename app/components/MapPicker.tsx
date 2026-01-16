@@ -1,17 +1,33 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
+// Dynamic imports for SSR compatibility
+const MapContainer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.MapContainer),
+  { ssr: false }
+);
+const TileLayer = dynamic(
+  () => import('react-leaflet').then((mod) => mod.TileLayer),
+  { ssr: false }
+);
+const Marker = dynamic(
+  () => import('react-leaflet').then((mod) => mod.Marker),
+  { ssr: false }
+);
+
 // Fix for default marker icon
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
-  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
-  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-});
+if (typeof window !== 'undefined') {
+  delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+  });
+}
 
 interface MapPickerProps {
   onLocationSelect: (location: { lat: number; lng: number; address: string }) => void;
@@ -23,16 +39,29 @@ const defaultCenter: [number, number] = [36.7538, 3.0588];
 
 function LocationMarker({ onLocationSelect }: { onLocationSelect: (lat: number, lng: number) => void }) {
   const [position, setPosition] = useState<[number, number] | null>(null);
+  const [map, setMap] = useState<any>(null);
 
-  useMapEvents({
-    click(e) {
-      const { lat, lng } = e.latlng;
-      setPosition([lat, lng]);
-      onLocationSelect(lat, lng);
-    },
-  });
+  useEffect(() => {
+    if (map) {
+      const handleClick = (e: any) => {
+        const { lat, lng } = e.latlng;
+        setPosition([lat, lng]);
+        onLocationSelect(lat, lng);
+      };
 
-  return position === null ? null : <Marker position={position} />;
+      map.on('click', handleClick);
+
+      return () => {
+        map.off('click', handleClick);
+      };
+    }
+  }, [map, onLocationSelect]);
+
+  return (
+    <>
+      {position === null ? null : <Marker position={position} />}
+    </>
+  );
 }
 
 export default function MapPicker({ onLocationSelect, initialLocation }: MapPickerProps) {
@@ -41,9 +70,14 @@ export default function MapPicker({ onLocationSelect, initialLocation }: MapPick
   );
   const [address, setAddress] = useState('');
   const [mounted, setMounted] = useState(false);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMounted(true);
+    }
   }, []);
 
   // Get address from coordinates using Nominatim (OpenStreetMap geocoding)
@@ -90,7 +124,7 @@ export default function MapPicker({ onLocationSelect, initialLocation }: MapPick
     <div className="space-y-3">
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
         <p className="text-sm text-blue-800">
-          📍 Click on the map to select tour location
+          📍 Click on map to select tour location
         </p>
       </div>
 
