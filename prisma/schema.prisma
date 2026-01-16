@@ -1,5 +1,5 @@
 // This is your Prisma schema file,
-// learn more about it in docs: https://pris.ly/d/prisma-schema
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
   provider = "prisma-client-js"
@@ -12,34 +12,28 @@ datasource db {
 
 model User {
   id        Int       @id @default(autoincrement())
-  email     String    @unique
+  email     String   @unique
   name      String?
-  phone     String?
-  password  String    // Store hashed passwords in production
-  role      String    @default("user") // "admin" or "user"
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  password  String
+  role      String   @default("user")
 
-  // Relations
-  adminAuditLogs AdminAuditLog[]
-  userSettings UserSettings?
-  reviews Review[]
+  emailVerified        Boolean   @default(false)
+  verificationToken    String?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings Booking[]
+  reviews  Review[]
+  logs     AdminAuditLog[]
+
+  @@index([verificationToken])
+  @@index([resetPasswordToken])
   @@map("users")
 }
 
-model UserSettings {
-  id                  Int      @id @default(autoincrement())
-  userId              Int      @unique
-  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  language            String   @default("ar") // "ar", "fr", "en"
-  emailNotifications  Boolean  @default(true)
-  darkMode            Boolean  @default(false)
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
-
-  @@map("user_settings")
-}
 
 model AdminAuditLog {
   id        Int      @id @default(autoincrement())
@@ -53,21 +47,28 @@ model AdminAuditLog {
 }
 
 model EcoTour {
-  id               Int      @id @default(autoincrement())
-  title            String
-  description      String   @db.Text
-  location         String
-  latitude         Float
-  longitude        Float
-  price            Float
-  maxParticipants  Int
-  photoURL         String?
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  id              Int         @id @default(autoincrement())
+  title           String
+  description     String?
+  location        String
+  latitude        Float?
+  longitude       Float?
+  price           Float
+  maxParticipants Int
+  photoURL        String?
+  duration        Int  @default(0)                   // number of days
+  difficulty      String  @default("easy")               // easy/medium/hard
+  categoryId      Int?
+  category        Category?  @relation(fields: [categoryId], references: [id])
+  status          String      @default("active")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
 
   // Relations
-  reviews Review[]
-  availability TourAvailability[]
+  images     TourImage[]
+  itineraries Itinerary[]
+  reviews    Review[]
+  bookings   Booking[]
 
   @@map("eco_tours")
 }
@@ -75,50 +76,59 @@ model EcoTour {
 model Booking {
   id            Int      @id @default(autoincrement())
   tourId        Int
+  tour          EcoTour  @relation(fields: [tourId], references: [id])
+  userId        Int?     // optional if booking can be made by guest without account
+  user          User?    @relation(fields: [userId], references: [id])
   guestName     String
   guestEmail    String
   guestPhone    String
   participants  Int
+  totalPrice    Float @default(0)
   status        String   @default("pending") // "pending", "confirmed", "cancelled"
-  paymentStatus String   @default("PENDING") // "PENDING", "PAID", "FAILED"
-  notes         String?  @db.Text
+  paymentStatus String   @default("pending")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
   @@map("bookings")
 }
 
-model TourAvailability {
-  id          Int      @id @default(autoincrement())
-  tourId      Int
-  date        DateTime @db.Date
-  isAvailable  Boolean  @default(true)
-  maxBookings Int      @default(1) // Maximum bookings for this date
-  currentBookings Int  @default(0) // Current number of bookings
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  tour        EcoTour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
-
-  @@unique([tourId, date]) // Each tour can only have one availability record per date
-  @@map("tour_availability")
-}
-
 model Review {
-  id          Int      @id @default(autoincrement())
-  rating      Int       @default(3) // 1-5 rating scale
-  comment     String    @db.Text
-  tourId      Int
-  userId      Int      // User who wrote the review
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  // Relations
-  tour        EcoTour   @relation(fields: [tourId], references: [id], onDelete: Cascade)
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("reviews")
+  id        Int      @id @default(autoincrement())
+  tourId    Int
+  tour      EcoTour  @relation(fields: [tourId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int      // 1-5 stars
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  icon        String?
+  tours       EcoTour[]
+  createdAt   DateTime @default(now())
+}
 
+model TourImage {
+  id        Int      @id @default(autoincrement())
+  tourId    Int
+  tour      EcoTour  @relation(fields: [tourId], references: [id])
+  url       String
+  alt       String?
+  isMain    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Itinerary {
+  id          Int      @id @default(autoincrement())
+  tourId      Int
+  tour        EcoTour  @relation(fields: [tourId], references: [id])
+  dayNumber   Int
+  title       String
+  description String   @db.Text
+  createdAt   DateTime @default(now())
+}
