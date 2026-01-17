@@ -20,48 +20,86 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('🔐 Login attempt for:', credentials?.email);
+        
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ Missing credentials');
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email }
+          });
 
-        if (!user) {
+          if (!user) {
+            console.log('❌ User not found:', credentials.email);
+            return null;
+          }
+
+          console.log('✅ User found:', user.email, 'Role:', user.role);
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            console.log('❌ Invalid password');
+            return null;
+          }
+
+          console.log('✅ Password valid');
+
+          // Check if emailVerified is boolean or timestamp
+          const isEmailVerified = typeof user.emailVerified === 'boolean' 
+            ? user.emailVerified 
+            : !!user.emailVerified;
+
+          // Allow login even if email not verified (you can change this)
+          if (!isEmailVerified) {
+            console.log('⚠️  Email not verified, but allowing login');
+          }
+
+          // Try to update refresh token if columns exist
+          try {
+            const crypto = await import("crypto");
+            const refreshTokenPlain = crypto.randomBytes(32).toString("hex");
+            const refreshTokenHash = await bcrypt.hash(refreshTokenPlain, 10);
+            const refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+
+            await prisma.user.update({
+              where: { id: user.id },
+              data: {
+                refreshToken: refreshTokenHash,
+                refreshTokenExpires,
+              } as any,
+            });
+
+            console.log('✅ Login successful with refresh token');
+
+            return {
+              id: user.id.toString(),
+              email: user.email,
+              name: user.name,
+              role: user.role,
+              refreshToken: refreshTokenPlain,
+            };
+          } catch (refreshError) {
+            // If refresh token columns don't exist, just return user without it
+            console.log('⚠️  Refresh token update failed (columns may not exist), continuing anyway');
+            
+            return {
+              id: user.id.toString(),
+              email: user.email,
+              name: user.name,
+              role: user.role,
+            };
+          }
+        } catch (error) {
+          console.error('❌ Auth error:', error);
           return null;
         }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        // generate a refresh token and persist its hashed value
-        const crypto = await import("crypto");
-        const refreshTokenPlain = crypto.randomBytes(32).toString("hex");
-        const refreshTokenHash = await bcrypt.hash(refreshTokenPlain, 10);
-        const refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 days
-
-        await prisma.user.update({
-          where: { id: user.id },
-          data: {
-            refreshToken: refreshTokenHash,
-            refreshTokenExpires,
-          },
-        });
-
-        return {
-          id: user.id.toString(),
-          email: user.email,
-          name: user.name,
-          role: user.role,
-          refreshToken: refreshTokenPlain,
-        };
       }
     })
   ],
@@ -92,6 +130,7 @@ const handler = NextAuth({
     maxAge: 60 * 60 * 24, // 1 day
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true, // Enable debug logs
 });
 
 export { handler as GET, handler as POST };
