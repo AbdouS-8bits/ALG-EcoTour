@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, name, phone } = body;
+    const { email, password, name } = body;
 
     // Validate required fields
     if (!email || !password) {
@@ -14,8 +15,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    const { email, password, name } = validation.data;
 
     // Check if user exists
     const existingUser = await prisma.user.findUnique({
@@ -47,11 +46,11 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    // Send verification email
-    await sendVerificationEmail(email, verificationToken);
+    // مؤقتاً علق الإيميل لو ما عندك النظام جاهز
+    // await sendVerificationEmail(email, verificationToken);
 
     return NextResponse.json({
-      message: 'Account created! Please check your email to verify your account.',
+      message: 'Account created successfully',
       email: user.email,
     }, { status: 201 });
 

@@ -4,7 +4,6 @@ import { PrismaClient } from "@prisma/client";
 import { Pool } from "pg";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcrypt";
-import { loginSchema, validateRequest } from "@/lib/validation";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
@@ -21,15 +20,17 @@ const handler = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('🔐 Login attempt for:', credentials?.email);
+        
         if (!credentials?.email || !credentials?.password) {
+          console.log('❌ Missing credentials');
           return null;
         }
 
-        const { email, password } = validation.data;
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email }
-        });
+        try {
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email }
+          });
 
           if (!user) {
             console.log('❌ User not found:', credentials.email);
@@ -38,10 +39,10 @@ const handler = NextAuth({
 
           console.log('✅ User found:', user.email, 'Role:', user.role);
 
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
 
           if (!isPasswordValid) {
             console.log('❌ Invalid password');

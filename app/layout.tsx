@@ -4,6 +4,8 @@ import "./globals.css";
 import SessionProvider from "./providers";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AnalyticsProvider from "../components/AnalyticsProvider";
+import CookieConsentBanner from "../components/CookieConsentBanner";
 import Link from "next/link";
 
 const geistSans = Geist({
@@ -84,9 +86,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
         <SessionProvider>
-          <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100">
-            <a href="#main" className="sr-only focus:not-sr-only p-2">Skip to content</a>
+          <AnalyticsProvider>
+            <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100">
+              <a href="#main" className="sr-only focus:not-sr-only p-2">Skip to content</a>
 
               <Navbar />
 
@@ -98,8 +102,8 @@ export default function RootLayout({
             </div>
 
             <CookieConsentBanner />
-          </SessionProvider>
-        </AnalyticsProvider>
+          </AnalyticsProvider>
+        </SessionProvider>
 
       </body>
     </html>
