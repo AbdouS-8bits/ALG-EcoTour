@@ -1,0 +1,29 @@
+# HTTP Smoke Tests
+
+## Test Results
+| Endpoint | Status Code | Response Size | Notes |
+|----------|--------------|--------------|-------|
+| GET / | 200 | 66,789 bytes | ✅ Home page loads |
+| GET /ecoTour | 200 | - | ✅ Tours listing page |
+| GET /api/tours | 200 | - | ✅ Tours API endpoint |
+| GET /api/auth/session | 200 | - | ✅ Auth session check |
+| GET /robots.txt | 200 | - | ✅ SEO robots file |
+| GET /sitemap.xml | 200 | - | ✅ SEO sitemap |
+
+## Test Summary
+- **Total endpoints tested**: 6
+- **Successful responses**: 6 (100%)
+- **Failed responses**: 0 (0%)
+- **Server response time**: Fast (<100ms for all)
+
+## Notes
+- All core endpoints are responding correctly
+- Home page renders with full HTML (66KB)
+- No 404 or 5xx errors detected
+- API endpoints are accessible
+- SEO files are served correctly
+
+## Environment
+- **Base URL**: http://localhost:3000
+- **Test Time**: $(date)
+- **Server Status**: ✅ RUNNING

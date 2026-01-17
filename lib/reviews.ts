@@ -3,7 +3,7 @@ import { prisma } from './prisma';
 export interface Review {
   id: number;
   rating: number;
-  comment: string;
+  comment: string | null;
   tourId: number;
   userId: number;
   createdAt: Date;

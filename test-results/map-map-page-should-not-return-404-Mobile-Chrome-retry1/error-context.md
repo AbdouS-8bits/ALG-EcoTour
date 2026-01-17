@@ -1,0 +1,154 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - button [ref=e11]:
+          - img [ref=e12]
+    - main [ref=e13]:
+      - generic [ref=e14]:
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - img [ref=e19]
+            - heading "GIS Tour Map" [level=1] [ref=e21]
+            - generic [ref=e22]: 6 locations
+          - button "Show Filters" [ref=e24]:
+            - img [ref=e25]
+            - text: Show Filters
+        - generic [ref=e28]:
+          - generic [ref=e29]:
+            - generic [ref=e33]:
+              - img
+            - generic [ref=e35]:
+              - button "Marker" [ref=e36]
+              - button "Marker" [ref=e37]
+              - button "Marker" [ref=e38]
+              - button "Marker" [ref=e39]
+              - button "Marker" [ref=e40]
+              - button "Marker" [ref=e41]
+          - generic [ref=e42]:
+            - generic [ref=e44]:
+              - button "Zoom in" [ref=e45] [cursor=pointer]: +
+              - button "Zoom out" [ref=e46] [cursor=pointer]: −
+            - generic [ref=e48]:
+              - link "Leaflet" [ref=e49] [cursor=pointer]:
+                - /url: https://leafletjs.com
+                - img [ref=e50]
+                - text: Leaflet
+              - text: "| ©"
+              - link "OpenStreetMap" [ref=e54] [cursor=pointer]:
+                - /url: https://www.openstreetmap.org/copyright
+              - text: contributors
+    - contentinfo [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e58]
+          - paragraph [ref=e59]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e60]:
+            - link "Call Now" [ref=e61] [cursor=pointer]:
+              - /url: tel:+213555123456
+              - img [ref=e62]
+              - text: Call Now
+            - link "Email Us" [ref=e64] [cursor=pointer]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e65]
+              - text: Email Us
+            - link "WhatsApp" [ref=e68] [cursor=pointer]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e69]
+              - text: WhatsApp
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - generic [ref=e73]:
+              - img [ref=e74]
+              - generic [ref=e76]: ALG EcoTour
+            - paragraph [ref=e77]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e78]:
+              - link "Follow us on Facebook" [ref=e79] [cursor=pointer]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e80]
+              - link "Follow us on Instagram" [ref=e82] [cursor=pointer]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e83]
+              - link "Follow us on X" [ref=e86] [cursor=pointer]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e87]
+              - link "Subscribe on YouTube" [ref=e89] [cursor=pointer]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e90]
+          - generic [ref=e93]:
+            - heading "روابط سريعة" [level=3] [ref=e94]
+            - list [ref=e95]:
+              - listitem [ref=e96]:
+                - link "الرئيسية" [ref=e97] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e98]:
+                - link "الرحلات" [ref=e99] [cursor=pointer]:
+                  - /url: /ecoTour
+              - listitem [ref=e100]:
+                - link "من نحن" [ref=e101] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e102]:
+                - link "اتصل بنا" [ref=e103] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e104]:
+                - link "الشروط والأحكام" [ref=e105] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e106]:
+                - link "سياسة الخصوصية" [ref=e107] [cursor=pointer]:
+                  - /url: /privacy
+          - generic [ref=e108]:
+            - heading "تواصل معنا" [level=3] [ref=e109]
+            - generic [ref=e110]:
+              - generic [ref=e111]:
+                - img [ref=e112]
+                - generic [ref=e115]: info@algecotour.dz
+              - generic [ref=e116]:
+                - img [ref=e117]
+                - generic [ref=e119]: +213 555 123 456
+              - generic [ref=e120]:
+                - img [ref=e121]
+                - generic [ref=e123]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e124]:
+                - img [ref=e125]
+                - generic [ref=e128]: الجزائر العاصمة، الجزائر
+              - generic [ref=e129]:
+                - img [ref=e130]
+                - generic [ref=e133]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e134]:
+            - heading "النشرة البريدية" [level=3] [ref=e135]
+            - paragraph [ref=e136]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e137]:
+              - textbox "بريدك الإلكتروني" [ref=e138]
+              - button "اشترك الآن" [ref=e139]
+            - paragraph [ref=e140]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e142]:
+          - paragraph [ref=e144]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e145]:
+            - link "خريطة الموقع" [ref=e146] [cursor=pointer]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e147] [cursor=pointer]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e148] [cursor=pointer]:
+              - /url: /faq
+  - generic [ref=e153] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e154]:
+      - img [ref=e155]
+    - generic [ref=e158]:
+      - button "Open issues overlay" [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]: "0"
+          - generic [ref=e162]: "1"
+        - generic [ref=e163]: Issue
+      - button "Collapse issues badge" [ref=e164]:
+        - img [ref=e165]
+  - alert [ref=e167]
+```

@@ -1,0 +1,196 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - generic [ref=e11]:
+          - link "الرئيسية" [ref=e12] [cursor=pointer]:
+            - /url: /
+          - link "الرحلات" [ref=e13] [cursor=pointer]:
+            - /url: /ecoTour
+          - link "الخريطة" [ref=e14] [cursor=pointer]:
+            - /url: /map
+          - link "من نحن" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "اتصل بنا" [ref=e16] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e17]:
+          - link "تسجيل دخول" [ref=e18] [cursor=pointer]:
+            - /url: /auth/login
+          - link "التسجيل" [ref=e19] [cursor=pointer]:
+            - /url: /auth/signup
+    - main [ref=e20]:
+      - generic [ref=e22]:
+        - generic [ref=e23]:
+          - img [ref=e25]
+          - heading "إنشاء حساب جديد" [level=1] [ref=e28]
+          - paragraph [ref=e29]: انضم إلينا وابدأ مغامرتك
+        - generic [ref=e30]:
+          - generic [ref=e31]:
+            - generic [ref=e32]:
+              - generic [ref=e33]: الاسم الكامل
+              - generic [ref=e34]:
+                - img [ref=e36]
+                - textbox "الاسم الكامل" [ref=e39]:
+                  - /placeholder: أدخل اسمك الكامل
+                  - text: Test User
+            - generic [ref=e40]:
+              - generic [ref=e41]: البريد الإلكتروني
+              - generic [ref=e42]:
+                - img [ref=e44]
+                - textbox "البريد الإلكتروني" [ref=e47]:
+                  - /placeholder: example@email.com
+                  - text: test-1768645106809@example.com
+            - generic [ref=e48]:
+              - generic [ref=e49]: رقم الهاتف (اختياري)
+              - generic [ref=e50]:
+                - img [ref=e52]
+                - textbox "رقم الهاتف (اختياري)" [ref=e54]:
+                  - /placeholder: +213 XXX XXX XXX
+            - generic [ref=e55]:
+              - generic [ref=e56]: كلمة المرور
+              - generic [ref=e57]:
+                - img [ref=e59]
+                - textbox "كلمة المرور" [ref=e62]:
+                  - /placeholder: •••••••••
+                  - text: TestPassword123!
+                - button [ref=e63]:
+                  - img [ref=e64]
+            - generic [ref=e67]:
+              - generic [ref=e68]: تأكيد كلمة المرور
+              - generic [ref=e69]:
+                - img [ref=e71]
+                - textbox "تأكيد كلمة المرور" [active] [ref=e74]:
+                  - /placeholder: •••••••••
+                - button [ref=e75]:
+                  - img [ref=e76]
+            - button "إنشاء حساب" [ref=e79]
+          - generic [ref=e80]:
+            - paragraph [ref=e81]:
+              - text: لديك حساب بالفعل؟
+              - link "سجل دخولك" [ref=e82] [cursor=pointer]:
+                - /url: /auth/login
+            - paragraph [ref=e83]:
+              - text: بإنشاء حساب، أنت توافق على
+              - link "الشروط والأحكام" [ref=e84] [cursor=pointer]:
+                - /url: /terms
+              - text: و
+              - link "سياسة الخصوصية" [ref=e85] [cursor=pointer]:
+                - /url: /privacy
+        - generic [ref=e87]:
+          - generic [ref=e90]: آمن
+          - generic [ref=e93]: سريع
+          - generic [ref=e96]: موثوق
+    - contentinfo [ref=e97]:
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e100]
+          - paragraph [ref=e101]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e102]:
+            - link "Call Now" [ref=e103] [cursor=pointer]:
+              - /url: tel:+213555123456
+              - img [ref=e104]
+              - text: Call Now
+            - link "Email Us" [ref=e106] [cursor=pointer]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e107]
+              - text: Email Us
+            - link "WhatsApp" [ref=e110] [cursor=pointer]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e111]
+              - text: WhatsApp
+        - generic [ref=e113]:
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - img [ref=e116]
+              - generic [ref=e118]: ALG EcoTour
+            - paragraph [ref=e119]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e120]:
+              - link "Follow us on Facebook" [ref=e121] [cursor=pointer]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e122]
+              - link "Follow us on Instagram" [ref=e124] [cursor=pointer]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e125]
+              - link "Follow us on X" [ref=e129] [cursor=pointer]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e130]
+              - link "Subscribe on YouTube" [ref=e132] [cursor=pointer]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e133]
+          - generic [ref=e136]:
+            - heading "روابط سريعة" [level=3] [ref=e137]
+            - list [ref=e138]:
+              - listitem [ref=e139]:
+                - link "الرئيسية" [ref=e140] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e141]:
+                - link "الرحلات" [ref=e142] [cursor=pointer]:
+                  - /url: /ecoTour
+              - listitem [ref=e143]:
+                - link "من نحن" [ref=e144] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e145]:
+                - link "اتصل بنا" [ref=e146] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e147]:
+                - link "الشروط والأحكام" [ref=e148] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e149]:
+                - link "سياسة الخصوصية" [ref=e150] [cursor=pointer]:
+                  - /url: /privacy
+          - generic [ref=e151]:
+            - heading "تواصل معنا" [level=3] [ref=e152]
+            - generic [ref=e153]:
+              - generic [ref=e154]:
+                - img [ref=e155]
+                - generic [ref=e158]: info@algecotour.dz
+              - generic [ref=e159]:
+                - img [ref=e160]
+                - generic [ref=e162]: +213 555 123 456
+              - generic [ref=e163]:
+                - img [ref=e164]
+                - generic [ref=e166]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e167]:
+                - img [ref=e168]
+                - generic [ref=e171]: الجزائر العاصمة، الجزائر
+              - generic [ref=e172]:
+                - img [ref=e173]
+                - generic [ref=e176]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e177]:
+            - heading "النشرة البريدية" [level=3] [ref=e178]
+            - paragraph [ref=e179]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e180]:
+              - textbox "بريدك الإلكتروني" [ref=e181]
+              - button "اشترك الآن" [ref=e182]
+            - paragraph [ref=e183]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e185]:
+          - paragraph [ref=e187]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e188]:
+            - link "خريطة الموقع" [ref=e189] [cursor=pointer]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e190] [cursor=pointer]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e191] [cursor=pointer]:
+              - /url: /faq
+  - generic [ref=e196] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e197]:
+      - img [ref=e198]
+    - generic [ref=e202]:
+      - button "Open issues overlay" [ref=e203]:
+        - generic [ref=e204]:
+          - generic [ref=e205]: "0"
+          - generic [ref=e206]: "1"
+        - generic [ref=e207]: Issue
+      - button "Collapse issues badge" [ref=e208]:
+        - img [ref=e209]
+  - alert [ref=e211]
+```

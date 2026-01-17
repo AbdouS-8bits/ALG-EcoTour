@@ -1,7 +1,9 @@
 import nodemailer from 'nodemailer';
 
 // Email configuration
-const transporter = nodemailer.createTransport({
+const isEmailConfigured = !!(process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASSWORD);
+
+const transporter = isEmailConfigured ? nodemailer.createTransport({
   host: process.env.EMAIL_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.EMAIL_PORT || '587'),
   secure: false,
@@ -9,10 +11,16 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
-});
+}) : null;
 
 // Send verification email
 export async function sendVerificationEmail(email: string, token: string) {
+  // Check if email is configured
+  if (!isEmailConfigured || !transporter) {
+    console.warn('⚠️ Email not configured - skipping verification email to:', email);
+    return false;
+  }
+
   const verificationUrl = `${process.env.NEXTAUTH_URL}/auth/verify-email?token=${token}`;
 
   const mailOptions = {
@@ -73,6 +81,12 @@ export async function sendVerificationEmail(email: string, token: string) {
 
 // Send password reset email
 export async function sendPasswordResetEmail(email: string, token: string) {
+  // Check if email is configured
+  if (!isEmailConfigured || !transporter) {
+    console.warn('⚠️ Email not configured - skipping password reset email to:', email);
+    return false;
+  }
+
   const resetUrl = `${process.env.NEXTAUTH_URL}/auth/reset-password?token=${token}`;
 
   const mailOptions = {
@@ -140,6 +154,11 @@ export async function sendPasswordResetEmail(email: string, token: string) {
 
 // Send welcome email (after verification)
 export async function sendWelcomeEmail(email: string, name: string) {
+  // Check if email is configured
+  if (!isEmailConfigured || !transporter) {
+    console.warn('⚠️ Email not configured - skipping welcome email to:', email);
+    return false;
+  }
   const mailOptions = {
     from: `"ALG EcoTour" <${process.env.EMAIL_USER}>`,
     to: email,

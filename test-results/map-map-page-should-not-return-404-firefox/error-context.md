@@ -1,0 +1,159 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - generic [ref=e11]:
+          - link "الرئيسية" [ref=e12] [cursor=pointer]:
+            - /url: /
+          - link "الرحلات" [ref=e13] [cursor=pointer]:
+            - /url: /ecoTour
+          - link "الخريطة" [ref=e14] [cursor=pointer]:
+            - /url: /map
+          - link "من نحن" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "اتصل بنا" [ref=e16] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e17]:
+          - link "تسجيل دخول" [ref=e18] [cursor=pointer]:
+            - /url: /auth/login
+          - link "التسجيل" [ref=e19] [cursor=pointer]:
+            - /url: /auth/signup
+    - main [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e24]:
+          - generic [ref=e25]:
+            - img [ref=e26]
+            - heading "GIS Tour Map" [level=1] [ref=e30]
+            - generic [ref=e31]: 6 locations
+          - button "Show Filters" [ref=e33]:
+            - img [ref=e34]
+            - text: Show Filters
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - generic [ref=e42]:
+              - img
+            - generic [ref=e44]:
+              - button "Marker" [ref=e45]
+              - button "Marker" [ref=e46]
+              - button "Marker" [ref=e47]
+              - button "Marker" [ref=e48]
+              - button "Marker" [ref=e49]
+              - button "Marker" [ref=e50]
+          - generic [ref=e51]:
+            - generic [ref=e53]:
+              - button "Zoom in" [ref=e54] [cursor=pointer]: +
+              - button "Zoom out" [ref=e55] [cursor=pointer]: −
+            - generic [ref=e57]:
+              - link "Leaflet" [ref=e58] [cursor=pointer]:
+                - /url: https://leafletjs.com
+                - img [ref=e59]
+                - text: Leaflet
+              - text: "| ©"
+              - link "OpenStreetMap" [ref=e63] [cursor=pointer]:
+                - /url: https://www.openstreetmap.org/copyright
+              - text: contributors
+    - contentinfo [ref=e64]:
+      - generic [ref=e65]:
+        - generic [ref=e66]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e67]
+          - paragraph [ref=e68]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e69]:
+            - link "Call Now" [ref=e70] [cursor=pointer]:
+              - /url: tel:+213555123456
+              - img [ref=e71]
+              - text: Call Now
+            - link "Email Us" [ref=e73] [cursor=pointer]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e74]
+              - text: Email Us
+            - link "WhatsApp" [ref=e77] [cursor=pointer]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e78]
+              - text: WhatsApp
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - generic [ref=e82]:
+              - img [ref=e83]
+              - generic [ref=e85]: ALG EcoTour
+            - paragraph [ref=e86]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e87]:
+              - link "Follow us on Facebook" [ref=e88] [cursor=pointer]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e89]
+              - link "Follow us on Instagram" [ref=e91] [cursor=pointer]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e92]
+              - link "Follow us on X" [ref=e96] [cursor=pointer]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e97]
+              - link "Subscribe on YouTube" [ref=e99] [cursor=pointer]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e100]
+          - generic [ref=e103]:
+            - heading "روابط سريعة" [level=3] [ref=e104]
+            - list [ref=e105]:
+              - listitem [ref=e106]:
+                - link "الرئيسية" [ref=e107] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e108]:
+                - link "الرحلات" [ref=e109] [cursor=pointer]:
+                  - /url: /ecoTour
+              - listitem [ref=e110]:
+                - link "من نحن" [ref=e111] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e112]:
+                - link "اتصل بنا" [ref=e113] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e114]:
+                - link "الشروط والأحكام" [ref=e115] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e116]:
+                - link "سياسة الخصوصية" [ref=e117] [cursor=pointer]:
+                  - /url: /privacy
+          - generic [ref=e118]:
+            - heading "تواصل معنا" [level=3] [ref=e119]
+            - generic [ref=e120]:
+              - generic [ref=e121]:
+                - img [ref=e122]
+                - generic [ref=e125]: info@algecotour.dz
+              - generic [ref=e126]:
+                - img [ref=e127]
+                - generic [ref=e129]: +213 555 123 456
+              - generic [ref=e130]:
+                - img [ref=e131]
+                - generic [ref=e133]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e134]:
+                - img [ref=e135]
+                - generic [ref=e138]: الجزائر العاصمة، الجزائر
+              - generic [ref=e139]:
+                - img [ref=e140]
+                - generic [ref=e143]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e144]:
+            - heading "النشرة البريدية" [level=3] [ref=e145]
+            - paragraph [ref=e146]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e147]:
+              - textbox "بريدك الإلكتروني" [ref=e148]
+              - button "اشترك الآن" [ref=e149]
+            - paragraph [ref=e150]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e152]:
+          - paragraph [ref=e154]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e155]:
+            - link "خريطة الموقع" [ref=e156] [cursor=pointer]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e157] [cursor=pointer]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e158] [cursor=pointer]:
+              - /url: /faq
+  - button "Open Next.js Dev Tools" [ref=e164] [cursor=pointer]:
+    - img [ref=e165]
+  - alert [ref=e169]
+```

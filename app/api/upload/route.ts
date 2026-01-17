@@ -21,6 +21,14 @@ const uploadSchema = {
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if Cloudinary is configured
+    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+      return NextResponse.json(
+        { error: 'Upload not configured - Cloudinary credentials missing' },
+        { status: 400 }
+      );
+    }
+
     // Check authentication - require admin role for uploads
     const token = await getToken({ 
       req: request, 

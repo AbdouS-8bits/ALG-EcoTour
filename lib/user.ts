@@ -4,7 +4,6 @@ export interface UserProfile {
   id: number;
   email: string;
   name?: string | null;
-  phone?: string | null;
   role: string;
   createdAt: Date;
   updatedAt: Date;
@@ -12,7 +11,6 @@ export interface UserProfile {
 
 export interface UpdateProfileData {
   name?: string;
-  phone?: string | null;
 }
 
 /**
@@ -26,7 +24,6 @@ export async function getUserProfile(email: string): Promise<UserProfile | null>
         id: true,
         email: true,
         name: true,
-        phone: true,
         role: true,
         createdAt: true,
         updatedAt: true,
@@ -49,13 +46,11 @@ export async function updateUserProfile(email: string, data: UpdateProfileData):
       where: { email },
       data: {
         ...(data.name !== undefined && { name: data.name }),
-        ...(data.phone !== undefined && { phone: data.phone }),
       },
       select: {
         id: true,
         email: true,
         name: true,
-        phone: true,
         role: true,
         createdAt: true,
         updatedAt: true,
@@ -80,7 +75,6 @@ export async function getUserProfileById(id: number): Promise<UserProfile | null
         id: true,
         email: true,
         name: true,
-        phone: true,
         role: true,
         createdAt: true,
         updatedAt: true,
@@ -103,13 +97,11 @@ export async function updateUserProfileById(id: number, data: UpdateProfileData)
       where: { id },
       data: {
         ...(data.name !== undefined && { name: data.name }),
-        ...(data.phone !== undefined && { phone: data.phone }),
       },
       select: {
         id: true,
         email: true,
         name: true,
-        phone: true,
         role: true,
         createdAt: true,
         updatedAt: true,

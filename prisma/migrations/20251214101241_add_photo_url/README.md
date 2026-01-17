@@ -1,0 +1,5 @@
+-- Migration 20251214101241_add_photo_url
+-- 
+-- This migration was applied to the database but the local migration file was missing.
+-- This placeholder marks the migration as already applied to maintain consistency.
+-- No changes will be made when this migration is applied.

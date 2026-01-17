@@ -1,0 +1,16 @@
+-- Baseline Migration
+-- 
+-- This migration establishes a baseline for the existing database schema.
+-- The database was already populated with this schema before this migration was created.
+-- 
+-- Tables included in this baseline:
+-- - users (with indexes on email, resetPasswordToken, verificationToken)
+-- - eco_tours (with foreign key to categories)
+-- - categories (with unique index on name)
+-- - bookings (with foreign keys to users and eco_tours)
+-- - reviews (with foreign keys to users and eco_tours)
+-- - tour_images (with foreign key to eco_tours)
+-- - admin_audit_logs (with foreign key to users)
+--
+-- This migration is marked as applied since the schema already exists in the database.
+-- No changes will be made when this migration is applied.

@@ -13,7 +13,6 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
   const [formData, setFormData] = useState({
     name: userProfile.name || '',
     email: userProfile.email,
-    phone: userProfile.phone || '',
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { showToast } = useToast();
@@ -25,10 +24,6 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
       newErrors.name = 'Name is required';
     } else if (formData.name.length > 100) {
       newErrors.name = 'Name must be less than 100 characters';
-    }
-
-    if (formData.phone && !/^[+]?[\d\s\-\(\)]+$/.test(formData.phone)) {
-      newErrors.phone = 'Invalid phone number format';
     }
 
     setErrors(newErrors);
@@ -53,7 +48,6 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
         },
         body: JSON.stringify({
           name: formData.name.trim(),
-          phone: formData.phone.trim() || undefined,
         }),
       });
 
@@ -68,7 +62,6 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
       setFormData({
         name: updatedProfile.name || '',
         email: updatedProfile.email,
-        phone: updatedProfile.phone || '',
       });
 
       showToast({
@@ -90,7 +83,7 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
     }
   };
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: 'name' | 'email', value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
     // Clear error for this field when user starts typing
     if (errors[field]) {
@@ -169,30 +162,6 @@ export default function ProfileClient({ userProfile }: ProfileClientProps) {
                 className="w-full px-4 py-3 text-gray-500 bg-gray-100 border-2 border-gray-300 rounded-lg cursor-not-allowed"
               />
               <p className="text-sm text-gray-500 mt-2">Email cannot be changed</p>
-            </div>
-
-            {/* Phone Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                <Phone className="w-4 h-4 inline mr-2" />
-                رقم الهاتف
-              </label>
-              <input
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => handleInputChange('phone', e.target.value)}
-                className={`w-full px-4 py-3 text-gray-900 bg-white border-2 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-colors ${
-                  errors.phone ? 'border-red-300' : 'border-gray-300'
-                }`}
-                placeholder="+213 555 123 456"
-              />
-              {errors.phone && (
-                <div className="flex items-center gap-2 mt-2 text-red-600 text-sm">
-                  <AlertCircle className="w-4 h-4" />
-                  {errors.phone}
-                </div>
-              )}
-              <p className="text-sm text-gray-500 mt-2">Optional - Include country code for international numbers</p>
             </div>
 
             {/* Success Message */}

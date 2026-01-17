@@ -1,0 +1,2900 @@
+{
+  "config": {
+    "configFile": "/home/bk13/Documents/ALG-EcoTour/playwright.config.ts",
+    "rootDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 6
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/home/bk13/Documents/ALG-EcoTour/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/bk13/Documents/ALG-EcoTour/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/bk13/Documents/ALG-EcoTour/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/bk13/Documents/ALG-EcoTour/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/home/bk13/Documents/ALG-EcoTour/test-results",
+        "repeatEach": 1,
+        "retries": 1,
+        "metadata": {
+          "actualWorkers": 6
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/home/bk13/Documents/ALG-EcoTour/tests/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 6,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "_setup.storage.spec.ts",
+      "file": "_setup.storage.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authentication Setup",
+          "file": "_setup.storage.spec.ts",
+          "line": 10,
+          "column": 7,
+          "specs": [
+            {
+              "title": "setup user authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "interrupted",
+                      "duration": 416,
+                      "error": {
+                        "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/login\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/login\", waiting until \"load\"\u001b[22m\n\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts:28:16",
+                        "location": {
+                          "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                          "column": 16,
+                          "line": 28
+                        },
+                        "snippet": "  26 |     \n  27 |     // Try to login with existing user\n> 28 |     await page.goto('/auth/login');\n     |                ^\n  29 |     \n  30 |     // Fill login form\n  31 |     await page.fill('input[type=\"email\"]', USER_EMAIL);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                            "column": 16,
+                            "line": 28
+                          },
+                          "message": "Error: page.goto: Target page, context or browser has been closed\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/login\", waiting until \"load\"\u001b[22m\n\n\n  26 |     \n  27 |     // Try to login with existing user\n> 28 |     await page.goto('/auth/login');\n     |                ^\n  29 |     \n  30 |     // Fill login form\n  31 |     await page.fill('input[type=\"email\"]', USER_EMAIL);\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts:28:16"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.368Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/bk13/Documents/ALG-EcoTour/test-results/_setup.storage-Authenticat-f68e1-p-user-authentication-state-chromium/test-failed-1.png"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                        "column": 16,
+                        "line": 28
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-1c25328b1b63cb085570",
+              "file": "_setup.storage.spec.ts",
+              "line": 23,
+              "column": 8
+            },
+            {
+              "title": "setup admin authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "interrupted",
+                      "duration": 10,
+                      "error": {
+                        "message": "Error: browser.newContext: Target page, context or browser has been closed",
+                        "stack": "Error: browser.newContext: Target page, context or browser has been closed\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts:82:15",
+                        "location": {
+                          "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                          "column": 15,
+                          "line": 82
+                        },
+                        "snippet": "  80 |\n  81 |   setup('setup admin authentication state', async ({}) => {\n> 82 |     context = await browser.newContext();\n     |               ^\n  83 |     page = await context.newPage();\n  84 |     \n  85 |     // Try to login with admin credentials"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                            "column": 15,
+                            "line": 82
+                          },
+                          "message": "Error: browser.newContext: Target page, context or browser has been closed\n\n  80 |\n  81 |   setup('setup admin authentication state', async ({}) => {\n> 82 |     context = await browser.newContext();\n     |               ^\n  83 |     page = await context.newPage();\n  84 |     \n  85 |     // Try to login with admin credentials\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts:82:15"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.462Z",
+                      "annotations": [],
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/_setup.storage.spec.ts",
+                        "column": 15,
+                        "line": 82
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-eaebd8195292074b9530",
+              "file": "_setup.storage.spec.ts",
+              "line": 81,
+              "column": 8
+            },
+            {
+              "title": "setup user authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-0947bd5be8c9fda5090c",
+              "file": "_setup.storage.spec.ts",
+              "line": 23,
+              "column": 8
+            },
+            {
+              "title": "setup admin authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-33701da3fb2257777f8a",
+              "file": "_setup.storage.spec.ts",
+              "line": 81,
+              "column": 8
+            },
+            {
+              "title": "setup user authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-abadd0a7e4b5b87a6f61",
+              "file": "_setup.storage.spec.ts",
+              "line": 23,
+              "column": 8
+            },
+            {
+              "title": "setup admin authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-d8ae6c6952c6aca33d89",
+              "file": "_setup.storage.spec.ts",
+              "line": 81,
+              "column": 8
+            },
+            {
+              "title": "setup user authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-10118ac331a9c2ceadf0",
+              "file": "_setup.storage.spec.ts",
+              "line": 23,
+              "column": 8
+            },
+            {
+              "title": "setup admin authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-3711849d81ddf9ce953f",
+              "file": "_setup.storage.spec.ts",
+              "line": 81,
+              "column": 8
+            },
+            {
+              "title": "setup user authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-79624f10f97c60da625c",
+              "file": "_setup.storage.spec.ts",
+              "line": 23,
+              "column": 8
+            },
+            {
+              "title": "setup admin authentication state",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "0ba4d0e954a4496284ad-b116b3c9a77e24c609a8",
+              "file": "_setup.storage.spec.ts",
+              "line": 81,
+              "column": 8
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "admin.spec.ts",
+      "file": "admin.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Admin Flows (Authenticated)",
+          "file": "admin.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "\"/admin/dashboard\" loads and shows analytics cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "interrupted",
+                      "duration": 34,
+                      "error": {
+                        "message": "Error: browser.newContext: Test ended.",
+                        "stack": "Error: browser.newContext: Test ended."
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browser.newContext: Test ended."
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.479Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-da03808462fdfe7dc9e5",
+              "file": "admin.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/tours\" create minimal tour with lat/lng and verify it appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "interrupted",
+                      "duration": 878,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main, [role=\"main\"]')\nExpected: visible\nReceived: undefined\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main, [role=\"main\"]')\u001b[22m\n",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main, [role=\"main\"]')\nExpected: visible\nReceived: undefined\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main, [role=\"main\"]')\u001b[22m\n\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/admin.spec.ts:40:55",
+                        "location": {
+                          "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/admin.spec.ts",
+                          "column": 55,
+                          "line": 40
+                        },
+                        "snippet": "  38 |     \n  39 |     // Assert key UI element exists\n> 40 |     await expect(page.locator(Selectors.common.main)).toBeVisible();\n     |                                                       ^\n  41 |     \n  42 |     // Look for create tour button\n  43 |     const createButton = page.locator(Selectors.admin.tours.createButton).first();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/admin.spec.ts",
+                            "column": 55,
+                            "line": 40
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator:  locator('main, [role=\"main\"]')\nExpected: visible\nReceived: undefined\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('main, [role=\"main\"]')\u001b[22m\n\n\n  38 |     \n  39 |     // Assert key UI element exists\n> 40 |     await expect(page.locator(Selectors.common.main)).toBeVisible();\n     |                                                       ^\n  41 |     \n  42 |     // Look for create tour button\n  43 |     const createButton = page.locator(Selectors.admin.tours.createButton).first();\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/admin.spec.ts:40:55"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.373Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/bk13/Documents/ALG-EcoTour/test-results/admin-Admin-Flows-Authenti-bdb2f-t-lng-and-verify-it-appears-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/home/bk13/Documents/ALG-EcoTour/test-results/admin-Admin-Flows-Authenti-bdb2f-t-lng-and-verify-it-appears-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/admin.spec.ts",
+                        "column": 55,
+                        "line": 40
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-16faa7711df8afcb584d",
+              "file": "admin.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/bookings\" loads; if bookings exist confirm/cancel first pending",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "interrupted",
+                      "duration": 93,
+                      "error": {
+                        "message": "Error: browser.newContext: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: browser.newContext: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000\", waiting until \"load\"\u001b[22m\n"
+                      },
+                      "errors": [
+                        {
+                          "message": "Error: browser.newContext: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000\", waiting until \"load\"\u001b[22m\n"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.421Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-e33e5b1449196930f25e",
+              "file": "admin.spec.ts",
+              "line": 100,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/dashboard\" loads and shows analytics cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-756168a57cff1f60794c",
+              "file": "admin.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/tours\" create minimal tour with lat/lng and verify it appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-f84cd5b38d568a700e5c",
+              "file": "admin.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/bookings\" loads; if bookings exist confirm/cancel first pending",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-e196256fcd082e26cd75",
+              "file": "admin.spec.ts",
+              "line": 100,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/dashboard\" loads and shows analytics cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-2d4b2cb63df5799064d3",
+              "file": "admin.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/tours\" create minimal tour with lat/lng and verify it appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-65d6448cf2d4a0dbafec",
+              "file": "admin.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/bookings\" loads; if bookings exist confirm/cancel first pending",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-d0d1663f0ede50d8a31f",
+              "file": "admin.spec.ts",
+              "line": 100,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/dashboard\" loads and shows analytics cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-c4e3fb0f4564fcc137da",
+              "file": "admin.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/tours\" create minimal tour with lat/lng and verify it appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-38bb4267d3296dd248fd",
+              "file": "admin.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/bookings\" loads; if bookings exist confirm/cancel first pending",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-0c98a444189c5ca3b95d",
+              "file": "admin.spec.ts",
+              "line": 100,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/dashboard\" loads and shows analytics cards",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-68fd53c9b8ba135a43e3",
+              "file": "admin.spec.ts",
+              "line": 8,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/tours\" create minimal tour with lat/lng and verify it appears",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-522685e2a0cecf90accc",
+              "file": "admin.spec.ts",
+              "line": 33,
+              "column": 7
+            },
+            {
+              "title": "\"/admin/bookings\" loads; if bookings exist confirm/cancel first pending",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d4043a9dd1ab94463227-b1a65cf32f48be790995",
+              "file": "admin.spec.ts",
+              "line": 100,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "auth.spec.ts",
+      "file": "auth.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Authentication Tests",
+          "file": "auth.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "signup page loads; attempt signup once; assert not 429; capture response status if fails",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 5,
+                      "status": "interrupted",
+                      "duration": 768,
+                      "error": {
+                        "message": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/signup\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/signup\", waiting until \"load\"\u001b[22m\n\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/auth.spec.ts:6:33",
+                        "location": {
+                          "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/auth.spec.ts",
+                          "column": 33,
+                          "line": 6
+                        },
+                        "snippet": "  4 | test.describe('Authentication Tests', () => {\n  5 |   test('signup page loads; attempt signup once; assert not 429; capture response status if fails', async ({ page }) => {\n> 6 |     const response = await page.goto('/auth/signup');\n    |                                 ^\n  7 |     \n  8 |     // Assert signup page loads (not 404)\n  9 |     expect(response?.status()).not.toBe(404);"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/auth.spec.ts",
+                            "column": 33,
+                            "line": 6
+                          },
+                          "message": "Error: page.goto: Test ended.\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/auth/signup\", waiting until \"load\"\u001b[22m\n\n\n  4 | test.describe('Authentication Tests', () => {\n  5 |   test('signup page loads; attempt signup once; assert not 429; capture response status if fails', async ({ page }) => {\n> 6 |     const response = await page.goto('/auth/signup');\n    |                                 ^\n  7 |     \n  8 |     // Assert signup page loads (not 404)\n  9 |     expect(response?.status()).not.toBe(404);\n    at /home/bk13/Documents/ALG-EcoTour/tests/e2e/auth.spec.ts:6:33"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-17T09:56:52.396Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/home/bk13/Documents/ALG-EcoTour/test-results/auth-Authentication-Tests--e4368-re-response-status-if-fails-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/home/bk13/Documents/ALG-EcoTour/test-results/auth-Authentication-Tests--e4368-re-response-status-if-fails-chromium/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/home/bk13/Documents/ALG-EcoTour/tests/e2e/auth.spec.ts",
+                        "column": 33,
+                        "line": 6
+                      }
+                    }
+                  ],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-60722493fa2196062908",
+              "file": "auth.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "login works for normal user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-64e2e8784e45efe84ac7",
+              "file": "auth.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "logout works (logout button disappears OR session endpoint shows unauthenticated)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-a25c5c026ce1d364fb8b",
+              "file": "auth.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "signup page loads; attempt signup once; assert not 429; capture response status if fails",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-76030869419b4638f13a",
+              "file": "auth.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "login works for normal user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-d113ca646949e609cdce",
+              "file": "auth.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "logout works (logout button disappears OR session endpoint shows unauthenticated)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-2a9a73ce9b3e9ec472ec",
+              "file": "auth.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "signup page loads; attempt signup once; assert not 429; capture response status if fails",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-d1e8e54b7c1bd3b62575",
+              "file": "auth.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "login works for normal user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-c7e542ecaa13f03ce00f",
+              "file": "auth.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "logout works (logout button disappears OR session endpoint shows unauthenticated)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-b2f71e707cde0284116f",
+              "file": "auth.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "signup page loads; attempt signup once; assert not 429; capture response status if fails",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-ee91a612c88983ce4931",
+              "file": "auth.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "login works for normal user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-b72f4b650bf647b8786c",
+              "file": "auth.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "logout works (logout button disappears OR session endpoint shows unauthenticated)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-f477509e721d3ab9caf4",
+              "file": "auth.spec.ts",
+              "line": 88,
+              "column": 7
+            },
+            {
+              "title": "signup page loads; attempt signup once; assert not 429; capture response status if fails",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-a4000d6e04c693fd4a99",
+              "file": "auth.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "login works for normal user",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-1fdedb4a2d577529e872",
+              "file": "auth.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "logout works (logout button disappears OR session endpoint shows unauthenticated)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "d748ac400d08b85935ef-4bb5745c09a31bc919cb",
+              "file": "auth.spec.ts",
+              "line": 88,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "home.spec.ts",
+      "file": "home.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "home page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-99762a4e80bc273df7c2",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "home page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-95d1650896538b932c11",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "home page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-0c5236d308032b2ddff1",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "home page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Chrome",
+              "projectName": "Mobile Chrome",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-75dab7f17479e008f6f6",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "home page loads",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Safari",
+              "projectName": "Mobile Safari",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "d318381359a9b96acb1e-b1ddd34341b9420df7b1",
+          "file": "home.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "map.spec.ts",
+      "file": "map.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "map page should not return 404",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "2d8799038d2916f69765-cd6c53f980e256f3852f",
+          "file": "map.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "map page should not return 404",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "2d8799038d2916f69765-94075b36e3431ee4d1c6",
+          "file": "map.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "map page should not return 404",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "2d8799038d2916f69765-ff3f461a37026ee72649",
+          "file": "map.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "map page should not return 404",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Chrome",
+              "projectName": "Mobile Chrome",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "2d8799038d2916f69765-9afcd04ddf6652d05325",
+          "file": "map.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "map page should not return 404",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Safari",
+              "projectName": "Mobile Safari",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "2d8799038d2916f69765-a4870987bf693ad66b51",
+          "file": "map.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "media.spec.ts",
+      "file": "media.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Media Tests",
+          "file": "media.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "tour detail gallery renders without broken image placeholder (basic check: at least one image element or fallback)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-29c68e87b8ff7e2d780f",
+              "file": "media.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "admin upload flow if UI exists; otherwise document limitation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-ba0c8a703e4b271cc7f4",
+              "file": "media.spec.ts",
+              "line": 68,
+              "column": 7
+            },
+            {
+              "title": "tour detail gallery renders without broken image placeholder (basic check: at least one image element or fallback)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-bb6cb4bc3e5e9fc9aa00",
+              "file": "media.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "admin upload flow if UI exists; otherwise document limitation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-aa5653862b150f01d534",
+              "file": "media.spec.ts",
+              "line": 68,
+              "column": 7
+            },
+            {
+              "title": "tour detail gallery renders without broken image placeholder (basic check: at least one image element or fallback)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-e7483dc93e55ee88bc01",
+              "file": "media.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "admin upload flow if UI exists; otherwise document limitation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-b73faa19fd58b8a43653",
+              "file": "media.spec.ts",
+              "line": 68,
+              "column": 7
+            },
+            {
+              "title": "tour detail gallery renders without broken image placeholder (basic check: at least one image element or fallback)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-e491eb9a4685c6445866",
+              "file": "media.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "admin upload flow if UI exists; otherwise document limitation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-9a90d30834b5a66b0fb8",
+              "file": "media.spec.ts",
+              "line": 68,
+              "column": 7
+            },
+            {
+              "title": "tour detail gallery renders without broken image placeholder (basic check: at least one image element or fallback)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-e1ac556197d3fa3a002f",
+              "file": "media.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "admin upload flow if UI exists; otherwise document limitation",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "66eff6f10bb92964d9d6-138749d642680b2c5eae",
+              "file": "media.spec.ts",
+              "line": 68,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "seo.spec.ts",
+      "file": "seo.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "SEO Tests",
+          "file": "seo.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "\"/robots.txt\" returns 200 and contains \"User-agent\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-599d4b5b93607ce1c3e9",
+              "file": "seo.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "sitemap route returns 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-2c55704ec06fb7c09dd2",
+              "file": "seo.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "\"/robots.txt\" returns 200 and contains \"User-agent\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-27c2b17243d7f247b76f",
+              "file": "seo.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "sitemap route returns 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-26f27c8eff0c5a0c2606",
+              "file": "seo.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "\"/robots.txt\" returns 200 and contains \"User-agent\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-0f8d5dabd703827d9a65",
+              "file": "seo.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "sitemap route returns 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-42dfdd02c513e2d29ab2",
+              "file": "seo.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "\"/robots.txt\" returns 200 and contains \"User-agent\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-cd15401d716c46ea6556",
+              "file": "seo.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "sitemap route returns 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-57e7e0496a71b60d7ffd",
+              "file": "seo.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "\"/robots.txt\" returns 200 and contains \"User-agent\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-b32bed85babbb6499e58",
+              "file": "seo.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "sitemap route returns 200",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "265a6ee67c94b2ef6801-2a35ade4ae5d840c606d",
+              "file": "seo.spec.ts",
+              "line": 16,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "tours.spec.ts",
+      "file": "tours.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "tours page navigation and tour card click",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd543fe570d9450da0f5-e35370b8542b7309d33c",
+          "file": "tours.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "tours page navigation and tour card click",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "firefox",
+              "projectName": "firefox",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd543fe570d9450da0f5-218f0157a2498b787416",
+          "file": "tours.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "tours page navigation and tour card click",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "webkit",
+              "projectName": "webkit",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd543fe570d9450da0f5-2f9873db0064289a4ac8",
+          "file": "tours.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "tours page navigation and tour card click",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Chrome",
+              "projectName": "Mobile Chrome",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd543fe570d9450da0f5-dc979520b96fd032879d",
+          "file": "tours.spec.ts",
+          "line": 3,
+          "column": 5
+        },
+        {
+          "title": "tours page navigation and tour card click",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "Mobile Safari",
+              "projectName": "Mobile Safari",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "dd543fe570d9450da0f5-0bfc7325b734a56c45ff",
+          "file": "tours.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "user.spec.ts",
+      "file": "user.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "User Flows (Authenticated)",
+          "file": "user.spec.ts",
+          "line": 5,
+          "column": 6,
+          "specs": [
+            {
+              "title": "create booking from tour detail and verify success UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-039183ff99d56da2a5a0",
+              "file": "user.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "\"/bookings\" shows at least one booking or empty-state without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-24a40f26e8e8ae4326e0",
+              "file": "user.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "cancel booking if UI exists (otherwise mark as skipped with clear message)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-db3964ba2ce4e13bad13",
+              "file": "user.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "\"/profile\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-3aedb2c1231d3d311133",
+              "file": "user.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "\"/settings\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-651073ff15e702ccf9e7",
+              "file": "user.spec.ts",
+              "line": 165,
+              "column": 7
+            },
+            {
+              "title": "create booking from tour detail and verify success UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-7f9a854f12a6473a8864",
+              "file": "user.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "\"/bookings\" shows at least one booking or empty-state without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-c6a0b9443e0191abc903",
+              "file": "user.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "cancel booking if UI exists (otherwise mark as skipped with clear message)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-7a848eda65739bc8bc47",
+              "file": "user.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "\"/profile\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-aebfa7ed646d992397a6",
+              "file": "user.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "\"/settings\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-71840fa7fdcf53e7c7ac",
+              "file": "user.spec.ts",
+              "line": 165,
+              "column": 7
+            },
+            {
+              "title": "create booking from tour detail and verify success UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-9e9548b70b9c832c1e4e",
+              "file": "user.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "\"/bookings\" shows at least one booking or empty-state without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-2c6b136d69c1c7c9e2ba",
+              "file": "user.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "cancel booking if UI exists (otherwise mark as skipped with clear message)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-5e9d741da8e1136f4599",
+              "file": "user.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "\"/profile\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-a11b563e4412cc1a62ea",
+              "file": "user.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "\"/settings\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-f2a650ba9445d119c0b1",
+              "file": "user.spec.ts",
+              "line": 165,
+              "column": 7
+            },
+            {
+              "title": "create booking from tour detail and verify success UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-68e89ab6349038efa3b6",
+              "file": "user.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "\"/bookings\" shows at least one booking or empty-state without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-e4be1a7e7e66e9b0100f",
+              "file": "user.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "cancel booking if UI exists (otherwise mark as skipped with clear message)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-a28066d8cad3224fceef",
+              "file": "user.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "\"/profile\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-545f91e2b805e141ba35",
+              "file": "user.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "\"/settings\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-fc4254705a89d2e27e95",
+              "file": "user.spec.ts",
+              "line": 165,
+              "column": 7
+            },
+            {
+              "title": "create booking from tour detail and verify success UI",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-e3a6eacbfc628b3b2827",
+              "file": "user.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "\"/bookings\" shows at least one booking or empty-state without crash",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-b347ae45ecec75af669a",
+              "file": "user.spec.ts",
+              "line": 72,
+              "column": 7
+            },
+            {
+              "title": "cancel booking if UI exists (otherwise mark as skipped with clear message)",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-02d935f4083bccd5abdb",
+              "file": "user.spec.ts",
+              "line": 101,
+              "column": 7
+            },
+            {
+              "title": "\"/profile\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-c7bc02630e2dad8379a1",
+              "file": "user.spec.ts",
+              "line": 130,
+              "column": 7
+            },
+            {
+              "title": "\"/settings\" update flow if page exists",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "475d3afc1dfeb7586876-cc6e21e4fb05eb117f0a",
+              "file": "user.spec.ts",
+              "line": 165,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "visitor.spec.ts",
+      "file": "visitor.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Visitor Flows",
+          "file": "visitor.spec.ts",
+          "line": 4,
+          "column": 6,
+          "specs": [
+            {
+              "title": "\"/\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-66c4cdea2a1598f13b14",
+              "file": "visitor.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "\"/ecoTour\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-e9a92ba9d30a11353d59",
+              "file": "visitor.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "open first tour card -> expects url contains \"/ecoTour/\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-878c5921462cda7ab71c",
+              "file": "visitor.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "\"/map\" loads and shows map container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-4d80b701953e0750669a",
+              "file": "visitor.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "\"/\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-faa495f5e47118b855e1",
+              "file": "visitor.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "\"/ecoTour\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-e30d725e939b9f32f265",
+              "file": "visitor.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "open first tour card -> expects url contains \"/ecoTour/\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-74efc7530a63ad443c76",
+              "file": "visitor.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "\"/map\" loads and shows map container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "firefox",
+                  "projectName": "firefox",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-33b6947ec5266d808f9b",
+              "file": "visitor.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "\"/\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-057fbc0536a3993b41a4",
+              "file": "visitor.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "\"/ecoTour\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-1ddc4b0dfcc28037ec86",
+              "file": "visitor.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "open first tour card -> expects url contains \"/ecoTour/\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-15120c41d79e8369bf23",
+              "file": "visitor.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "\"/map\" loads and shows map container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "webkit",
+                  "projectName": "webkit",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-5a9a28818ae2195dab50",
+              "file": "visitor.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "\"/\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-4ba0275280104c3a0e31",
+              "file": "visitor.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "\"/ecoTour\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-3a67d9937cea874c2ca6",
+              "file": "visitor.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "open first tour card -> expects url contains \"/ecoTour/\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-9c5ba3920c716201a76b",
+              "file": "visitor.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "\"/map\" loads and shows map container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Chrome",
+                  "projectName": "Mobile Chrome",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-80895cbfc9ba4737b29f",
+              "file": "visitor.spec.ts",
+              "line": 51,
+              "column": 7
+            },
+            {
+              "title": "\"/\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-d12f6fc8983bf9392637",
+              "file": "visitor.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "\"/ecoTour\" loads",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-ebaf194360ae1c889140",
+              "file": "visitor.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "open first tour card -> expects url contains \"/ecoTour/\"",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-8f1fcac9c8d0a9d6235a",
+              "file": "visitor.spec.ts",
+              "line": 26,
+              "column": 7
+            },
+            {
+              "title": "\"/map\" loads and shows map container",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "Mobile Safari",
+                  "projectName": "Mobile Safari",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "996e771afc615b51e02e-6d5bd63ad2b391fb791c",
+              "file": "visitor.spec.ts",
+              "line": 51,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-01-17T09:56:51.546Z",
+    "duration": 1842.06,
+    "expected": 0,
+    "skipped": 120,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

@@ -21,7 +21,7 @@ export interface UpdateSettingsData {
  */
 export async function getUserSettings(userId: number): Promise<UserSettings | null> {
   try {
-    let settings = await prisma.userSettings.findUnique({
+    let settings = await prisma.userSettings.findFirst({
       where: { userId },
     });
 
@@ -70,20 +70,32 @@ export async function getUserSettingsByEmail(email: string): Promise<UserSetting
  */
 export async function updateUserSettings(userId: number, data: UpdateSettingsData): Promise<UserSettings> {
   try {
-    const settings = await prisma.userSettings.upsert({
+    // First check if settings exist
+    const existingSettings = await prisma.userSettings.findFirst({
       where: { userId },
-      update: {
-        ...data,
-      },
-      create: {
-        userId,
-        language: data.language || 'ar',
-        emailNotifications: data.emailNotifications ?? true,
-        darkMode: data.darkMode ?? false,
-      },
     });
 
-    return settings;
+    if (existingSettings) {
+      // Update existing settings
+      const settings = await prisma.userSettings.update({
+        where: { id: existingSettings.id },
+        data: {
+          ...data,
+        },
+      });
+      return settings;
+    } else {
+      // Create new settings
+      const settings = await prisma.userSettings.create({
+        data: {
+          userId,
+          language: data.language || 'ar',
+          emailNotifications: data.emailNotifications ?? true,
+          darkMode: data.darkMode ?? false,
+        },
+      });
+      return settings;
+    }
   } catch (error) {
     console.error('Error updating user settings:', error);
     throw new Error('Failed to update user settings');
@@ -116,9 +128,16 @@ export async function updateUserSettingsByEmail(email: string, data: UpdateSetti
  */
 export async function deleteUserSettings(userId: number): Promise<void> {
   try {
-    await prisma.userSettings.delete({
+    // First find the settings record
+    const settings = await prisma.userSettings.findFirst({
       where: { userId },
     });
+
+    if (settings) {
+      await prisma.userSettings.delete({
+        where: { id: settings.id },
+      });
+    }
   } catch (error) {
     console.error('Error deleting user settings:', error);
     throw new Error('Failed to delete user settings');

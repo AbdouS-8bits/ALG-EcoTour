@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, User, Phone, Leaf } from 'lucide-react';
@@ -19,6 +19,7 @@ export default function SignupPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const router = useRouter();
+  const isSubmitting = useRef(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -29,6 +30,14 @@ export default function SignupPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Prevent double-submit using both state and ref
+    if (loading || isSubmitting.current) {
+      e.stopPropagation();
+      return;
+    }
+    
+    isSubmitting.current = true;
     setLoading(true);
     setError('');
     setSuccess('');
@@ -37,6 +46,7 @@ export default function SignupPage() {
     if (formData.password !== formData.confirmPassword) {
       setError('كلمات المرور غير متطابقة');
       setLoading(false);
+      isSubmitting.current = false;
       return;
     }
 
@@ -68,6 +78,7 @@ export default function SignupPage() {
       setError('حدث خطأ ما. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
+      isSubmitting.current = false;
     }
   };
 

@@ -1,0 +1,19 @@
+
+> algeria-ecotourism@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.12:3000
+- Environments: .env
+
+✓ Starting...
+✓ Ready in 702ms
+ GET / 200 in 639ms (compile: 381ms, proxy.ts: 86ms, render: 173ms)
+ GET /ecoTour 200 in 78ms (compile: 22ms, proxy.ts: 3ms, render: 52ms)
+prisma:query SELECT "public"."eco_tours"."id", "public"."eco_tours"."title", "public"."eco_tours"."description", "public"."eco_tours"."location", "public"."eco_tours"."latitude", "public"."eco_tours"."longitude", "public"."eco_tours"."price", "public"."eco_tours"."maxParticipants", "public"."eco_tours"."photoURL", "public"."eco_tours"."duration", "public"."eco_tours"."difficulty", "public"."eco_tours"."categoryId", "public"."eco_tours"."status", "public"."eco_tours"."createdAt", "public"."eco_tours"."updatedAt" FROM "public"."eco_tours" WHERE 1=1 ORDER BY "public"."eco_tours"."createdAt" DESC OFFSET $1
+ GET /api/tours 200 in 121ms (compile: 76ms, proxy.ts: 2ms, render: 43ms)
+ GET /api/auth/session 200 in 614ms (compile: 598ms, proxy.ts: 3ms, render: 14ms)
+ GET /robots.txt 200 in 207ms (compile: 202ms, proxy.ts: 3ms, render: 3ms)
+ GET /sitemap.xml 200 in 84ms (compile: 76ms, proxy.ts: 2ms, render: 6ms)
+ GET / 200 in 55ms (compile: 3ms, proxy.ts: 4ms, render: 48ms)

@@ -1,0 +1,253 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - generic [ref=e11]:
+          - link "الرئيسية" [ref=e12]:
+            - /url: /
+          - link "الرحلات" [ref=e13]:
+            - /url: /ecoTour
+          - link "الخريطة" [ref=e14]:
+            - /url: /map
+          - link "من نحن" [ref=e15]:
+            - /url: /about
+          - link "اتصل بنا" [ref=e16]:
+            - /url: /contact
+    - main [ref=e19]:
+      - generic [ref=e20]:
+        - generic [ref=e23]:
+          - heading "اكتشف جمال الجزائر" [level=1] [ref=e24]
+          - paragraph [ref=e25]: رحلات سياحية بيئية مستدامة مع فريق من الخبراء المتخصصين
+          - generic [ref=e26]:
+            - link "استكشف الرحلات" [ref=e27]:
+              - /url: /ecoTour
+              - text: استكشف الرحلات
+              - img [ref=e28]
+            - link "عرض الخريطة" [ref=e31]:
+              - /url: /map
+              - text: عرض الخريطة
+              - img [ref=e32]
+        - generic [ref=e37]:
+          - heading "رحلاتنا المميزة" [level=2] [ref=e38]
+          - paragraph [ref=e39]: اكتشف أفضل الرحلات السياحية البيئية في الجزائر
+        - generic [ref=e78]:
+          - generic [ref=e79]:
+            - heading "لماذا تختار ALG EcoTour؟" [level=2] [ref=e80]
+            - paragraph [ref=e81]: نقدم لك أفضل تجربة سياحية بيئية في الجزائر
+          - generic [ref=e82]:
+            - generic [ref=e83]:
+              - img [ref=e85]
+              - heading "تجارب أصيلة" [level=3] [ref=e88]
+              - paragraph [ref=e89]: نقدم تجارب سياحية حقيقية تعكس ثقافة الجزائر وثراءها الطبيعي
+            - generic [ref=e90]:
+              - img [ref=e92]
+              - heading "أسعار تنافسية" [level=3] [ref=e94]
+              - paragraph [ref=e95]: أفضل الأسعار في السوق مع ضمان الجودة والخدمة المميزة
+            - generic [ref=e96]:
+              - img [ref=e98]
+              - heading "فريق محترف" [level=3] [ref=e103]
+              - paragraph [ref=e104]: مرشدون سياحيون محترفون متخصصون في السياحة البيئية
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - heading "وجهات شعبية" [level=2] [ref=e108]
+            - paragraph [ref=e109]: اكتشف أجمل الوجهات السياحية في الجزائر
+          - generic [ref=e110]:
+            - link "الصحراء الكبرى 12 رحلات متاحة استكشف الآن" [ref=e111]:
+              - /url: /ecoTour?location=الصحراء الكبرى
+              - generic [ref=e113]:
+                - heading "الصحراء الكبرى" [level=3] [ref=e114]
+                - paragraph [ref=e115]: 12 رحلات متاحة
+                - generic [ref=e116]:
+                  - generic [ref=e117]: استكشف الآن
+                  - img [ref=e118]
+            - link "تاسيلي نجر 8 رحلات متاحة استكشف الآن" [ref=e120]:
+              - /url: /ecoTour?location=تاسيلي نجر
+              - generic [ref=e122]:
+                - heading "تاسيلي نجر" [level=3] [ref=e123]
+                - paragraph [ref=e124]: 8 رحلات متاحة
+                - generic [ref=e125]:
+                  - generic [ref=e126]: استكشف الآن
+                  - img [ref=e127]
+            - link "الأهقار 6 رحلات متاحة استكشف الآن" [ref=e129]:
+              - /url: /ecoTour?location=الأهقار
+              - generic [ref=e131]:
+                - heading "الأهقار" [level=3] [ref=e132]
+                - paragraph [ref=e133]: 6 رحلات متاحة
+                - generic [ref=e134]:
+                  - generic [ref=e135]: استكشف الآن
+                  - img [ref=e136]
+            - link "القبائل 10 رحلات متاحة استكشف الآن" [ref=e138]:
+              - /url: /ecoTour?location=القبائل
+              - generic [ref=e140]:
+                - heading "القبائل" [level=3] [ref=e141]
+                - paragraph [ref=e142]: 10 رحلات متاحة
+                - generic [ref=e143]:
+                  - generic [ref=e144]: استكشف الآن
+                  - img [ref=e145]
+            - link "الساحل 15 رحلات متاحة استكشف الآن" [ref=e147]:
+              - /url: /ecoTour?location=الساحل
+              - generic [ref=e149]:
+                - heading "الساحل" [level=3] [ref=e150]
+                - paragraph [ref=e151]: 15 رحلات متاحة
+                - generic [ref=e152]:
+                  - generic [ref=e153]: استكشف الآن
+                  - img [ref=e154]
+            - link "الواحات 7 رحلات متاحة استكشف الآن" [ref=e156]:
+              - /url: /ecoTour?location=الواحات
+              - generic [ref=e158]:
+                - heading "الواحات" [level=3] [ref=e159]
+                - paragraph [ref=e160]: 7 رحلات متاحة
+                - generic [ref=e161]:
+                  - generic [ref=e162]: استكشف الآن
+                  - img [ref=e163]
+        - generic [ref=e166]:
+          - generic [ref=e167]:
+            - heading "آراء عملائنا" [level=2] [ref=e168]
+            - paragraph [ref=e169]: ماذا يقول عملاؤنا عن تجاربهم معنا
+          - generic [ref=e170]:
+            - generic [ref=e171]:
+              - generic [ref=e172]:
+                - img [ref=e174]
+                - generic [ref=e179]:
+                  - heading "محمد بن علي" [level=4] [ref=e180]
+                  - generic [ref=e181]:
+                    - img [ref=e182]
+                    - img [ref=e184]
+                    - img [ref=e186]
+                    - img [ref=e188]
+                    - img [ref=e190]
+              - paragraph [ref=e192]: “تجربة لا تُنسى! المنظمة احترافية والمرشدون ممتازون. أوصي بهم بشدة.”
+            - generic [ref=e193]:
+              - generic [ref=e194]:
+                - img [ref=e196]
+                - generic [ref=e201]:
+                  - heading "سارة قاسم" [level=4] [ref=e202]
+                  - generic [ref=e203]:
+                    - img [ref=e204]
+                    - img [ref=e206]
+                    - img [ref=e208]
+                    - img [ref=e210]
+                    - img [ref=e212]
+              - paragraph [ref=e214]: “رحلة رائعة إلى الصحراء. كل شيء كان منظماً بشكل مثالي والخدمة كانت ممتازة.”
+            - generic [ref=e215]:
+              - generic [ref=e216]:
+                - img [ref=e218]
+                - generic [ref=e223]:
+                  - heading "أحمد طالب" [level=4] [ref=e224]
+                  - generic [ref=e225]:
+                    - img [ref=e226]
+                    - img [ref=e228]
+                    - img [ref=e230]
+                    - img [ref=e232]
+              - paragraph [ref=e234]: “تجربة سياحية رائعة مع تركيز على الاستدامة. سأعود بالتأكيد.”
+        - generic [ref=e238]:
+          - img [ref=e240]
+          - heading "اشترك في نشرتنا الإخبارية" [level=2] [ref=e243]
+          - paragraph [ref=e244]: احصل على آخر العروض والوجهات السياحية الجديدة
+          - generic [ref=e245]:
+            - textbox "أدخل بريدك الإلكتروني" [ref=e246]
+            - button "اشتراك" [ref=e247]
+    - contentinfo [ref=e248]:
+      - generic [ref=e249]:
+        - generic [ref=e250]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e251]
+          - paragraph [ref=e252]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e253]:
+            - link "Call Now" [ref=e254]:
+              - /url: tel:+213555123456
+              - img [ref=e255]
+              - text: Call Now
+            - link "Email Us" [ref=e257]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e258]
+              - text: Email Us
+            - link "WhatsApp" [ref=e261]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e262]
+              - text: WhatsApp
+        - generic [ref=e264]:
+          - generic [ref=e265]:
+            - generic [ref=e266]:
+              - img [ref=e267]
+              - generic [ref=e269]: ALG EcoTour
+            - paragraph [ref=e270]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e271]:
+              - link "Follow us on Facebook" [ref=e272]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e273]
+              - link "Follow us on Instagram" [ref=e275]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e276]
+              - link "Follow us on X" [ref=e279]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e280]
+              - link "Subscribe on YouTube" [ref=e282]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e283]
+          - generic [ref=e286]:
+            - heading "روابط سريعة" [level=3] [ref=e287]
+            - list [ref=e288]:
+              - listitem [ref=e289]:
+                - link "الرئيسية" [ref=e290]:
+                  - /url: /
+              - listitem [ref=e291]:
+                - link "الرحلات" [ref=e292]:
+                  - /url: /ecoTour
+              - listitem [ref=e293]:
+                - link "من نحن" [ref=e294]:
+                  - /url: /about
+              - listitem [ref=e295]:
+                - link "اتصل بنا" [ref=e296]:
+                  - /url: /contact
+              - listitem [ref=e297]:
+                - link "الشروط والأحكام" [ref=e298]:
+                  - /url: /terms
+              - listitem [ref=e299]:
+                - link "سياسة الخصوصية" [ref=e300]:
+                  - /url: /privacy
+          - generic [ref=e301]:
+            - heading "تواصل معنا" [level=3] [ref=e302]
+            - generic [ref=e303]:
+              - generic [ref=e304]:
+                - img [ref=e305]
+                - generic [ref=e308]: info@algecotour.dz
+              - generic [ref=e309]:
+                - img [ref=e310]
+                - generic [ref=e312]: +213 555 123 456
+              - generic [ref=e313]:
+                - img [ref=e314]
+                - generic [ref=e316]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e317]:
+                - img [ref=e318]
+                - generic [ref=e321]: الجزائر العاصمة، الجزائر
+              - generic [ref=e322]:
+                - img [ref=e323]
+                - generic [ref=e326]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e327]:
+            - heading "النشرة البريدية" [level=3] [ref=e328]
+            - paragraph [ref=e329]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e330]:
+              - textbox "بريدك الإلكتروني" [ref=e331]
+              - button "اشترك الآن" [ref=e332]
+            - paragraph [ref=e333]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e335]:
+          - paragraph [ref=e337]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e338]:
+            - link "خريطة الموقع" [ref=e339]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e340]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e341]:
+              - /url: /faq
+  - button "Open Next.js Dev Tools" [ref=e347] [cursor=pointer]:
+    - img [ref=e348]
+```

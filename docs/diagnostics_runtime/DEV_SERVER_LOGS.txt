@@ -1,0 +1,26 @@
+> algeria-ecotourism@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.1 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.100.12:3000
+- Environments: .env
+
+✓ Starting...
+✓ Ready in 702ms
+
+--- Additional logs captured during startup ---
+[No additional output after initial startup]
+
+## Server Status
+- **Startup Time**: 702ms
+- **Local URL**: http://localhost:3000
+- **Network URL**: http://192.168.100.12:3000
+- **Environment**: Loaded from .env
+- **Status**: ✅ RUNNING
+
+## Notes
+- Server started successfully
+- No errors or warnings during startup
+- Turbopack bundler active
+- Ready to receive requests

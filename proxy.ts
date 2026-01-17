@@ -7,10 +7,21 @@ const rateLimitStore = new Map<string, { count: number; resetTime: number }>();
 
 // Rate limiting configuration
 const RATE_LIMITS = {
-  // Auth endpoints: 20 requests per 15 minutes (increased from 5)
-  auth: { windowMs: 15 * 60 * 1000, maxRequests: 20 },
-  // General API: 200 requests per 15 minutes (increased from 100)
-  general: { windowMs: 15 * 60 * 1000, maxRequests: 200 },
+  // Auth endpoints: different limits for dev vs prod
+  auth: { 
+    windowMs: 15 * 60 * 1000, 
+    maxRequests: process.env.NODE_ENV === 'development' ? 100 : 20 
+  },
+  // General API: different limits for dev vs prod
+  general: { 
+    windowMs: 15 * 60 * 1000, 
+    maxRequests: process.env.NODE_ENV === 'development' ? 1000 : 200 
+  },
+  // Signup endpoint: much more permissive in development
+  signup: { 
+    windowMs: 15 * 60 * 1000, 
+    maxRequests: process.env.NODE_ENV === 'development' ? 200 : 10 
+  },
 };
 
 // Rate limiting function
@@ -113,10 +124,16 @@ export async function proxy(request: NextRequest) {
 
   // Apply rate limiting to auth endpoints
   if (pathname.startsWith('/api/auth/') || pathname.startsWith('/api/admin/')) {
+    // Use more permissive limits for signup in development
+    const isSignup = pathname.includes('/signup');
+    const limits = isSignup && process.env.NODE_ENV === 'development' 
+      ? RATE_LIMITS.signup 
+      : RATE_LIMITS.auth;
+    
     const rateLimitResult = checkRateLimit(
       `auth:${clientIp}`,
-      RATE_LIMITS.auth.windowMs,
-      RATE_LIMITS.auth.maxRequests
+      limits.windowMs,
+      limits.maxRequests
     );
 
     if (!rateLimitResult.allowed) {

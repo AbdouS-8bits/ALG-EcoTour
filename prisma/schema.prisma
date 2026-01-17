@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,37 +8,33 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
-  role      String   @default("user")
-
-  emailVerified        Boolean   @default(false)
-  verificationToken    String?
-  resetPasswordToken   String?
+  id                   Int             @id @default(autoincrement())
+  email                String          @unique
+  name                 String?
+  password             String
+  role                 String          @default("user")
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  emailVerified        Boolean         @default(false)
   resetPasswordExpires DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  bookings Booking[]
-  reviews  Review[]
-  logs     AdminAuditLog[]
+  resetPasswordToken   String?
+  verificationToken    String?
+  Review               Review[]
+  logs                 AdminAuditLog[]
+  bookings             Booking[]
 
   @@index([verificationToken])
   @@index([resetPasswordToken])
   @@map("users")
 }
 
-
 model AdminAuditLog {
   id        Int      @id @default(autoincrement())
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
   action    String
   details   String?
   createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
 
   @@map("admin_audit_logs")
 }
@@ -51,24 +44,22 @@ model EcoTour {
   title           String
   description     String?
   location        String
-  latitude        Float?
-  longitude       Float?
   price           Float
   maxParticipants Int
-  photoURL        String?
-  duration        Int  @default(0)                   // number of days
-  difficulty      String  @default("easy")               // easy/medium/hard
-  categoryId      Int?
-  category        Category?  @relation(fields: [categoryId], references: [id])
-  status          String      @default("active")
   createdAt       DateTime    @default(now())
   updatedAt       DateTime    @updatedAt
-
-  // Relations
-  images     TourImage[]
-  itineraries Itinerary[]
-  reviews    Review[]
-  bookings   Booking[]
+  photoURL        String?
+  latitude        Float?
+  longitude       Float?
+  categoryId      Int?
+  difficulty      String      @default("easy")
+  duration        Int         @default(0)
+  status          String      @default("active")
+  itineraries     Itinerary[]
+  Review          Review[]
+  images          TourImage[]
+  bookings        Booking[]
+  category        Category?   @relation(fields: [categoryId], references: [id])
 
   @@map("eco_tours")
 }
@@ -76,59 +67,59 @@ model EcoTour {
 model Booking {
   id            Int      @id @default(autoincrement())
   tourId        Int
-  tour          EcoTour  @relation(fields: [tourId], references: [id])
-  userId        Int?     // optional if booking can be made by guest without account
-  user          User?    @relation(fields: [userId], references: [id])
   guestName     String
   guestEmail    String
   guestPhone    String
   participants  Int
-  totalPrice    Float @default(0)
-  status        String   @default("pending") // "pending", "confirmed", "cancelled"
-  paymentStatus String   @default("pending")
+  status        String   @default("pending")
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+  paymentStatus String   @default("pending")
+  totalPrice    Float    @default(0)
+  userId        Int?
+  tour          EcoTour  @relation(fields: [tourId], references: [id])
+  user          User?    @relation(fields: [userId], references: [id])
 
   @@map("bookings")
 }
 
-model Review {
-  id        Int      @id @default(autoincrement())
-  tourId    Int
-  tour      EcoTour  @relation(fields: [tourId], references: [id])
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  rating    Int      // 1-5 stars
-  comment   String?  @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Category {
-  id          Int      @id @default(autoincrement())
-  name        String   @unique
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   description String?
   icon        String?
+  createdAt   DateTime  @default(now())
   tours       EcoTour[]
-  createdAt   DateTime @default(now())
 }
 
 model TourImage {
   id        Int      @id @default(autoincrement())
   tourId    Int
-  tour      EcoTour  @relation(fields: [tourId], references: [id])
   url       String
   alt       String?
   isMain    Boolean  @default(false)
   createdAt DateTime @default(now())
+  tour      EcoTour  @relation(fields: [tourId], references: [id])
 }
 
 model Itinerary {
   id          Int      @id @default(autoincrement())
   tourId      Int
-  tour        EcoTour  @relation(fields: [tourId], references: [id])
   dayNumber   Int
   title       String
-  description String   @db.Text
+  description String
   createdAt   DateTime @default(now())
+  tour        EcoTour  @relation(fields: [tourId], references: [id])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  tourId    Int
+  userId    Int
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+  eco_tours EcoTour  @relation(fields: [tourId], references: [id])
+  users     User     @relation(fields: [userId], references: [id])
 }

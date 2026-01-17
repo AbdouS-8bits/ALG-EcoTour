@@ -1,0 +1,305 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3] [cursor=pointer]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7] [cursor=pointer]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - generic [ref=e11]:
+          - link "الرئيسية" [ref=e12] [cursor=pointer]:
+            - /url: /
+          - link "الرحلات" [ref=e13] [cursor=pointer]:
+            - /url: /ecoTour
+          - link "الخريطة" [ref=e14] [cursor=pointer]:
+            - /url: /map
+          - link "من نحن" [ref=e15] [cursor=pointer]:
+            - /url: /about
+          - link "اتصل بنا" [ref=e16] [cursor=pointer]:
+            - /url: /contact
+        - generic [ref=e17]:
+          - link "تسجيل دخول" [ref=e18] [cursor=pointer]:
+            - /url: /auth/login
+          - link "التسجيل" [ref=e19] [cursor=pointer]:
+            - /url: /auth/signup
+    - main [ref=e20]:
+      - generic [ref=e23]:
+        - complementary [ref=e24]:
+          - generic [ref=e25]:
+            - heading "الفلاتر" [level=3] [ref=e26]
+            - generic [ref=e27]:
+              - generic [ref=e28]: البحث
+              - generic [ref=e29]:
+                - img [ref=e30]
+                - textbox "ابحث عن رحلة..." [ref=e33]
+            - generic [ref=e34]:
+              - generic [ref=e35]: الموقع
+              - combobox [ref=e36]:
+                - option "الكل" [selected]
+                - option "الصحراء"
+                - option "تاسيلي"
+                - option "الأهقار"
+                - option "القبائل"
+            - generic [ref=e37]:
+              - generic [ref=e38]: السعر (دج)
+              - generic [ref=e39]:
+                - spinbutton [ref=e40]
+                - spinbutton [ref=e41]
+            - button "إعادة تعيين" [ref=e42]
+        - main [ref=e43]:
+          - generic [ref=e44]:
+            - heading "اكتشف رحلاتنا" [level=1] [ref=e45]
+            - generic [ref=e46]:
+              - button "الأحدث" [ref=e47]
+              - button "الأرخص" [ref=e48]
+              - button "الأغلى" [ref=e49]
+          - paragraph [ref=e50]: وجدنا 6 رحلة
+          - generic [ref=e51]:
+            - generic [ref=e52]:
+              - generic [ref=e53]:
+                - img "رحلة إلى قصور تيميمون" [ref=e54]
+                - generic [ref=e56]: متاح
+              - generic [ref=e57]:
+                - heading "رحلة إلى قصور تيميمون" [level=3] [ref=e58]
+                - generic [ref=e59]:
+                  - img [ref=e60]
+                  - generic [ref=e63]: تيميمون
+                - generic [ref=e64]:
+                  - generic [ref=e65]:
+                    - img [ref=e66]
+                    - generic [ref=e68]: 3 يوم
+                  - generic [ref=e69]:
+                    - img [ref=e70]
+                    - generic [ref=e75]: 20 شخص
+                - paragraph [ref=e76]: استكشاف قصور تيميمون الأثرية والتعرف على العمارة الصحراوية التقليدية والحياة في واحات الصحراء.
+                - generic [ref=e77]:
+                  - generic [ref=e78]:
+                    - generic [ref=e79]: 13,500 د.ج
+                    - generic [ref=e80]: للشخص
+                  - link "عرض التفاصيل" [ref=e81] [cursor=pointer]:
+                    - /url: /EcoTour/12
+            - generic [ref=e82]:
+              - generic [ref=e83]:
+                - img "زيارة لمواقع الطاسيلي" [ref=e84]
+                - generic [ref=e86]: متاح
+              - generic [ref=e87]:
+                - heading "زيارة لمواقع الطاسيلي" [level=3] [ref=e88]
+                - generic [ref=e89]:
+                  - img [ref=e90]
+                  - generic [ref=e93]: دران، الطاسيلي
+                - generic [ref=e94]:
+                  - generic [ref=e95]:
+                    - img [ref=e96]
+                    - generic [ref=e98]: 3 يوم
+                  - generic [ref=e99]:
+                    - img [ref=e100]
+                    - generic [ref=e105]: 12 شخص
+                - paragraph [ref=e106]: اكتشف رسوم الكهوف القديمة في الطاسيلي ناجر، أحد مواقع التراث العالمي لليونسكو.
+                - generic [ref=e107]:
+                  - generic [ref=e108]:
+                    - generic [ref=e109]: 18,000 د.ج
+                    - generic [ref=e110]: للشخص
+                  - link "عرض التفاصيل" [ref=e111] [cursor=pointer]:
+                    - /url: /EcoTour/11
+            - generic [ref=e112]:
+              - generic [ref=e113]:
+                - img "رحلة بحرية إلى عنابة" [ref=e114]
+                - generic [ref=e116]: متاح
+              - generic [ref=e117]:
+                - heading "رحلة بحرية إلى عنابة" [level=3] [ref=e118]
+                - generic [ref=e119]:
+                  - img [ref=e120]
+                  - generic [ref=e123]: عنابة
+                - generic [ref=e124]:
+                  - generic [ref=e125]:
+                    - img [ref=e126]
+                    - generic [ref=e128]: 3 يوم
+                  - generic [ref=e129]:
+                    - img [ref=e130]
+                    - generic [ref=e135]: 18 شخص
+                - paragraph [ref=e136]: استمتع بالسواحل المتوسطية الجزائرية مع رحلة بحرية تشمل الغوص والسباحة واستكشاف الشعاب المرجانية.
+                - generic [ref=e137]:
+                  - generic [ref=e138]:
+                    - generic [ref=e139]: 9,500 د.ج
+                    - generic [ref=e140]: للشخص
+                  - link "عرض التفاصيل" [ref=e141] [cursor=pointer]:
+                    - /url: /EcoTour/10
+            - generic [ref=e142]:
+              - generic [ref=e143]:
+                - img "استكشاف واحات غرداية" [ref=e144]
+                - generic [ref=e146]: متاح
+              - generic [ref=e147]:
+                - heading "استكشاف واحات غرداية" [level=3] [ref=e148]
+                - generic [ref=e149]:
+                  - img [ref=e150]
+                  - generic [ref=e153]: غرداية
+                - generic [ref=e154]:
+                  - generic [ref=e155]:
+                    - img [ref=e156]
+                    - generic [ref=e158]: 3 يوم
+                  - generic [ref=e159]:
+                    - img [ref=e160]
+                    - generic [ref=e165]: 25 شخص
+                - paragraph [ref=e166]: جولة في واحات غرداية الخضراء مع زيارة للمواقع الأثرية والتعرف على الزراعة التقليدية والثقافة المحلية.
+                - generic [ref=e167]:
+                  - generic [ref=e168]:
+                    - generic [ref=e169]: 12,000 د.ج
+                    - generic [ref=e170]: للشخص
+                  - link "عرض التفاصيل" [ref=e171] [cursor=pointer]:
+                    - /url: /EcoTour/9
+            - generic [ref=e172]:
+              - generic [ref=e173]:
+                - img "تسلق جبال الأطلس" [ref=e174]
+                - generic [ref=e176]: متاح
+              - generic [ref=e177]:
+                - heading "تسلق جبال الأطلس" [level=3] [ref=e178]
+                - generic [ref=e179]:
+                  - img [ref=e180]
+                  - generic [ref=e183]: تيزي وزو، باتنة
+                - generic [ref=e184]:
+                  - generic [ref=e185]:
+                    - img [ref=e186]
+                    - generic [ref=e188]: 3 يوم
+                  - generic [ref=e189]:
+                    - img [ref=e190]
+                    - generic [ref=e195]: 15 شخص
+                - paragraph [ref=e196]: رحلة مغامرة في جبال الأطلس الصحراوية مع مرشدين محترفين. استمتع بالمناظر الطبيعية الخلابة والقرى الجبلية التقليدية.
+                - generic [ref=e197]:
+                  - generic [ref=e198]:
+                    - generic [ref=e199]: 8,500 د.ج
+                    - generic [ref=e200]: للشخص
+                  - link "عرض التفاصيل" [ref=e201] [cursor=pointer]:
+                    - /url: /EcoTour/8
+            - generic [ref=e202]:
+              - generic [ref=e203]:
+                - img "رحلة إلى الصحراء الكبرى" [ref=e204]
+                - generic [ref=e206]: متاح
+              - generic [ref=e207]:
+                - heading "رحلة إلى الصحراء الكبرى" [level=3] [ref=e208]
+                - generic [ref=e209]:
+                  - img [ref=e210]
+                  - generic [ref=e213]: عين صالح، تمنراست
+                - generic [ref=e214]:
+                  - generic [ref=e215]:
+                    - img [ref=e216]
+                    - generic [ref=e218]: 3 يوم
+                  - generic [ref=e219]:
+                    - img [ref=e220]
+                    - generic [ref=e225]: 20 شخص
+                - paragraph [ref=e226]: استكشف جمال الصحراء الجزائرية مع رحلة لا تنسى إلى عين صالح وتمنراست. تشمل الرحلة الإقامة في مخيمات صحراوية تقليدية وتجربة ركوب الجمال.
+                - generic [ref=e227]:
+                  - generic [ref=e228]:
+                    - generic [ref=e229]: 15,000 د.ج
+                    - generic [ref=e230]: للشخص
+                  - link "عرض التفاصيل" [ref=e231] [cursor=pointer]:
+                    - /url: /EcoTour/7
+    - contentinfo [ref=e232]:
+      - generic [ref=e233]:
+        - generic [ref=e234]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e235]
+          - paragraph [ref=e236]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e237]:
+            - link "Call Now" [ref=e238] [cursor=pointer]:
+              - /url: tel:+213555123456
+              - img [ref=e239]
+              - text: Call Now
+            - link "Email Us" [ref=e241] [cursor=pointer]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e242]
+              - text: Email Us
+            - link "WhatsApp" [ref=e245] [cursor=pointer]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e246]
+              - text: WhatsApp
+        - generic [ref=e248]:
+          - generic [ref=e249]:
+            - generic [ref=e250]:
+              - img [ref=e251]
+              - generic [ref=e253]: ALG EcoTour
+            - paragraph [ref=e254]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e255]:
+              - link "Follow us on Facebook" [ref=e256] [cursor=pointer]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e257]
+              - link "Follow us on Instagram" [ref=e259] [cursor=pointer]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e260]
+              - link "Follow us on X" [ref=e263] [cursor=pointer]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e264]
+              - link "Subscribe on YouTube" [ref=e266] [cursor=pointer]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e267]
+          - generic [ref=e270]:
+            - heading "روابط سريعة" [level=3] [ref=e271]
+            - list [ref=e272]:
+              - listitem [ref=e273]:
+                - link "الرئيسية" [ref=e274] [cursor=pointer]:
+                  - /url: /
+              - listitem [ref=e275]:
+                - link "الرحلات" [ref=e276] [cursor=pointer]:
+                  - /url: /ecoTour
+              - listitem [ref=e277]:
+                - link "من نحن" [ref=e278] [cursor=pointer]:
+                  - /url: /about
+              - listitem [ref=e279]:
+                - link "اتصل بنا" [ref=e280] [cursor=pointer]:
+                  - /url: /contact
+              - listitem [ref=e281]:
+                - link "الشروط والأحكام" [ref=e282] [cursor=pointer]:
+                  - /url: /terms
+              - listitem [ref=e283]:
+                - link "سياسة الخصوصية" [ref=e284] [cursor=pointer]:
+                  - /url: /privacy
+          - generic [ref=e285]:
+            - heading "تواصل معنا" [level=3] [ref=e286]
+            - generic [ref=e287]:
+              - generic [ref=e288]:
+                - img [ref=e289]
+                - generic [ref=e292]: info@algecotour.dz
+              - generic [ref=e293]:
+                - img [ref=e294]
+                - generic [ref=e296]: +213 555 123 456
+              - generic [ref=e297]:
+                - img [ref=e298]
+                - generic [ref=e300]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e301]:
+                - img [ref=e302]
+                - generic [ref=e305]: الجزائر العاصمة، الجزائر
+              - generic [ref=e306]:
+                - img [ref=e307]
+                - generic [ref=e310]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e311]:
+            - heading "النشرة البريدية" [level=3] [ref=e312]
+            - paragraph [ref=e313]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e314]:
+              - textbox "بريدك الإلكتروني" [ref=e315]
+              - button "اشترك الآن" [ref=e316]
+            - paragraph [ref=e317]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e319]:
+          - paragraph [ref=e321]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e322]:
+            - link "خريطة الموقع" [ref=e323] [cursor=pointer]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e324] [cursor=pointer]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e325] [cursor=pointer]:
+              - /url: /faq
+  - generic [ref=e330] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e331]:
+      - img [ref=e332]
+    - generic [ref=e335]:
+      - button "Open issues overlay" [ref=e336]:
+        - generic [ref=e337]:
+          - generic [ref=e338]: "0"
+          - generic [ref=e339]: "1"
+        - generic [ref=e340]: Issue
+      - button "Collapse issues badge" [ref=e341]:
+        - img [ref=e342]
+  - alert [ref=e344]
+```

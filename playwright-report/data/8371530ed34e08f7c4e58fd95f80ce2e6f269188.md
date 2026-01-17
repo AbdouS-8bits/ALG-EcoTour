@@ -1,0 +1,152 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - link "Skip to content" [ref=e3]:
+      - /url: "#main"
+    - navigation [ref=e4]:
+      - generic [ref=e6]:
+        - link "ALG EcoTour" [ref=e7]:
+          - /url: /
+          - img [ref=e8]
+          - generic [ref=e10]: ALG EcoTour
+        - generic [ref=e11]:
+          - link "الرئيسية" [ref=e12]:
+            - /url: /
+          - link "الرحلات" [ref=e13]:
+            - /url: /ecoTour
+          - link "الخريطة" [ref=e14]:
+            - /url: /map
+          - link "من نحن" [ref=e15]:
+            - /url: /about
+          - link "اتصل بنا" [ref=e16]:
+            - /url: /contact
+    - main [ref=e19]:
+      - generic [ref=e22]:
+        - complementary [ref=e23]:
+          - generic [ref=e24]:
+            - heading "الفلاتر" [level=3] [ref=e25]
+            - generic [ref=e26]:
+              - generic [ref=e27]: البحث
+              - generic [ref=e28]:
+                - img [ref=e29]
+                - textbox "ابحث عن رحلة..." [ref=e32]
+            - generic [ref=e33]:
+              - generic [ref=e34]: الموقع
+              - combobox [ref=e35]:
+                - option "الكل" [selected]
+                - option "الصحراء"
+                - option "تاسيلي"
+                - option "الأهقار"
+                - option "القبائل"
+            - generic [ref=e36]:
+              - generic [ref=e37]: السعر (دج)
+              - generic [ref=e38]:
+                - spinbutton [ref=e39]
+                - spinbutton [ref=e40]
+            - button "إعادة تعيين" [ref=e41]
+        - main [ref=e42]:
+          - generic [ref=e43]:
+            - heading "اكتشف رحلاتنا" [level=1] [ref=e44]
+            - generic [ref=e45]:
+              - button "الأحدث" [ref=e46]
+              - button "الأرخص" [ref=e47]
+              - button "الأغلى" [ref=e48]
+          - paragraph [ref=e49]: وجدنا 0 رحلة
+          - generic [ref=e50]: جاري التحميل...
+    - contentinfo [ref=e51]:
+      - generic [ref=e52]:
+        - generic [ref=e53]:
+          - heading "Ready for Your Next Adventure?" [level=2] [ref=e54]
+          - paragraph [ref=e55]: Contact us today to book your unforgettable eco tour experience in Algeria. Our team is ready to help you plan the perfect sustainable adventure.
+          - generic [ref=e56]:
+            - link "Call Now" [ref=e57]:
+              - /url: tel:+213555123456
+              - img [ref=e58]
+              - text: Call Now
+            - link "Email Us" [ref=e60]:
+              - /url: mailto:info@algecotour.dz
+              - img [ref=e61]
+              - text: Email Us
+            - link "WhatsApp" [ref=e64]:
+              - /url: https://wa.me/213555123456
+              - img [ref=e65]
+              - text: WhatsApp
+        - generic [ref=e67]:
+          - generic [ref=e68]:
+            - generic [ref=e69]:
+              - img [ref=e70]
+              - generic [ref=e72]: ALG EcoTour
+            - paragraph [ref=e73]: منصة سياحة بيئية جزائرية لاكتشاف جمال الصحراء والجبال مع احترام البيئة والتراث المحلي.
+            - generic [ref=e74]:
+              - link "Follow us on Facebook" [ref=e75]:
+                - /url: https://facebook.com/algecotour
+                - img [ref=e76]
+              - link "Follow us on Instagram" [ref=e78]:
+                - /url: https://instagram.com/algecotour
+                - img [ref=e79]
+              - link "Follow us on X" [ref=e82]:
+                - /url: https://twitter.com/algecotour
+                - img [ref=e83]
+              - link "Subscribe on YouTube" [ref=e85]:
+                - /url: https://youtube.com/algecotour
+                - img [ref=e86]
+          - generic [ref=e89]:
+            - heading "روابط سريعة" [level=3] [ref=e90]
+            - list [ref=e91]:
+              - listitem [ref=e92]:
+                - link "الرئيسية" [ref=e93]:
+                  - /url: /
+              - listitem [ref=e94]:
+                - link "الرحلات" [ref=e95]:
+                  - /url: /ecoTour
+              - listitem [ref=e96]:
+                - link "من نحن" [ref=e97]:
+                  - /url: /about
+              - listitem [ref=e98]:
+                - link "اتصل بنا" [ref=e99]:
+                  - /url: /contact
+              - listitem [ref=e100]:
+                - link "الشروط والأحكام" [ref=e101]:
+                  - /url: /terms
+              - listitem [ref=e102]:
+                - link "سياسة الخصوصية" [ref=e103]:
+                  - /url: /privacy
+          - generic [ref=e104]:
+            - heading "تواصل معنا" [level=3] [ref=e105]
+            - generic [ref=e106]:
+              - generic [ref=e107]:
+                - img [ref=e108]
+                - generic [ref=e111]: info@algecotour.dz
+              - generic [ref=e112]:
+                - img [ref=e113]
+                - generic [ref=e115]: +213 555 123 456
+              - generic [ref=e116]:
+                - img [ref=e117]
+                - generic [ref=e119]: +213 555 123 456 (WhatsApp)
+              - generic [ref=e120]:
+                - img [ref=e121]
+                - generic [ref=e124]: الجزائر العاصمة، الجزائر
+              - generic [ref=e125]:
+                - img [ref=e126]
+                - generic [ref=e129]: "السبت-الخميس: 9:00 - 18:00"
+          - generic [ref=e130]:
+            - heading "النشرة البريدية" [level=3] [ref=e131]
+            - paragraph [ref=e132]: اشترك للحصول على آخر الأخبار والعروض الحصرية حول رحلاتنا البيئية.
+            - generic [ref=e133]:
+              - textbox "بريدك الإلكتروني" [ref=e134]
+              - button "اشترك الآن" [ref=e135]
+            - paragraph [ref=e136]: نحن نحترم خصوصيتك. يمكنك إلغاء الاشتراك في أي وقت.
+        - generic [ref=e138]:
+          - paragraph [ref=e140]: © 2026 ALG EcoTour. جميع الحقوق محفوظة.
+          - generic [ref=e141]:
+            - link "خريطة الموقع" [ref=e142]:
+              - /url: /sitemap
+            - link "إمكانية الوصول" [ref=e143]:
+              - /url: /accessibility
+            - link "الأسئلة الشائعة" [ref=e144]:
+              - /url: /faq
+  - button "Open Next.js Dev Tools" [ref=e150] [cursor=pointer]:
+    - img [ref=e151]
+```
