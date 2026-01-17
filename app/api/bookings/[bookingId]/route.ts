@@ -1,12 +1,92 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { z } from 'zod';
-import { updateBookingStatus, getUserBookings } from '@/lib/bookings';
+import { query } from '@/lib/db';
 
-// Zod schema for booking status update
-const bookingStatusSchema = z.object({
-  status: z.enum(['pending', 'confirmed', 'cancelled']),
-});
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { bookingId: string } }
+) {
+  try {
+    const session = await getServerSession();
+    
+    if (!session?.user?.email) {
+      return NextResponse.json(
+        { error: 'Authentication required' },
+        { status: 401 }
+      );
+    }
+
+    const bookingId = parseInt(params.bookingId);
+    if (isNaN(bookingId)) {
+      return NextResponse.json(
+        { error: 'Invalid booking ID' },
+        { status: 400 }
+      );
+    }
+
+    const body = await request.json();
+    const { status, paymentStatus } = body;
+
+    // Check if user is admin
+    if (session.user.role !== 'admin') {
+      return NextResponse.json(
+        { error: 'Admin access required' },
+        { status: 403 }
+      );
+    }
+
+    if (status) {
+      // Update booking status
+      const result = await query(
+        `UPDATE bookings 
+         SET status = $1, "updatedAt" = NOW() 
+         WHERE id = $2 
+         RETURNING id, status, "paymentStatus", "totalPrice"`,
+        [status, bookingId]
+      );
+
+      if (result.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Booking not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(result.rows[0]);
+    }
+
+    if (paymentStatus) {
+      // Update payment status
+      const result = await query(
+        `UPDATE bookings 
+         SET "paymentStatus" = $1, "updatedAt" = NOW() 
+         WHERE id = $2 
+         RETURNING id, status, "paymentStatus", "totalPrice"`,
+        [paymentStatus, bookingId]
+      );
+
+      if (result.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Booking not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(result.rows[0]);
+    }
+
+    return NextResponse.json(
+      { error: 'No update fields provided' },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error('Update booking error:', error);
+    return NextResponse.json(
+      { error: 'Failed to update booking', details: (error as Error).message },
+      { status: 500 }
+    );
+  }
+}
 
 export async function PATCH(
   request: NextRequest,
@@ -32,44 +112,54 @@ export async function PATCH(
     }
 
     const body = await request.json();
-    const validation = bookingStatusSchema.safeParse(body);
-    
-    if (!validation.success) {
-      return NextResponse.json(
-        { error: 'Invalid status', details: validation.error.issues },
-        { status: 400 }
+    const { status, paymentStatus } = body;
+
+    if (status) {
+      const result = await query(
+        `UPDATE bookings 
+         SET status = $1, "updatedAt" = NOW() 
+         WHERE id = $2 
+         RETURNING *`,
+        [status, bookingIdNum]
       );
+
+      if (result.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Booking not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(result.rows[0]);
     }
 
-    const { status } = validation.data;
-
-    // Get user's bookings to verify ownership
-    const userBookings = await getUserBookings(session.user.email);
-    const booking = userBookings.find(b => b.id === bookingIdNum);
-
-    if (!booking) {
-      return NextResponse.json(
-        { error: 'Booking not found or access denied' },
-        { status: 404 }
+    if (paymentStatus) {
+      const result = await query(
+        `UPDATE bookings 
+         SET "paymentStatus" = $1, "updatedAt" = NOW() 
+         WHERE id = $2 
+         RETURNING *`,
+        [paymentStatus, bookingIdNum]
       );
+
+      if (result.rows.length === 0) {
+        return NextResponse.json(
+          { error: 'Booking not found' },
+          { status: 404 }
+        );
+      }
+
+      return NextResponse.json(result.rows[0]);
     }
 
-    // Business rule: Prevent cancelling confirmed bookings
-    if (booking.status === 'confirmed' && status === 'cancelled') {
-      return NextResponse.json(
-        { error: 'Cannot cancel confirmed bookings. Please contact support.' },
-        { status: 400 }
-      );
-    }
-
-    // Update booking status
-    const updatedBooking = await updateBookingStatus(bookingIdNum, status);
-
-    return NextResponse.json(updatedBooking);
-  } catch (error) {
-    console.error('Update booking status error:', error);
     return NextResponse.json(
-      { error: 'Failed to update booking status', details: (error as Error).message },
+      { error: 'No update fields provided' },
+      { status: 400 }
+    );
+  } catch (error) {
+    console.error('Update booking error:', error);
+    return NextResponse.json(
+      { error: 'Failed to update booking', details: (error as Error).message },
       { status: 500 }
     );
   }
@@ -98,28 +188,18 @@ export async function DELETE(
       );
     }
 
-    // Get user's bookings to verify ownership
-    const userBookings = await getUserBookings(session.user.email);
-    const booking = userBookings.find(b => b.id === bookingIdNum);
+    const result = await query(
+      'DELETE FROM bookings WHERE id = $1 RETURNING id',
+      [bookingIdNum]
+    );
 
-    if (!booking) {
+    if (result.rows.length === 0) {
       return NextResponse.json(
-        { error: 'Booking not found or access denied' },
+        { error: 'Booking not found' },
         { status: 404 }
       );
     }
 
-    // Only allow deletion of pending bookings
-    if (booking.status !== 'pending') {
-      return NextResponse.json(
-        { error: 'Can only delete pending bookings' },
-        { status: 400 }
-      );
-    }
-
-    // Delete booking (you'll need to implement this in lib/bookings.ts)
-    // await deleteBooking(bookingIdNum);
-    
     return NextResponse.json(
       { message: 'Booking deleted successfully' },
       { status: 200 }
