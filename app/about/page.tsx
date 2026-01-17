@@ -1,125 +1,233 @@
 'use client';
 
 import React from 'react';
+import { Eye, Target, Leaf, Building, Users, Star, Handshake, Award, TrendingUp } from 'lucide-react';
 
 export default function AboutPage() {
-  return (
+ return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-green-600 to-teal-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 py-20">
+      <section className="relative bg-gradient-to-br from-green-600 to-teal-600 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/10"></div>
+        <div className="relative max-w-7xl mx-auto px-4 py-24">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">ALG EcoTour</h1>
-            <p className="text-xl text-green-50 max-w-2xl mx-auto">
-              اكتشف جمال الجزائر معنا - رحلات سياحية بيئية مسؤولة
+            <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in">
+              من نحن - ALG EcoTour
+            </h1>
+            <p className="text-xl md:text-2xl text-green-50 max-w-3xl mx-auto leading-relaxed">
+              رحلتنا لاكتشاف جمال الجزائر البري مع تجارب سياحية مستدامة وأصيلة
             </p>
           </div>
         </div>
       </section>
 
-      {/* Mission & Vision */}
-      <section className="py-16">
+      {/* Mission & Vision Section */}
+      <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">رسالتنا</h2>
-              <p className="text-gray-600 leading-relaxed">
-                توفير تجارب سياحية فريدة ومسؤولة تبرز جمال الطبيعة الجزائرية مع الحفاظ على البيئة ودعم المجتمعات المحلية.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-10 h-10 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                </svg>
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Vision Card */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-teal-100 rounded-2xl flex items-center justify-center mb-6">
+                <Eye className="w-8 h-8 text-green-600" />
               </div>
               <h2 className="text-3xl font-bold text-gray-900 mb-4">رؤيتنا</h2>
-              <p className="text-gray-600 leading-relaxed">
-                أن نكون الوجهة الأولى للسياحة البيئية في الجزائر، مع تقديم أفضل الخدمات التي تجمع بين المغامرة والاستدامة.
+              <p className="text-gray-600 leading-relaxed text-lg">
+                أن نكون المنصة الرائدة للسياحة البيئية في الجزائر، حيث نربط بين المغامرة والاستدامة، 
+                ونقدم تجارب فريدة تحافظ على بيئتنا وتدعم مجتمعاتنا المحلية.
+              </p>
+            </div>
+
+            {/* Mission Card */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 hover:shadow-2xl transition-shadow duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-green-100 rounded-2xl flex items-center justify-center mb-6">
+                <Target className="w-8 h-8 text-teal-600" />
+              </div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">رسالتنا</h2>
+              <p className="text-gray-600 leading-relaxed text-lg">
+                توفير تجارب سياحية مسؤولة وأصيلة تعكس ثقافة الجزائر وثراءها الطبيعي، 
+                مع ضمان أعلى معايير الجودة والأمان لضمان رحلات لا تُنسى.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values */}
-      <section className="py-16 bg-white">
+      {/* Values Section */}
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">قيمنا</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              المبادئ التي توجه كل ما نفعله
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">قيمنا الأساسية</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              المبادئ التي توجه كل ما نفعله ونلتزم بها
             </p>
           </div>
           
-          <div className="grid md:grid-cols-4 gap-8">
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Sustainability */}
+            <div className="bg-gradient-to-br from-green-50 to-teal-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-green-100">
+              <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center mb-6">
+                <Leaf className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">الاستدامة</h3>
-              <p className="text-gray-600">حماية البيئة ودعم المجتمعات المحلية</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">الاستدامة البيئية 🌱</h3>
+              <p className="text-gray-600 leading-relaxed">
+                نلتزم بحماية البيئة الطبيعية وتقليل البصمة الكربونية لرحلاتنا
+              </p>
             </div>
-            
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
+
+            {/* Cultural Authenticity */}
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-blue-100">
+              <div className="w-14 h-14 bg-blue-600 rounded-xl flex items-center justify-center mb-6">
+                <Building className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">التعليم</h3>
-              <p className="text-gray-600">نشر الوعي بأهمية الحفاظ على الطبيعة</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">الأصالة الثقافية 🏛️</h3>
+              <p className="text-gray-600 leading-relaxed">
+                نقدم تجارب ثقافية أصيلة تعكس تراث الجزائر الغني وتاريخها العريق
+              </p>
             </div>
-            
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+
+            {/* Safety & Reliability */}
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-purple-100">
+              <div className="w-14 h-14 bg-purple-600 rounded-xl flex items-center justify-center mb-6">
+                <Award className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">المجتمع</h3>
-              <p className="text-gray-600">بناء علاقات قوية مع المجتمعات المحلية</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">الأمان والموثوقية ✅</h3>
+              <p className="text-gray-600 leading-relaxed">
+                سلامتك أولويتنا، مع فرق محترفة ومعدات حديثة وخطط طوارئ متكاملة
+              </p>
             </div>
-            
-            <div className="text-center p-6 rounded-lg border border-gray-200 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+
+            {/* Unique Experience */}
+            <div className="bg-gradient-to-br from-yellow-50 to-orange-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-yellow-100">
+              <div className="w-14 h-14 bg-yellow-600 rounded-xl flex items-center justify-center mb-6">
+                <Star className="w-7 h-7 text-white" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">الجودة</h3>
-              <p className="text-gray-600">تقديم أفضل الخدمات والتجارب السياحية</p>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">التجربة الفريدة ⭐</h3>
+              <p className="text-gray-600 leading-relaxed">
+                كل رحلة مصممة بعناية لتكون تجربة لا تُنسى ومغامرة استثنائية
+              </p>
+            </div>
+
+            {/* Local Support */}
+            <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-red-100">
+              <div className="w-14 h-14 bg-red-600 rounded-xl flex items-center justify-center mb-6">
+                <Handshake className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">الدعم المحلي 🤝</h3>
+              <p className="text-gray-600 leading-relaxed">
+                ندعم المجتمعات المحلية ونعمل مع المرشدين المحليين لخلق فرص عمل
+              </p>
+            </div>
+
+            {/* Professionalism */}
+            <div className="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 border border-indigo-100">
+              <div className="w-14 h-14 bg-indigo-600 rounded-xl flex items-center justify-center mb-6">
+                <TrendingUp className="w-7 h-7 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-3">الاحترافية 💼</h3>
+              <p className="text-gray-600 leading-relaxed">
+                فريق من الخبراء المتخصصين في السياحة البيئية وإدارة الرحلات
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-20 bg-gradient-to-br from-green-600 to-teal-600 text-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold">500+</div>
+              <div className="text-green-100 text-lg">رحلة منظمة</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold">5000+</div>
+              <div className="text-green-100 text-lg">عميل سعيد</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold">15+</div>
+              <div className="text-green-100 text-lg">وجهة مميزة</div>
+            </div>
+            <div className="space-y-2">
+              <div className="text-4xl md:text-5xl font-bold">4.8/5</div>
+              <div className="text-green-100 text-lg">تقييم العملاء</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">فريق العمل</h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              نلتقي بفريق من الخبراء المتخصصين في السياحة البيئية
+            </p>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* Team Member 1 */}
+            <div className="text-center group">
+              <div className="relative mb-6 overflow-hidden rounded-2xl">
+                <div className="w-48 h-48 mx-auto bg-gradient-to-br from-green-400 to-teal-400 flex items-center justify-center">
+                  <Users className="w-20 h-20 text-white" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">أحمد محمد</h3>
+              <p className="text-gray-600 mb-1">مدير العمليات</p>
+              <p className="text-sm text-gray-500">خبير في تنظيم الرحلات البيئية</p>
+            </div>
+
+            {/* Team Member 2 */}
+            <div className="text-center group">
+              <div className="relative mb-6 overflow-hidden rounded-2xl">
+                <div className="w-48 h-48 mx-auto bg-gradient-to-br from-blue-400 to-indigo-400 flex items-center justify-center">
+                  <Users className="w-20 h-20 text-white" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">سارة بن علي</h3>
+              <p className="text-gray-600 mb-1">مديرة التسويق</p>
+              <p className="text-sm text-gray-500">متخصصة في السياحة المستدامة</p>
+            </div>
+
+            {/* Team Member 3 */}
+            <div className="text-center group">
+              <div className="relative mb-6 overflow-hidden rounded-2xl">
+                <div className="w-48 h-48 mx-auto bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center">
+                  <Users className="w-20 h-20 text-white" />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              <h3 className="text-xl font-bold text-gray-900 mb-2">كريم قاسم</h3>
+              <p className="text-gray-600 mb-1">مرشد سياحي رئيسي</p>
+              <p className="text-sm text-gray-500">خبير في تاريخ وجغرافيا الجزائر</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-br from-green-600 to-teal-600 text-white">
+      <section className="py-20 bg-gradient-to-br from-teal-600 to-green-600 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">انضم إلى رحلتنا</h2>
-          <p className="text-xl text-green-50 mb-8">
-            استكشف جمال الجزائر مع ALG EcoTour وكن جزءاً من التغيير الإيجابي
+          <h2 className="text-4xl font-bold mb-6">
+            جاهز لمغامرتك القادمة؟
+          </h2>
+          <p className="text-xl text-green-50 mb-8 max-w-2xl mx-auto">
+            انضم إلينا واكتشف جمال الجزائر مع فريق من الخبراء المتخصصين في السياحة البيئية
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
               href="/ecoTour" 
-              className="px-8 py-3 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              className="px-8 py-4 bg-white text-green-600 rounded-lg font-semibold hover:bg-gray-50 transition-all duration-200 hover:scale-105 shadow-lg text-lg"
             >
               استكشف الرحلات
             </a>
             <a 
               href="/contact" 
-              className="px-8 py-3 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-colors"
+              className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-green-600 transition-all duration-200 hover:scale-105 text-lg"
             >
               تواصل معنا
             </a>

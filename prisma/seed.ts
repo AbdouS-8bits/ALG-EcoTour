@@ -32,7 +32,7 @@ async function main() {
       longitude: 2.9340,
       price: 15000.00,
       maxParticipants: 20,
-      photoURL: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/desert-2.jpg'
     },
     {
       title: 'تسلق جبال الأطلس',
@@ -42,7 +42,7 @@ async function main() {
       longitude: 5.7340,
       price: 8500.00,
       maxParticipants: 15,
-      photoURL: 'https://images.unsplash.com/photo-1464822759844-d150baec0494?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/sahara-2.jpg'
     },
     {
       title: 'استكشاف واحات غرداية',
@@ -52,7 +52,7 @@ async function main() {
       longitude: 3.6700,
       price: 12000.00,
       maxParticipants: 25,
-      photoURL: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/coast.jpg'
     },
     {
       title: 'رحلة بحرية إلى عنابة',
@@ -62,7 +62,7 @@ async function main() {
       longitude: 7.7700,
       price: 9500.00,
       maxParticipants: 18,
-      photoURL: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/tassili-2.jpg'
     },
     {
       title: 'زيارة لمواقع الطاسيلي',
@@ -72,7 +72,7 @@ async function main() {
       longitude: 9.4500,
       price: 18000.00,
       maxParticipants: 12,
-      photoURL: 'https://images.unsplash.com/photo-1533105079780-92b9be482077?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/mountains-2.jpg'
     },
     {
       title: 'رحلة إلى قصور تيميمون',
@@ -82,7 +82,7 @@ async function main() {
       longitude: 0.2400,
       price: 13500.00,
       maxParticipants: 20,
-      photoURL: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?w=800&h=600&fit=crop'
+      photoURL: '/images/tours/oasis.jpg'
     }
   ];
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { tourCreateSchema, validateRequest } from '@/lib/validation';
 
 // Add CORS headers
 function corsHeaders() {
@@ -22,27 +23,25 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     
-    // Validate required fields
-    const { title, location, price, maxParticipants } = body;
-    
-    if (!title || !location || !price || !maxParticipants) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    // Validate input
+    const validation = validateRequest(tourCreateSchema, body);
+    if (!validation.success) {
+      return NextResponse.json(validation.error, { status: 400, headers: corsHeaders() });
     }
 
-    // Create tour in database using the correct model name
+    const { title, description, location, price, maxParticipants, latitude, longitude, photoURL } = validation.data;
+
+    // Create tour in database using correct model name
     const tour = await prisma.ecoTour.create({
       data: {
         title,
-        description: body.description || null,
+        description,
         location,
-        latitude: body.latitude ? parseFloat(body.latitude) : null,
-        longitude: body.longitude ? parseFloat(body.longitude) : null,
-        price: parseFloat(price),
-        maxParticipants: parseInt(maxParticipants),
-        photoURL: body.photoURL || null,
+        latitude: latitude || 0,
+        longitude: longitude || 0,
+        price,
+        maxParticipants,
+        photoURL,
       },
     });
 

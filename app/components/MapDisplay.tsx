@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
 // Fix for default marker icon
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+delete (L.Icon.Default.prototype as { _getIconUrl?: unknown })._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
@@ -22,10 +22,15 @@ interface MapDisplayProps {
 
 export default function MapDisplay({ latitude, longitude, title, geoJsonUrl }: MapDisplayProps) {
   const [mounted, setMounted] = useState(false);
-  const [geoJsonData, setGeoJsonData] = useState<any>(null);
+  const [geoJsonData, setGeoJsonData] = useState<GeoJSON.FeatureCollection | null>(null);
+  const hasMounted = useRef(false);
 
   useEffect(() => {
-    setMounted(true);
+    if (!hasMounted.current) {
+      hasMounted.current = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMounted(true);
+    }
   }, []);
 
   // Load GeoJSON data if provided (exported from QGIS)

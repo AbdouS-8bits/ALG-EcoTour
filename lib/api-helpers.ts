@@ -53,12 +53,18 @@ export const categoriesAPI = {
 export const toursAPI = {
   search: (params: {
     search?: string;
+<<<<<<< HEAD
     categoryId?: number;
     difficulty?: string;
     minPrice?: number;
     maxPrice?: number;
     location?: string;
     status?: string;
+=======
+    minPrice?: number;
+    maxPrice?: number;
+    location?: string;
+>>>>>>> 443de18544d2103bd20d47933e022c8be4587715
     sortBy?: string;
     sortOrder?: string;
     page?: number;

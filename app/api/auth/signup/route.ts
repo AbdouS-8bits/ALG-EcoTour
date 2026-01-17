@@ -1,21 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import bcrypt from 'bcrypt';
-import crypto from 'crypto';
-import { sendVerificationEmail } from '@/lib/email';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, password, name } = body;
+    const { email, password, name, phone } = body;
 
-    // Validate
+    // Validate required fields
     if (!email || !password) {
       return NextResponse.json(
         { error: 'Email and password are required' },
         { status: 400 }
       );
     }
+
+    const { email, password, name } = validation.data;
 
     // Check if user exists
     const existingUser = await prisma.user.findUnique({

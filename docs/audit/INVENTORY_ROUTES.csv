@@ -1,0 +1,26 @@
+path,methods
+]633;E;for file in $(find /home/bk13/Documents/ALG-EcoTour/app -name "page.tsx" -not -path "*/node_modules/*");65c77669-d21b-4a16-9208-ac38e304b0a7]633;C"/",GET
+"/admin/login",GET
+"/admin/SighUp",GET
+"/admin/dashboard",GET
+"/admin/EcoTours",GET
+"/map",GET
+"/settings",GET
+"/profile",GET
+"/about",GET
+"/test",GET
+"/auth/login",GET
+"/auth/signup",GET
+"/bookings",GET
+"/contact",GET
+"/ecoTour",GET
+"/ecoTour/[tourId]",GET
+]633;E;for file in $(find /home/bk13/Documents/ALG-EcoTour/app/api -name "route.ts" -not -path "*/node_modules/*");65c77669-d21b-4a16-9208-ac38e304b0a7]633;C"/api/api/tours/[tourId]","GET"
+"/api/api/tours","GET,POST"
+"/api/api/admin/tours","POST,GET"
+"/api/api/ecotours","GET,POST"
+"/api/api/auth/[...nextauth]","GET,POST,PUT,DELETE"
+"/api/api/auth/register","POST"
+"/api/api/auth/signup","POST"
+"/api/api/upload","POST"
+"/api/api/bookings","POST,GET"

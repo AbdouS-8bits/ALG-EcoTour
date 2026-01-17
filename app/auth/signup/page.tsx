@@ -3,18 +3,22 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { signIn } from 'next-auth/react';
+import { Eye, EyeOff, Mail, Lock, User, Phone, Leaf } from 'lucide-react';
 
 export default function SignupPage() {
-  const router = useRouter();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
+    phone: '',
   });
-  const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -27,23 +31,16 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
     // Validate passwords match
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-
-    // Validate password length
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError('كلمات المرور غير متطابقة');
       setLoading(false);
       return;
     }
 
     try {
-      // Create account
       const response = await fetch('/api/auth/signup', {
         method: 'POST',
         headers: {
@@ -53,168 +50,293 @@ export default function SignupPage() {
           name: formData.name,
           email: formData.email,
           password: formData.password,
+          confirmPassword: formData.confirmPassword,
         }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        setError(data.error || 'Failed to create account');
-        setLoading(false);
-        return;
-      }
-
-      // Auto login after signup
-      const result = await signIn('credentials', {
-        email: formData.email,
-        password: formData.password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        setError('Account created but login failed. Please login manually.');
-        setTimeout(() => router.push('/auth/login'), 2000);
+      if (response.ok) {
+        setSuccess('تم إنشاء الحساب بنجاح! يمكنك الآن تسجيل الدخول.');
+        setTimeout(() => {
+          router.push('/auth/login');
+        }, 2000);
       } else {
-        router.push('/');
-        router.refresh();
+        setError(data.error || 'حدث خطأ ما. يرجى المحاولة مرة أخرى.');
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
+    } catch (error) {
+      setError('حدث خطأ ما. يرجى المحاولة مرة أخرى.');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-teal-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Already have an account?{' '}
-            <Link href="/auth/login" className="font-medium text-emerald-600 hover:text-emerald-500">
-              Sign in
-            </Link>
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-50 flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        {/* Logo Section */}
+        <div className="text-center mb-8">
+          <div className="w-20 h-20 bg-gradient-to-br from-green-600 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Leaf className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">إنشاء حساب جديد</h1>
+          <p className="text-gray-600">انضم إلينا وابدأ مغامرتك</p>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 py-8 px-4 shadow-xl rounded-lg sm:px-10">
-          {error && (
-            <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded">
-              {error}
-            </div>
-          )}
-
-          <form className="space-y-6" onSubmit={handleSubmit}>
+        {/* Signup Form Card */}
+        <div className="bg-white shadow-2xl rounded-2xl p-8 md:p-12">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name Input */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Full Name
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                الاسم الكامل
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <User className="w-5 h-5" />
+                </div>
                 <input
                   id="name"
                   name="name"
                   type="text"
-                  autoComplete="name"
-                  required
                   value={formData.name}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="John Doe"
+                  required
+                  className="
+                    w-full pr-10 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="أدخل اسمك الكامل"
                 />
               </div>
             </div>
 
+            {/* Email Input */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Email address
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                البريد الإلكتروني
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Mail className="w-5 h-5" />
+                </div>
                 <input
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
-                  required
                   value={formData.email}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="you@example.com"
+                  required
+                  className="
+                    w-full pr-10 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="example@email.com"
                 />
               </div>
             </div>
 
+            {/* Phone Input */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Password
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                رقم الهاتف (اختياري)
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="
+                    w-full pr-10 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="+213 XXX XXX XXX"
+                />
+              </div>
+            </div>
+
+            {/* Password Input */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                كلمة المرور
+              </label>
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Lock className="w-5 h-5" />
+                </div>
                 <input
                   id="password"
                   name="password"
-                  type="password"
-                  autoComplete="new-password"
-                  required
+                  type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="••••••••"
+                  required
+                  className="
+                    w-full pr-20 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="•••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
-              <p className="mt-1 text-xs text-gray-500">Must be at least 6 characters</p>
             </div>
 
+            {/* Confirm Password Input */}
             <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 dark:text-white">
-                Confirm Password
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                تأكيد كلمة المرور
               </label>
-              <div className="mt-1">
+              <div className="relative">
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                  <Lock className="w-5 h-5" />
+                </div>
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
-                  autoComplete="new-password"
-                  required
+                  type={showConfirmPassword ? 'text' : 'password'}
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm text-gray-900 dark:text-white dark:bg-gray-700 dark:border-gray-600"
-                  placeholder="••••••••"
+                  required
+                  className="
+                    w-full pr-20 pl-4 py-3
+                    text-gray-900
+                    bg-white
+                    border-2 border-gray-300
+                    rounded-lg
+                    placeholder-gray-500
+                    focus:ring-2 focus:ring-green-500
+                    focus:border-green-500
+                    transition-all
+                  "
+                  placeholder="•••••••••"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                </button>
               </div>
             </div>
 
-            <div>
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Creating account...' : 'Create account'}
-              </button>
-            </div>
+            {/* Error Message */}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+
+            {/* Success Message */}
+            {success && (
+              <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg">
+                {success}
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="
+                w-full py-3
+                bg-gradient-to-r from-green-600 to-teal-600
+                text-white font-semibold
+                rounded-lg
+                hover:scale-105 transition-transform
+                shadow-lg
+                disabled:opacity-50 disabled:cursor-not-allowed
+                disabled:hover:scale-100
+              "
+            >
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin ml-2"></div>
+                  جاري إنشاء الحساب...
+                </div>
+              ) : (
+                'إنشاء حساب'
+              )}
+            </button>
           </form>
 
-          <div className="mt-6">
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-gray-300" />
-              </div>
-              <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">
-                  Or
-                </span>
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <Link
-                href="/auth/login"
-                className="w-full flex justify-center py-2 px-4 border border-emerald-600 rounded-md shadow-sm text-sm font-medium text-emerald-600 bg-white hover:bg-emerald-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500"
+          {/* Footer Links */}
+          <div className="mt-8 text-center">
+            <p className="text-gray-600 mb-4">
+              لديك حساب بالفعل؟{' '}
+              <Link 
+                href="/auth/login" 
+                className="text-green-600 hover:text-green-700 font-semibold transition-colors"
               >
-                Sign in to existing account
+                سجل دخولك
               </Link>
+            </p>
+            <p className="text-xs text-gray-500">
+              بإنشاء حساب، أنت توافق على{' '}
+              <Link href="/terms" className="text-green-600 hover:text-green-700">
+                الشروط والأحكام
+              </Link>
+              {' '}و{' '}
+              <Link href="/privacy" className="text-green-600 hover:text-green-700">
+                سياسة الخصوصية
+              </Link>
+            </p>
+          </div>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="mt-8 text-center">
+          <div className="flex items-center justify-center space-x-6 text-gray-500">
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">آمن</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">سريع</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+              <span className="mr-2 text-sm">موثوق</span>
             </div>
           </div>
         </div>
