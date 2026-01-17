@@ -1,21 +1,26 @@
-import { prisma } from './prisma';
+import { Pool } from 'pg';
+
+// Create a connection pool
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 /**
- * Execute a raw SQL query using Prisma's raw query capability
+ * Execute a raw SQL query
  * @param sql - The SQL query string
  * @param values - Optional parameter values for the query
  * @returns Promise with query results
  */
 export async function query(sql: string, values: any[] = []) {
+  const client = await pool.connect();
   try {
-    const result = await prisma.$queryRawUnsafe(sql, ...values);
-    return {
-      rows: result,
-      rowCount: Array.isArray(result) ? result.length : 0,
-    };
+    const result = await client.query(sql, values);
+    return result;
   } catch (error) {
     console.error('Database query error:', error);
     throw error;
+  } finally {
+    client.release();
   }
 }
 

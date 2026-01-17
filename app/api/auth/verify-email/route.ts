@@ -1,11 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { sendWelcomeEmail } from '@/lib/email';
 
-export async function GET(request: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
+    const body = await request.json();
+    const { token } = body;
 
     if (!token) {
       return NextResponse.json(
@@ -16,9 +15,7 @@ export async function GET(request: NextRequest) {
 
     // Find user with this token
     const user = await prisma.user.findFirst({
-      where: {
-        verificationToken: token,
-      },
+      where: { verificationToken: token }
     });
 
     if (!user) {
@@ -28,31 +25,20 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Check if already verified
-    if (user.emailVerified) {
-      return NextResponse.json(
-        { message: 'Email already verified! You can login now.' },
-        { status: 200 }
-      );
-    }
-
-    // Verify user
+    // Update user as verified
     await prisma.user.update({
       where: { id: user.id },
       data: {
         emailVerified: true,
-        verificationToken: null, // Remove token after use
+        verificationToken: null, // Clear the token
       },
     });
 
-    // Send welcome email
-    if (user.name) {
-      await sendWelcomeEmail(user.email, user.name);
-    }
+    console.log('✅ Email verified for:', user.email);
 
     return NextResponse.json({
-      message: 'Email verified successfully! You can now login.',
       success: true,
+      message: 'Email verified successfully! You can now login.',
     });
 
   } catch (error) {
@@ -61,5 +47,43 @@ export async function GET(request: NextRequest) {
       { error: 'Failed to verify email' },
       { status: 500 }
     );
+  }
+}
+
+// GET endpoint for email verification via link
+export async function GET(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const token = searchParams.get('token');
+
+    if (!token) {
+      return NextResponse.redirect(new URL('/auth/login?error=invalid_token', request.url));
+    }
+
+    // Find user with this token
+    const user = await prisma.user.findFirst({
+      where: { verificationToken: token }
+    });
+
+    if (!user) {
+      return NextResponse.redirect(new URL('/auth/login?error=invalid_token', request.url));
+    }
+
+    // Update user as verified
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        emailVerified: true,
+        verificationToken: null,
+      },
+    });
+
+    console.log('✅ Email verified for:', user.email);
+
+    return NextResponse.redirect(new URL('/auth/login?verified=true', request.url));
+
+  } catch (error) {
+    console.error('Email verification error:', error);
+    return NextResponse.redirect(new URL('/auth/login?error=verification_failed', request.url));
   }
 }

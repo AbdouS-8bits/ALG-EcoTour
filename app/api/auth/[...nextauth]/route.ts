@@ -1,15 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
-import { Pool } from "pg";
-import { PrismaPg } from "@prisma/adapter-pg";
+import { query } from "@/lib/db";
 import bcrypt from "bcrypt";
-
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
-const prisma = new PrismaClient({
-  adapter,
-});
 
 const handler = NextAuth({
   providers: [
@@ -24,19 +16,24 @@ const handler = NextAuth({
         
         if (!credentials?.email || !credentials?.password) {
           console.log('❌ Missing credentials');
-          return null;
+          throw new Error('Please provide email and password');
         }
 
         try {
-          const user = await prisma.user.findUnique({
-            where: { email: credentials.email }
-          });
+          // Find user using raw SQL
+          const result = await query(
+            `SELECT id, email, name, password, role, "emailVerified" 
+             FROM users 
+             WHERE email = $1`,
+            [credentials.email]
+          );
 
-          if (!user) {
+          if (result.rows.length === 0) {
             console.log('❌ User not found:', credentials.email);
-            return null;
+            throw new Error('Invalid email or password');
           }
 
+          const user = result.rows[0];
           console.log('✅ User found:', user.email, 'Role:', user.role);
 
           const isPasswordValid = await bcrypt.compare(
@@ -46,59 +43,23 @@ const handler = NextAuth({
 
           if (!isPasswordValid) {
             console.log('❌ Invalid password');
-            return null;
+            throw new Error('Invalid email or password');
           }
 
           console.log('✅ Password valid');
 
-          // Check if emailVerified is boolean or timestamp
-          const isEmailVerified = typeof user.emailVerified === 'boolean' 
-            ? user.emailVerified 
-            : !!user.emailVerified;
+          // Allow login regardless of email verification for now
+          console.log('✅ Login successful');
 
-          // Allow login even if email not verified (you can change this)
-          if (!isEmailVerified) {
-            console.log('⚠️  Email not verified, but allowing login');
-          }
-
-          // Try to update refresh token if columns exist
-          try {
-            const crypto = await import("crypto");
-            const refreshTokenPlain = crypto.randomBytes(32).toString("hex");
-            const refreshTokenHash = await bcrypt.hash(refreshTokenPlain, 10);
-            const refreshTokenExpires = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-
-            await prisma.user.update({
-              where: { id: user.id },
-              data: {
-                refreshToken: refreshTokenHash,
-                refreshTokenExpires,
-              } as any,
-            });
-
-            console.log('✅ Login successful with refresh token');
-
-            return {
-              id: user.id.toString(),
-              email: user.email,
-              name: user.name,
-              role: user.role,
-              refreshToken: refreshTokenPlain,
-            };
-          } catch (refreshError) {
-            // If refresh token columns don't exist, just return user without it
-            console.log('⚠️  Refresh token update failed (columns may not exist), continuing anyway');
-            
-            return {
-              id: user.id.toString(),
-              email: user.email,
-              name: user.name,
-              role: user.role,
-            };
-          }
-        } catch (error) {
+          return {
+            id: user.id.toString(),
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        } catch (error: any) {
           console.error('❌ Auth error:', error);
-          return null;
+          throw error;
         }
       }
     })
@@ -108,7 +69,6 @@ const handler = NextAuth({
       if (user) {
         token.id = user.id;
         token.role = user.role;
-        if ((user as any).refreshToken) token.refreshToken = (user as any).refreshToken;
       }
       return token;
     },
@@ -116,21 +76,20 @@ const handler = NextAuth({
       if (session.user) {
         session.user.id = token.id as string;
         session.user.role = token.role as string;
-        session.user.refreshToken = token.refreshToken as string | undefined;
       }
       return session;
     }
   },
   pages: {
     signIn: "/auth/login",
-    signOut: "/auth/logout",
+    error: "/auth/error",
   },
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24, // 1 day
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: true, // Enable debug logs
+  debug: process.env.NODE_ENV === 'development',
 });
 
 export { handler as GET, handler as POST };
