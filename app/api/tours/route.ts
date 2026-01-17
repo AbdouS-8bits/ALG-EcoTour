@@ -4,30 +4,17 @@ import { prisma } from '@/lib/prisma';
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const location = searchParams.get('location');
-    const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')!) : undefined;
-    const offset = searchParams.get('offset') ? parseInt(searchParams.get('offset')!) : undefined;
-
-    // Build where clause
-    const where: any = {};
+    const limit = searchParams.get('limit') || '6';
     
-    if (location) {
-      where.location = {
-        contains: location,
-        mode: 'insensitive',
-      };
-    }
-
-    // Get tours with optional filtering
     const tours = await prisma.ecoTour.findMany({
-      where,
+      take: parseInt(limit),
       orderBy: {
         createdAt: 'desc',
       },
-      take: limit,
-      skip: offset,
     });
-
+    
+    console.log('Tours from database:', tours);
+    
     return NextResponse.json(tours);
   } catch (error) {
     console.error('Get tours error:', error);

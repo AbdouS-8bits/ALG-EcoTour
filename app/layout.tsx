@@ -4,6 +4,9 @@ import "./globals.css";
 import SessionProvider from "./providers";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AnalyticsProvider from "../components/AnalyticsProvider";
+import CookieConsentBanner from "../components/CookieConsentBanner";
+import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -77,25 +80,31 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+
         <SessionProvider>
-          <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
-            <a href="#main" className="sr-only focus:not-sr-only p-2">Skip to content</a>
+          <AnalyticsProvider>
+            <div className="min-h-screen flex flex-col bg-zinc-50 dark:bg-black text-zinc-900 dark:text-zinc-100">
+              <a href="#main" className="sr-only focus:not-sr-only p-2">Skip to content</a>
 
-            <Navbar />
+              <Navbar />
 
-            <main id="main" className="flex-1">
-              {children}
-            </main>
+              <main id="main" className="flex-1">
+                {children}
+              </main>
 
-            <Footer />
-          </div>
+              <Footer />
+            </div>
+
+            <CookieConsentBanner />
+          </AnalyticsProvider>
         </SessionProvider>
+
       </body>
     </html>
   );
