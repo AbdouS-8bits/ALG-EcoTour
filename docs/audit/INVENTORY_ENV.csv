@@ -1,0 +1,9 @@
+key,location,existsInExample
+"CLOUDINARY_API_KEY","/home/bk13/Documents/ALG-EcoTour/app/api/upload/route.ts","true"
+"CLOUDINARY_API_SECRET","/home/bk13/Documents/ALG-EcoTour/app/api/upload/route.ts","true"
+"CLOUDINARY_CLOUD_NAME","/home/bk13/Documents/ALG-EcoTour/app/api/upload/route.ts","true"
+"DATABASE_URL","/home/bk13/Documents/ALG-EcoTour/app/api/auth/[...nextauth]/route.ts","true"
+"NEXTAUTH_SECRET","/home/bk13/Documents/ALG-EcoTour/app/api/auth/[...nextauth]/route.ts","true"
+"NEXT_PUBLIC_SITE_URL","/home/bk13/Documents/ALG-EcoTour/app/layout.tsx","false"
+"NODE_ENV","/home/bk13/Documents/ALG-EcoTour/middleware.ts","true"
+"REDIS_URL","/home/bk13/Documents/ALG-EcoTour/PROJECT_ANALYSIS.md","false"

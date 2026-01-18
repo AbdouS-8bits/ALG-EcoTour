@@ -11,50 +11,124 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  password String // Store hashed passwords in production
-  role  String  @default("user") // "admin" or "user"
+  id        Int       @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  role      String   @default("user")
+
+  emailVerified        Boolean   @default(false)
+  verificationToken    String?
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
+  bookings Booking[]
+  reviews  Review[]
+  logs     AdminAuditLog[]
+
+  @@index([verificationToken])
+  @@index([resetPasswordToken])
   @@map("users")
 }
 
+
 model AdminAuditLog {
-  id    Int     @id @default(autoincrement())
-  userId Int
-  action String
-  details String?
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  action    String
+  details   String?
   createdAt DateTime @default(now())
-  
+
   @@map("admin_audit_logs")
 }
 
 model EcoTour {
-  id    Int     @id @default(autoincrement())
-  title String
-  description String?
-  location String
-  price Float
+  id              Int         @id @default(autoincrement())
+  title           String
+  description     String?
+  location        String
+  latitude        Float?
+  longitude       Float?
+  price           Float
   maxParticipants Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+  photoURL        String?
+  duration        Int  @default(0)                   // number of days
+  difficulty      String  @default("easy")               // easy/medium/hard
+  categoryId      Int?
+  category        Category?  @relation(fields: [categoryId], references: [id])
+  status          String      @default("active")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  // Relations
+  images     TourImage[]
+  itineraries Itinerary[]
+  reviews    Review[]
+  bookings   Booking[]
+
   @@map("eco_tours")
 }
 
 model Booking {
-  id    Int     @id @default(autoincrement())
-  tourId Int
-  guestName String
-  guestEmail String
-  guestPhone String
-  participants Int
-  status String @default("pending") // "pending", "confirmed", "cancelled"
+  id            Int      @id @default(autoincrement())
+  tourId        Int
+  tour          EcoTour  @relation(fields: [tourId], references: [id])
+  userId        Int?     // optional if booking can be made by guest without account
+  user          User?    @relation(fields: [userId], references: [id])
+  guestName     String
+  guestEmail    String
+  guestPhone    String
+  participants  Int
+  totalPrice    Float @default(0)
+  status        String   @default("pending") // "pending", "confirmed", "cancelled"
+  paymentStatus String   @default("pending")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@map("bookings")
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  tourId    Int
+  tour      EcoTour  @relation(fields: [tourId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  rating    Int      // 1-5 stars
+  comment   String?  @db.Text
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
-  @@map("bookings")
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  description String?
+  icon        String?
+  tours       EcoTour[]
+  createdAt   DateTime @default(now())
+}
+
+model TourImage {
+  id        Int      @id @default(autoincrement())
+  tourId    Int
+  tour      EcoTour  @relation(fields: [tourId], references: [id])
+  url       String
+  alt       String?
+  isMain    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Itinerary {
+  id          Int      @id @default(autoincrement())
+  tourId      Int
+  tour        EcoTour  @relation(fields: [tourId], references: [id])
+  dayNumber   Int
+  title       String
+  description String   @db.Text
+  createdAt   DateTime @default(now())
 }

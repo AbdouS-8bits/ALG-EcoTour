@@ -8,6 +8,29 @@ const credentialsSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+interface CredentialsUser {
+  email: string;
+  password: string;
+}
+
+interface JWTToken {
+  id?: string;
+  email?: string;
+  name?: string;
+  role?: string;
+}
+
+interface SessionUser {
+  id?: string;
+  email?: string;
+  name?: string;
+  role?: string;
+}
+
+interface Session {
+  user: SessionUser;
+}
+
 export const authOptions = {
   providers: [
     Credentials({
@@ -15,7 +38,7 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any) {
+      async authorize(credentials: CredentialsUser | undefined) {
         // Validate credentials
         const parsed = credentialsSchema.safeParse(credentials);
         if (!parsed.success) {
@@ -51,9 +74,10 @@ export const authOptions = {
             id: String(user.id),
             email: user.email,
             name: user.name,
+            role: user.role,
           };
-        } catch (error: any) {
-          if (error.message.includes("Unauthorized")) {
+        } catch (error: unknown) {
+          if (error instanceof Error && error.message.includes("Unauthorized")) {
             throw error;
           }
           throw new Error("Invalid email or password");
@@ -66,15 +90,15 @@ export const authOptions = {
     error: "/admin/login",
   },
   callbacks: {
-    async jwt({ token, user }: any) {
+    async jwt({ token, user }: { token: JWTToken; user?: SessionUser }) {
       if (user) {
-        token.id = (user as any).id;
+        token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }: any) {
+    async session({ session, token }: { session: Session; token: JWTToken }) {
       if (session.user) {
-        (session.user as any).id = token.id as string;
+        session.user.id = token.id;
       }
       return session;
     },
