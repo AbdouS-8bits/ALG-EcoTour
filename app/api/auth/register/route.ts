@@ -1,75 +1,115 @@
-import { prisma } from "@/lib/prisma";
-import bcrypt from "bcrypt";
-import { z } from "zod";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
+import { query } from '@/lib/db';
+import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import { sendVerificationEmail } from '@/lib/email';
 
-const registerSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
-  confirmPassword: z.string(),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
-export async function POST(req: NextRequest) {
+export async function POST(request: NextRequest) {
   try {
-    const body = await req.json();
+    const body = await request.json();
+    const { email, password, name } = body;
 
-    // Validate input
-    const validation = registerSchema.safeParse(body);
-    if (!validation.success) {
-      const errorMessage = validation.error.issues[0]?.message || "Validation failed";
+    console.log('📝 Registration attempt:', email);
+
+    // Validate
+    if (!email || !password) {
       return NextResponse.json(
-        { error: errorMessage },
+        { error: 'Email and password are required' },
         { status: 400 }
       );
     }
 
-    const { name, email, password } = validation.data;
-
-    // Check if admin user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
-
-    if (existingUser) {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
       return NextResponse.json(
-        { error: "Email already registered" },
+        { error: 'Invalid email format' },
         { status: 400 }
       );
     }
 
-    // Hash the password with bcrypt
+    // Validate password strength
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: 'Password must be at least 6 characters long' },
+        { status: 400 }
+      );
+    }
+
+    // Check if user exists
+    console.log('🔍 Checking if user exists...');
+    const existingUser = await query(
+      'SELECT id FROM users WHERE email = $1',
+      [email]
+    );
+
+    if (existingUser.rows.length > 0) {
+      console.log('❌ User already exists:', email);
+      return NextResponse.json(
+        { error: 'User with this email already exists' },
+        { status: 400 }
+      );
+    }
+
+    // Hash password
+    console.log('🔐 Hashing password...');
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create new admin user in database
-    const newUser = await prisma.user.create({
-      data: {
-        name,
-        email,
-        password: hashedPassword,
-        role: "admin",
-      },
-    });
+    // Generate verification token
+    const verificationToken = crypto.randomBytes(32).toString('hex');
 
-    return NextResponse.json(
-      {
-        success: true,
-        message: "Admin registered successfully. Please sign in.",
-        user: {
-          id: newUser.id,
-          email: newUser.email,
-          name: newUser.name,
-        },
-      },
-      { status: 201 }
+    // Create user - emailVerified = false initially
+    console.log('💾 Creating user in database...');
+    const result = await query(
+      `INSERT INTO users (
+        email, 
+        name, 
+        password, 
+        role, 
+        "emailVerified",
+        "verificationToken",
+        "createdAt", 
+        "updatedAt"
+      ) VALUES ($1, $2, $3, $4, $5, $6, NOW(), NOW())
+      RETURNING id, email, name, role`,
+      [email, name || null, hashedPassword, 'user', false, verificationToken]
     );
+
+    const user = result.rows[0];
+    console.log('✅ User created:', user.email);
+
+    // Send verification email
+    try {
+      console.log('📧 Sending verification email...');
+      await sendVerificationEmail(email, verificationToken);
+      console.log('✅ Verification email sent successfully');
+    } catch (emailError: any) {
+      console.error('⚠️  Email sending failed:', emailError.message);
+      // Don't fail registration, but inform user
+      return NextResponse.json({
+        success: true,
+        message: 'Account created, but verification email failed to send. Please contact support.',
+        email: user.email,
+        emailSent: false,
+      }, { status: 201 });
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: 'Account created! Please check your email to verify your account.',
+      email: user.email,
+      emailSent: true,
+    }, { status: 201 });
+
   } catch (error: any) {
-    console.error("Register error:", error);
+    console.error('❌ Registration error:', error);
+    console.error('Error details:', error.message);
+    
     return NextResponse.json(
-      { error: "Registration failed. Please try again." },
+      { 
+        error: 'Failed to create account',
+        details: error.message,
+      },
       { status: 500 }
     );
   }
