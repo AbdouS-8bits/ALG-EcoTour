@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/lib/db';
 
 
-function convertBigInt(obj: any) {
+function convertBigInt(obj: any): any {
   if (Array.isArray(obj)) return obj.map(convertBigInt);
   if (obj && typeof obj === "object") {
     for (const key in obj) {

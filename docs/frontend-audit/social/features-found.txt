@@ -1,0 +1,4 @@
+=== SOCIAL FEATURES SCAN ===
+## Comments
+app/admin/reviews/page.tsx
+app/components/HomePage.tsx

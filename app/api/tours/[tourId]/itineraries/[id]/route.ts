@@ -4,12 +4,13 @@ import { query } from '@/lib/db';
 // GET single itinerary
 export async function GET(
   request: NextRequest,
-  { params }: { params: { tourId: string; id: string } }
+  { params }: { params: Promise<{ tourId: string; id: string }> }
 ) {
   try {
+    const { tourId, id } = await params;
     const result = await query(
       `SELECT * FROM "Itinerary" WHERE id = $1 AND "tourId" = $2`,
-      [params.id, params.tourId]
+      [id, tourId]
     );
 
     if (result.rows.length === 0) {

@@ -45,12 +45,12 @@ export async function POST(request: NextRequest) {
     }
 
     // Convert file to buffer
-    const bytes = await file.arrayBuffer();
+    const bytes = await files[0].arrayBuffer();
     const buffer = Buffer.from(bytes);
 
         // Convert buffer to base64
         const base64Data = buffer.toString('base64');
-        const dataURI = `data:${file.type};base64,${base64Data}`;
+        const dataURI = `data:${files[0].type};base64,${base64Data}`;
 
     // Upload to Cloudinary using upload instead of upload_stream
     const result = await cloudinary.uploader.upload(dataURI, {

@@ -11,6 +11,10 @@ import TourReviews from '@/components/tours/TourReviews';
 import TourRating from '@/components/tours/TourRating';
 import RelatedTours from '@/components/tours/RelatedTours';
 import AvailabilityCalendar from '@/components/availability/AvailabilityCalendar';
+import CommentSection from '@/app/components/social/CommentSection';
+import ReactionButton from '@/app/components/social/ReactionButton';
+import RatingStars from '@/app/components/social/RatingStars';
+import MessagePanel from '@/app/components/social/MessagePanel';
 import { Tour, Booking, User } from '@/types/api';
 
 interface TourDetailClientProps {
@@ -246,6 +250,32 @@ export default function TourDetailClient({ tour }: TourDetailClientProps) {
                   <p className="text-gray-600">{tour.description}</p>
                 </div>
 
+                {/* Social Interactions */}
+                <div className="mb-8 space-y-6">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-4">تفاعل مع هذه الرحلة</h2>
+                  
+                  {/* Reactions */}
+                  <div className="flex items-center justify-between p-6 bg-gray-50 rounded-xl">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-2">ما رأيك في هذه الرحلة؟</h3>
+                      <p className="text-sm text-gray-600">شارك انطباعك مع الآخرين</p>
+                    </div>
+                    <ReactionButton 
+                      tourId={tour.id.toString()} 
+                      className="flex-shrink-0"
+                    />
+                  </div>
+
+                  {/* Rating */}
+                  <RatingStars 
+                    tourId={tour.id.toString()}
+                    tourTitle={tour.title}
+                    size="large"
+                    showStats={true}
+                    interactive={true}
+                  />
+                </div>
+
                 {/* Gallery */}
                 <div className="mb-8">
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">معرض الصور</h2>
@@ -292,6 +322,14 @@ export default function TourDetailClient({ tour }: TourDetailClientProps) {
                   <h2 className="text-2xl font-bold text-gray-900 mb-4">التقييمات</h2>
                   <TourReviews tourId={tour.id} tourTitle={tour.title} />
                 </div>
+
+                {/* Comments Section */}
+                <div className="mb-8">
+                  <CommentSection 
+                    tourId={tour.id.toString()} 
+                    tourTitle={tour.title}
+                  />
+                </div>
               </div>
             )}
 
@@ -334,6 +372,9 @@ export default function TourDetailClient({ tour }: TourDetailClientProps) {
           limit={4}
         />
       </div>
+
+      {/* Message Panel */}
+      <MessagePanel userId={session?.user?.id} />
 
       {/* Booking Modal */}
       {showBookingModal && (

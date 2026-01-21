@@ -4,7 +4,7 @@ import { query } from '@/lib/db';
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { bookingId: string } }
+  { params }: { params: Promise<{ bookingId: string }> }
 ) {
   try {
     const session = await getServerSession();
@@ -16,8 +16,9 @@ export async function PUT(
       );
     }
 
-    const bookingId = parseInt(params.bookingId);
-    if (isNaN(bookingId)) {
+    const { bookingId } = await params;
+    const bookingIdNum = parseInt(bookingId);
+    if (isNaN(bookingIdNum)) {
       return NextResponse.json(
         { error: 'Invalid booking ID' },
         { status: 400 }

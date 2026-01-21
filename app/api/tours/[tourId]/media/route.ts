@@ -4,9 +4,10 @@ import { query } from '@/lib/db';
 // Upload multiple images/videos for a tour
 export async function POST(
   request: NextRequest,
-  { params }: { params: { tourId: string } }
+  { params }: { params: Promise<{ tourId: string }> }
 ) {
   try {
+    const { tourId } = await params;
     const body = await request.json();
     const { files } = body; // Array of uploaded file objects from Cloudinary
 
@@ -24,7 +25,7 @@ export async function POST(
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
          RETURNING *`,
         [
-          params.tourId,
+          tourId,
           file.url,
           file.originalFilename || `Tour ${file.resourceType} ${index + 1}`,
           index === 0, // First file is main by default
@@ -56,14 +57,15 @@ export async function POST(
 // Get all images/videos for a tour
 export async function GET(
   request: NextRequest,
-  { params }: { params: { tourId: string } }
+  { params }: { params: Promise<{ tourId: string }> }
 ) {
   try {
+    const { tourId } = await params;
     const result = await query(
       `SELECT * FROM "TourImage" 
        WHERE "tourId" = $1 
        ORDER BY "isMain" DESC, "createdAt" ASC`,
-      [params.tourId]
+      [tourId]
     );
 
     return NextResponse.json({

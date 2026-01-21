@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession();
@@ -16,7 +16,8 @@ export async function DELETE(
       );
     }
 
-    const reviewId = parseInt(params.id);
+    const { id } = await params;
+    const reviewId = parseInt(id);
 
     const result = await query(
       'DELETE FROM "Review" WHERE id = $1 RETURNING id',

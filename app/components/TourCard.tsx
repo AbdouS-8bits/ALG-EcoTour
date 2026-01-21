@@ -3,8 +3,9 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, Calendar, Mountain, Users, Star } from 'lucide-react';
+import { MapPin, Calendar, Mountain, Users, Star, Heart, Eye } from 'lucide-react';
 import { useState } from 'react';
+import ReactionButton from '@/app/components/social/ReactionButton';
 
 interface Tour {
   id: string | number;
@@ -29,6 +30,7 @@ interface TourCardProps {
 
 export default function TourCard({ tour, index }: TourCardProps) {
   const [imgError, setImgError] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   
   // صور محلية بديلة
   const fallbackImages = [
@@ -48,103 +50,120 @@ export default function TourCard({ tour, index }: TourCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ scale: 1.02 }}
-      className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group"
+      whileHover={{ y: -5 }}
+      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden group"
     >
-      <div className="relative h-48 overflow-hidden">
+      {/* Image Container */}
+      <div className="relative h-56 overflow-hidden">
         {imgError ? (
           <div className="w-full h-full bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
-            <Mountain className="w-16 h-16 text-white/50" />
+            <Mountain className="w-20 h-20 text-white/30" />
           </div>
         ) : (
           <Image
             src={tour.photoURL || randomFallback}
             alt={tour.title}
             fill
-            className="object-cover group-hover:scale-110 transition-transform duration-500"
+            className="object-cover group-hover:scale-110 transition-transform duration-700"
             loading="lazy"
             onError={() => setImgError(true)}
-            priority={false}
+            priority={index < 4}
           />
         )}
         
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
         
         {/* Status Badge */}
         <div className="absolute top-4 right-4">
-          <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColor}`}>
+          <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColor} backdrop-blur-sm`}>
             {statusText}
           </span>
         </div>
+
+        {/* Quick Actions */}
+        <div className="absolute top-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="flex gap-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setIsLiked(!isLiked);
+              }}
+              className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600 hover:text-red-500 transition-colors"
+            >
+              <Heart className={`w-4 h-4 ${isLiked ? 'fill-current text-red-500' : ''}`} />
+            </button>
+            <div className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-600">
+              <Eye className="w-4 h-4" />
+            </div>
+          </div>
+        </div>
+
+        {/* Rating Badge */}
+        {tour.rating && (
+          <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="flex items-center gap-1 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg">
+              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+              <span className="text-sm font-semibold text-gray-900">{tour.rating.toFixed(1)}</span>
+              <span className="text-xs text-gray-600">({tour.reviews || 0})</span>
+            </div>
+          </div>
+        )}
       </div>
       
+      {/* Content */}
       <div className="p-6">
         {/* Title */}
-        <h3 className="text-xl font-semibold mb-2 text-gray-900 line-clamp-1">
+        <h3 className="text-xl font-bold mb-3 text-gray-900 line-clamp-2 group-hover:text-green-600 transition-colors">
           {tour.title}
         </h3>
 
         {/* Location */}
-        <div className="flex items-center text-gray-600 text-sm mb-3">
-          <MapPin size={16} className="ml-1" />
+        <div className="flex items-center text-gray-600 text-sm mb-4">
+          <MapPin size={16} className="ml-2 text-green-500" />
           <span>{tour.location}</span>
         </div>
 
         {/* Duration & Participants */}
-        <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
+        <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
           <div className="flex items-center">
-            <Calendar size={16} className="ml-1" />
+            <Calendar size={16} className="ml-1 text-blue-500" />
             <span>{tour.duration} يوم</span>
           </div>
           <div className="flex items-center">
-            <Users size={16} className="ml-1" />
+            <Users size={16} className="ml-1 text-purple-500" />
             <span>{tour.maxParticipants} شخص</span>
           </div>
         </div>
 
-        {/* Rating */}
-        {tour.rating && (
-          <div className="flex items-center mb-3">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-4 h-4 ${
-                    i < Math.floor(tour.rating!)
-                      ? 'text-yellow-400 fill-current'
-                      : 'text-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="text-sm text-gray-600 mr-2">
-              ({tour.reviews || 0} تقييم)
-            </span>
-          </div>
-        )}
-        
         {/* Description */}
-        <p className="text-gray-600 mb-4 line-clamp-2">
+        <p className="text-gray-600 mb-4 line-clamp-3 text-sm leading-relaxed">
           {tour.description}
         </p>
-        
-        {/* Price and Button */}
-        <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-between">
+
+        {/* Price and Reactions */}
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col">
             <div className="text-2xl font-bold text-green-600">
               {tour.price.toLocaleString()} د.ج
             </div>
-            <div className="text-sm text-gray-600">للشخص</div>
+            <div className="text-sm text-gray-500">للشخص</div>
           </div>
           
-          <Link 
-            href={`/EcoTour/${tour.id}`}
-            className="block w-full text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors font-medium"
-          >
-            عرض التفاصيل
-          </Link>
+          {/* Mini Reaction Button */}
+          <ReactionButton 
+            tourId={tour.id.toString()}
+            className="scale-75"
+          />
         </div>
+        
+        {/* CTA Button */}
+        <Link 
+          href={`/EcoTour/${tour.id}`}
+          className="block w-full text-center px-6 py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-xl hover:from-green-700 hover:to-teal-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+        >
+          عرض التفاصيل
+        </Link>
       </div>
     </motion.div>
   );

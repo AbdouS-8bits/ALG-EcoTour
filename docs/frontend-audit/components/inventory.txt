@@ -1,0 +1,29 @@
+=== COMPONENTS BY TYPE ===
+## UI Components
+components/tours/ShareButtons.tsx
+components/tours/TourCard.tsx
+components/bookings/BookingCard.tsx
+components/bookings/BookingForm.tsx
+components/bookings/ConfirmationModal.tsx
+components/payment/PaymentForm.tsx
+## Layout Components
+components/layout/Sidebar.tsx
+components/layout/Footer.tsx
+components/layout/Header.tsx
+## Feature Components
+components/tours/TourGrid.tsx
+components/tours/ShareButtons.tsx
+components/tours/RelatedTours.tsx
+components/tours/TourRating.tsx
+components/tours/TourReviews.tsx
+components/tours/TourMap.tsx
+components/tours/ImageGallery.tsx
+components/tours/TourFilters.tsx
+components/tours/TourCard.tsx
+components/admin/BookingsChart.tsx
+components/booking/BookingFlow.tsx
+components/TourMediaManager.tsx
+components/bookings/BookingCard.tsx
+components/bookings/BookingForm.tsx
+components/bookings/Toast.tsx
+components/bookings/ConfirmationModal.tsx

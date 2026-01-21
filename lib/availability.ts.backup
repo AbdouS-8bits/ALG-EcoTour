@@ -1,0 +1,298 @@
+import { prisma } from './prisma';
+
+export interface TourAvailability {
+  id: number;
+  tourId: number;
+  date: Date;
+  isAvailable: boolean;
+  maxBookings: number;
+  currentBookings: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreateAvailabilityData {
+  tourId: number;
+  date: Date;
+  isAvailable?: boolean;
+  maxBookings?: number;
+}
+
+export interface UpdateAvailabilityData {
+  isAvailable?: boolean;
+  maxBookings?: number;
+  currentBookings?: number;
+}/
+
+/**
+ * Get availability for a specific tour
+ */
+export async function getTourAvailability(tourId: number, startDate?: Date, endDate?: Date): Promise<TourAvailability[]> {
+  try {
+    const where: any = { tourId };
+    
+    if (startDate && endDate) {
+      where.date = {
+        gte: startDate,
+        lte: endDate,
+      };
+    } else if (startDate) {
+      where.date = {
+        gte: startDate,
+      };
+    } else if (endDate) {
+      where.date = {
+        lte: endDate,
+      };
+    }
+
+    const availability = await prisma.tourAvailability.findMany({
+      where,
+      orderBy: {
+        date: 'asc',
+      },
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error fetching tour availability:', error);
+    throw new Error('Failed to fetch tour availability');
+  }
+}
+
+/**
+ * Get availability for a specific date
+ */
+export async function getTourAvailabilityForDate(tourId: number, date: Date): Promise<TourAvailability | null> {
+  try {
+    const availability = await prisma.tourAvailability.findUnique({
+      where: {
+        tourId_date: {
+          tourId,
+          date,
+        },
+      },
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error fetching tour availability for date:', error);
+    throw new Error('Failed to fetch tour availability for date');
+  }
+}
+
+/**
+ * Create availability record
+ */
+export async function createAvailability(data: CreateAvailabilityData): Promise<TourAvailability> {
+  try {
+    const availability = await prisma.tourAvailability.create({
+      data,
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error creating availability:', error);
+    throw new Error('Failed to create availability');
+  }
+}
+
+/**
+ * Update availability record
+ */
+export async function updateAvailability(tourId: number, date: Date, data: UpdateAvailabilityData): Promise<TourAvailability> {
+  try {
+    const availability = await prisma.tourAvailability.update({
+      where: {
+        tourId_date: {
+          tourId,
+          date,
+        },
+      },
+      data,
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error updating availability:', error);
+    throw new Error('Failed to update availability');
+  }
+}
+
+/**
+ * Delete availability record
+ */
+export async function deleteAvailability(tourId: number, date: Date): Promise<void> {
+  try {
+    await prisma.tourAvailability.delete({
+      where: {
+        tourId_date: {
+          tourId,
+          date,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Error deleting availability:', error);
+    throw new Error('Failed to delete availability');
+  }
+}
+
+/**
+ * Check if a date is available for booking
+ */
+export async function isDateAvailable(tourId: number, date: Date): Promise<boolean> {
+  try {
+    const availability = await getTourAvailabilityForDate(tourId, date);
+    
+    if (!availability) {
+      // If no availability record exists, assume available
+      return true;
+    }
+
+    return availability.isAvailable && availability.currentBookings < availability.maxBookings;
+  } catch (error) {
+    console.error('Error checking date availability:', error);
+    return false;
+  }
+}
+
+/**
+ * Increment current bookings for a date
+ */
+export async function incrementBookings(tourId: number, date: Date): Promise<TourAvailability> {
+  try {
+    const availability = await prisma.tourAvailability.update({
+      where: {
+        tourId_date: {
+          tourId,
+          date,
+        },
+      },
+      data: {
+        currentBookings: {
+          increment: 1,
+        },
+      },
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error incrementing bookings:', error);
+    throw new Error('Failed to increment bookings');
+  }
+}
+
+/**
+ * Decrement current bookings for a date
+ */
+export async function decrementBookings(tourId: number, date: Date): Promise<TourAvailability> {
+  try {
+    const availability = await prisma.tourAvailability.update({
+      where: {
+        tourId_date: {
+          tourId,
+          date,
+        },
+      },
+      data: {
+        currentBookings: {
+          decrement: 1,
+        },
+      },
+    });
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error decrementing bookings:', error);
+    throw new Error('Failed to decrement bookings');
+  }
+}
+
+/**
+ * Generate availability for a date range
+ */
+export async function generateAvailabilityForTour(
+  tourId: number, 
+  startDate: Date, 
+  endDate: Date, 
+  options: {
+    maxBookings?: number;
+    unavailableDates?: Date[];
+  } = {}
+): Promise<TourAvailability[]> {
+  try {
+    const { maxBookings = 10, unavailableDates = [] } = options;
+    
+    const availability: TourAvailability[] = [];
+    const currentDate = new Date(startDate);
+    
+    while (currentDate <= endDate) {
+      const dateStr = currentDate.toISOString().split('T')[0]; // YYYY-MM-DD format
+      const isUnavailable = unavailableDates.some(date => 
+        date.toISOString().split('T')[0] === dateStr
+      );
+      
+      const availabilityData = {
+        tourId,
+        date: new Date(dateStr),
+        isAvailable: !isUnavailable,
+        maxBookings,
+        currentBookings: 0,
+      };
+
+      // Check if availability already exists
+      const existing = await getTourAvailabilityForDate(tourId, new Date(dateStr));
+      
+      if (!existing) {
+        const created = await createAvailability(availabilityData);
+        availability.push(created);
+      } else {
+        availability.push(existing);
+      }
+      
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return availability as any;
+  } catch (error) {
+    console.error('Error generating availability:', error);
+    throw new Error('Failed to generate availability');
+  }
+}
+
+/**
+ * Get available dates for a tour
+ */
+export async function getAvailableDates(tourId: number, startDate?: Date, endDate?: Date): Promise<Date[]> {
+  try {
+    const availability = await getTourAvailability(tourId, startDate, endDate);
+    
+    const availableDates = availability
+      .filter(a => a.isAvailable && a.currentBookings < a.maxBookings)
+      .map(a => a.date);
+
+    return availableDates;
+  } catch (error) {
+    console.error('Error getting available dates:', error);
+    throw new Error('Failed to get available dates');
+  }
+}
+
+/**
+ * Get unavailable dates for a tour
+ */
+export async function getUnavailableDates(tourId: number, startDate?: Date, endDate?: Date): Promise<Date[]> {
+  try {
+    const availability = await getTourAvailability(tourId, startDate, endDate);
+    
+    const unavailableDates = availability
+      .filter(a => !a.isAvailable || a.currentBookings >= a.maxBookings)
+      .map(a => a.date);
+
+    return unavailableDates;
+  } catch (error) {
+    console.error('Error getting unavailable dates:', error);
+    throw new Error('Failed to get unavailable dates');
+  }
+}
