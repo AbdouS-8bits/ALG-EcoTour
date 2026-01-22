@@ -16,6 +16,9 @@ async function checkSessions() {
       }
     });
 
+
+    // Log all sessions
+
     console.log(`📊 Total sessions in database: ${allSessions.length}\n`);
 
     if (allSessions.length > 0) {
