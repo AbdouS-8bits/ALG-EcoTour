@@ -25,15 +25,56 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  bookings Booking[]
-  reviews  Review[]
-  logs     AdminAuditLog[]
+  bookings        Booking[]
+  reviews         Review[]
+  logs            AdminAuditLog[]
+  reviewMessages  ReviewMessage[]
+  sentMessages    Message[] @relation("SentMessages")
+  receivedMessages Message[] @relation("ReceivedMessages")
+  
+  // Support system relations
+  supportSessionsAsUser  SupportSession[] @relation("UserSessions")
+  supportSessionsAsAgent SupportSession[] @relation("AgentSessions")
 
   @@index([verificationToken])
   @@index([resetPasswordToken])
   @@map("users")
 }
 
+model SupportSession {
+  id          String   @id @default(cuid())
+  userId      Int?
+  user        User?    @relation("UserSessions", fields: [userId], references: [id])
+  userName    String
+  userEmail   String
+  agentId     Int?
+  agent       User?    @relation("AgentSessions", fields: [agentId], references: [id])
+  agentName   String?
+  status      String   @default("waiting") // waiting, active, closed
+  startedAt   DateTime @default(now())
+  closedAt    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  messages    SupportMessage[]
+
+  @@index([status])
+  @@index([agentId])
+  @@map("support_sessions")
+}
+
+model SupportMessage {
+  id          String         @id @default(cuid())
+  sessionId   String
+  session     SupportSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  message     String         @db.Text
+  senderType  String         // user or agent
+  senderName  String
+  timestamp   DateTime       @default(now())
+
+  @@index([sessionId])
+  @@map("support_messages")
+}
 
 model AdminAuditLog {
   id        Int      @id @default(autoincrement())
@@ -100,8 +141,49 @@ model Review {
   user      User     @relation(fields: [userId], references: [id])
   rating    Int      // 1-5 stars
   comment   String?  @db.Text
+  likes     Int      @default(0)
+  helpful   Int      @default(0)
+  reported  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  messages  ReviewMessage[]
+
+  @@index([tourId])
+  @@index([userId])
+}
+
+model ReviewMessage {
+  id        Int      @id @default(autoincrement())
+  reviewId  Int
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  message   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([reviewId])
+  @@index([userId])
+  @@map("review_messages")
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  senderId   Int
+  sender     User     @relation("SentMessages", fields: [senderId], references: [id])
+  receiverId Int
+  receiver   User     @relation("ReceivedMessages", fields: [receiverId], references: [id])
+  subject    String?
+  content    String   @db.Text
+  read       Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([senderId])
+  @@index([receiverId])
+  @@index([read])
+  @@map("messages")
 }
 
 model Category {

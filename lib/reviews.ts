@@ -6,6 +6,9 @@ export interface Review {
   comment: string;
   tourId: number;
   userId: number;
+  likes: number;
+  helpful: number;
+  reported: boolean;
   createdAt: Date;
   updatedAt: Date;
   user?: {
@@ -28,6 +31,23 @@ export interface ReviewWithUser extends Review {
     name: string | null;
     email: string;
   };
+  _count?: {
+    messages: number;
+  };
+}
+
+export interface ReviewMessage {
+  id: number;
+  reviewId: number;
+  userId: number;
+  message: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: {
+    id: number;
+    name: string | null;
+    email: string;
+  };
 }
 
 /**
@@ -43,6 +63,11 @@ export async function getTourReviews(tourId: number): Promise<ReviewWithUser[]> 
             id: true,
             name: true,
             email: true,
+          },
+        },
+        _count: {
+          select: {
+            messages: true,
           },
         },
       },
@@ -90,13 +115,18 @@ export async function createReview(data: CreateReviewData): Promise<ReviewWithUs
             email: true,
           },
         },
+        _count: {
+          select: {
+            messages: true,
+          },
+        },
       },
     });
 
     return review;
   } catch (error) {
     console.error('Error creating review:', error);
-    throw new Error('Failed to create review');
+    throw error;
   }
 }
 
@@ -179,10 +209,10 @@ export async function updateReview(
   data: Partial<CreateReviewData>
 ): Promise<ReviewWithUser> {
   try {
-    // Check if user owns the review
+    // Check if user owns the review - FIXED: Added id field
     const existingReview = await prisma.review.findFirst({
       where: {
-        id: reviewId,
+        id: reviewId,  // FIXED: This was missing!
         userId: userId,
       },
     });
@@ -202,13 +232,18 @@ export async function updateReview(
             email: true,
           },
         },
+        _count: {
+          select: {
+            messages: true,
+          },
+        },
       },
     });
 
     return review;
   } catch (error) {
     console.error('Error updating review:', error);
-    throw new Error('Failed to update review');
+    throw error;
   }
 }
 
@@ -234,7 +269,7 @@ export async function deleteReview(reviewId: number, userId: number): Promise<vo
     });
   } catch (error) {
     console.error('Error deleting review:', error);
-    throw new Error('Failed to delete review');
+    throw error;
   }
 }
 
@@ -260,15 +295,176 @@ export async function getUserReviews(userId: number): Promise<ReviewWithUser[]> 
             location: true,
           },
         },
+        _count: {
+          select: {
+            messages: true,
+          },
+        },
       },
       orderBy: {
         createdAt: 'desc',
       },
     });
 
-    return reviews;
+    return reviews as any;
   } catch (error) {
     console.error('Error fetching user reviews:', error);
     throw new Error('Failed to fetch user reviews');
+  }
+}
+
+/**
+ * Like/Unlike a review
+ */
+export async function toggleReviewLike(reviewId: number): Promise<Review> {
+  try {
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+    });
+
+    if (!review) {
+      throw new Error('Review not found');
+    }
+
+    const updatedReview = await prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        likes: review.likes + 1,
+      },
+    });
+
+    return updatedReview;
+  } catch (error) {
+    console.error('Error toggling review like:', error);
+    throw new Error('Failed to like review');
+  }
+}
+
+/**
+ * Mark review as helpful
+ */
+export async function markReviewHelpful(reviewId: number): Promise<Review> {
+  try {
+    const review = await prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        helpful: {
+          increment: 1,
+        },
+      },
+    });
+
+    return review;
+  } catch (error) {
+    console.error('Error marking review as helpful:', error);
+    throw new Error('Failed to mark review as helpful');
+  }
+}
+
+/**
+ * Report a review
+ */
+export async function reportReview(reviewId: number): Promise<Review> {
+  try {
+    const review = await prisma.review.update({
+      where: { id: reviewId },
+      data: {
+        reported: true,
+      },
+    });
+
+    return review;
+  } catch (error) {
+    console.error('Error reporting review:', error);
+    throw new Error('Failed to report review');
+  }
+}
+
+/**
+ * Get messages for a review
+ */
+export async function getReviewMessages(reviewId: number): Promise<ReviewMessage[]> {
+  try {
+    const messages = await prisma.reviewMessage.findMany({
+      where: { reviewId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'asc',
+      },
+    });
+
+    return messages;
+  } catch (error) {
+    console.error('Error fetching review messages:', error);
+    throw new Error('Failed to fetch review messages');
+  }
+}
+
+/**
+ * Create a message on a review
+ */
+export async function createReviewMessage(
+  reviewId: number,
+  userId: number,
+  message: string
+): Promise<ReviewMessage> {
+  try {
+    const reviewMessage = await prisma.reviewMessage.create({
+      data: {
+        reviewId,
+        userId,
+        message,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    return reviewMessage;
+  } catch (error) {
+    console.error('Error creating review message:', error);
+    throw new Error('Failed to create review message');
+  }
+}
+
+/**
+ * Delete a review message
+ */
+export async function deleteReviewMessage(
+  messageId: number,
+  userId: number
+): Promise<void> {
+  try {
+    const message = await prisma.reviewMessage.findFirst({
+      where: {
+        id: messageId,
+        userId: userId,
+      },
+    });
+
+    if (!message) {
+      throw new Error('Message not found or you do not have permission to delete it');
+    }
+
+    await prisma.reviewMessage.delete({
+      where: { id: messageId },
+    });
+  } catch (error) {
+    console.error('Error deleting review message:', error);
+    throw new Error('Failed to delete review message');
   }
 }

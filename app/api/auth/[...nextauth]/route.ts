@@ -65,7 +65,7 @@ const handler = NextAuth({
     })
   ],
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user, trigger }) {
       if (user) {
         token.id = user.id;
         token.role = user.role;
@@ -87,9 +87,15 @@ const handler = NextAuth({
   session: {
     strategy: "jwt",
     maxAge: 60 * 60 * 24 * 7, // 7 days
+    updateAge: 60 * 60 * 24, // Update session every 24 hours (reduces API calls)
+  },
+  jwt: {
+    maxAge: 60 * 60 * 24 * 7, // 7 days
   },
   secret: process.env.NEXTAUTH_SECRET,
   debug: process.env.NODE_ENV === 'development',
+  // Reduce the frequency of session checks
+  events: {},
 });
 
 export { handler as GET, handler as POST };

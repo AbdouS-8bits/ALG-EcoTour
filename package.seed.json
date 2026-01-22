@@ -1,0 +1,6 @@
+{
+  "name": "alg-ecotour",
+  "scripts": {
+    "seed:reviews": "ts-node -r tsconfig-paths/register prisma/seed-reviews.ts"
+  }
+}
