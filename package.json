@@ -13,7 +13,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:create-admin": "tsx scripts/create-admin.ts",
     "db:create-test-user": "tsx scripts/create-test-user.ts",
-    "db:seed-jijel-tour": "tsx scripts/seed-jijel-tour.ts"
+    "db:seed-jijel-tour": "tsx scripts/seed-jijel-tour.ts",
+    "db:check": "tsx scripts/check-db.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -22,6 +23,7 @@
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.8.0",
     "date-fns": "^4.1.0",
+    "dotenv": "^17.2.3",
     "framer-motion": "^12.24.0",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.562.0",

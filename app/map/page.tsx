@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { MapPin, Filter, Map, Navigation, X } from 'lucide-react';
+import { MapPin, Filter, Map, Navigation, X, Route } from 'lucide-react';
+import Link from 'next/link';
 
 // Dynamic imports for SSR compatibility
 const MapContainer = dynamic(
@@ -46,35 +47,15 @@ interface FilterState {
   userLocation?: { lat: number; lng: number };
 }
 
-// Algerian regions for filtering
+// Algerian regions for filtering - FIXED COORDINATES
 const algerianRegions = [
-  { id: 'all', name: 'All Regions', center: [28.0, 1.6] as [number, number] },
+  { id: 'all', name: 'All Regions', center: [28.0, 3.0] as [number, number] }, // Center of Algeria
   { id: 'north', name: 'North', center: [36.5, 3.0] as [number, number] },
   { id: 'center', name: 'Center', center: [35.0, 2.5] as [number, number] },
-  { id: 'east', name: 'East', center: [33.5, 6.0] as [number, number] },
-  { id: 'west', name: 'West', center: [32.0, -1.0] as [number, number] },
+  { id: 'east', name: 'East', center: [36.0, 6.0] as [number, number] }, // Jijel area
+  { id: 'west', name: 'West', center: [35.0, -1.0] as [number, number] },
   { id: 'south', name: 'South', center: [26.0, 2.0] as [number, number] },
 ];
-
-// Sample GeoJSON data for demonstration (can be replaced with real data)
-const sampleGeoJSON = {
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      properties: {
-        name: "Sahara Desert Region",
-        description: "Major desert tourism area"
-      },
-      geometry: {
-        type: "Polygon",
-        coordinates: [[
-          [-5, 20], [10, 20], [10, 30], [-5, 30], [-5, 20]
-        ]]
-      }
-    }
-  ]
-};
 
 export default function GISMapPage() {
   const [tours, setTours] = useState<Tour[]>([]);
@@ -87,7 +68,6 @@ export default function GISMapPage() {
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
-  const [geoJSONData, setGeoJSONData] = useState<any>(null);
 
   useEffect(() => {
     setMounted(true);
@@ -102,27 +82,14 @@ export default function GISMapPage() {
         const toursResponse = await fetch('/api/tours');
         if (toursResponse.ok) {
           const toursData = await toursResponse.json();
-          setTours(toursData);
           
           // Add region information based on coordinates
-          const toursWithRegion = toursData.map((tour: Tour) => ({
+          const toursWithRegion = (toursData.tours || toursData || []).map((tour: Tour) => ({
             ...tour,
             region: getRegionFromCoordinates(tour.latitude, tour.longitude)
           }));
           
           setTours(toursWithRegion);
-        }
-
-        // Try to load GeoJSON data (optional)
-        try {
-          const geoResponse = await fetch('/api/geojson');
-          if (geoResponse.ok) {
-            const geoData = await geoResponse.json();
-            setGeoJSONData(geoData);
-          }
-        } catch (geoError) {
-          // Use sample data if no GeoJSON endpoint exists
-          setGeoJSONData(sampleGeoJSON);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -154,9 +121,13 @@ export default function GISMapPage() {
     }
   };
 
-  // Determine region based on coordinates
+  // Determine region based on coordinates - FIXED
   const getRegionFromCoordinates = (lat: number | null, lng: number | null): string => {
     if (!lat || !lng) return 'unknown';
+    
+    // Algeria longitude range is roughly -8.7 to 12
+    // Algeria latitude range is roughly 19 to 37
+    if (lng < -8.7 || lng > 12 || lat < 19 || lat > 37) return 'unknown';
     
     if (lat > 34) return 'north';
     if (lat > 30) return 'center';
@@ -213,7 +184,7 @@ export default function GISMapPage() {
     (tour) => tour.latitude !== null && tour.longitude !== null
   );
 
-  // Calculate center point for map
+  // Calculate center point for map - FIXED DEFAULT TO ALGERIA
   const getMapCenter = (): [number, number] => {
     const selectedRegion = algerianRegions.find(r => r.id === filters.region);
     if (selectedRegion && filters.region !== 'all') {
@@ -225,7 +196,7 @@ export default function GISMapPage() {
     }
     
     if (toursWithCoordinates.length === 0) {
-      return [36.7538, 3.0588]; // Default to Algiers
+      return [36.7538, 3.0588]; // Algiers, Algeria
     }
     
     const avgLat = toursWithCoordinates.reduce((sum, tour) => sum + tour.latitude!, 0) / toursWithCoordinates.length;
@@ -270,8 +241,17 @@ export default function GISMapPage() {
               </span>
             </div>
             
-            {/* Filter Toggle Button */}
-            <div className="flex items-center space-x-4">
+            {/* Action Buttons */}
+            <div className="flex items-center space-x-3">
+              {/* Link to Interactive Jijel Tour */}
+              <Link
+                href="/tours/jijel"
+                className="flex items-center px-4 py-2 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-lg text-sm font-medium hover:from-green-700 hover:to-teal-700 transition-all shadow-sm"
+              >
+                <Route className="h-4 w-4 mr-2" />
+                Jijel Route Explorer
+              </Link>
+              
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className={`flex items-center px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
@@ -362,35 +342,12 @@ export default function GISMapPage() {
             zoom={6}
             style={{ height: '100%', width: '100%' }}
             scrollWheelZoom={true}
+            key={filters.region} // Force re-render when region changes
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
-            
-            {/* GeoJSON Overlay */}
-            {geoJSONData && (
-              <GeoJSON
-                data={geoJSONData}
-                style={{
-                  color: '#10b981',
-                  weight: 2,
-                  opacity: 0.6,
-                  fillOpacity: 0.1,
-                  fillColor: '#10b981'
-                }}
-                onEachFeature={(feature, layer) => {
-                  if (feature.properties) {
-                    layer.bindPopup(`
-                      <div class="p-2">
-                        <h3 class="font-semibold">${feature.properties.name || 'Region'}</h3>
-                        <p class="text-sm text-gray-600">${feature.properties.description || 'Geographic area'}</p>
-                      </div>
-                    `);
-                  }
-                }}
-              />
-            )}
             
             {/* Tour Markers */}
             {toursWithCoordinates.map((tour) => (
@@ -422,7 +379,7 @@ export default function GISMapPage() {
                         )}
                         <div className="flex items-center justify-between">
                           <span className="text-emerald-600 font-bold text-sm">
-                            ${tour.price}
+                            {tour.price} DZD
                           </span>
                           <a
                             href={`/ecoTour/${tour.id}`}
@@ -443,7 +400,7 @@ export default function GISMapPage() {
 
       {/* No Tours Message */}
       {toursWithCoordinates.length === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 bg-opacity-90">
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-50 bg-opacity-90 pointer-events-none">
           <div className="text-center">
             <MapPin className="h-12 w-12 text-gray-400 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
