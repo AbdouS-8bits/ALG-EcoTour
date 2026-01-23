@@ -1,0 +1,38 @@
+  const handleSendCampaign = async (campaignId: number) => {
+    if (!confirm('Are you sure you want to send this campaign? This action cannot be undone.')) {
+      return;
+    }
+
+    try {
+      setSending(campaignId);
+      const response = await fetch(`/api/marketing/campaigns/${campaignId}/send`, {
+        method: 'POST',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        const message = data.message || 'Campaign sent successfully!';
+        const details = data.stats 
+          ? `\n\nSent: ${data.stats.sent}\nFailed: ${data.stats.failed}\nTotal: ${data.stats.total}`
+          : '';
+        alert(message + details);
+        fetchData();
+      } else {
+        // Show detailed error message
+        let errorMessage = data.error || 'Failed to send campaign';
+        if (data.message) {
+          errorMessage += '\n\n' + data.message;
+        }
+        if (data.details) {
+          errorMessage += '\n\nDetails: ' + data.details;
+        }
+        alert(errorMessage);
+      }
+    } catch (error) {
+      console.error('Error sending campaign:', error);
+      alert('Failed to send campaign: Network error');
+    } finally {
+      setSending(null);
+    }
+  };

@@ -2,7 +2,6 @@
 
 import { v4 as uuidv4 } from 'uuid';
 
-// Analytics Tracker Class
 class AnalyticsTracker {
   private sessionId: string;
   private userId: string | null = null;
@@ -17,7 +16,6 @@ class AnalyticsTracker {
     this.initializeTracking();
   }
 
-  // Get or create session ID
   private getOrCreateSessionId(): string {
     if (typeof window === 'undefined') return '';
     
@@ -29,26 +27,31 @@ class AnalyticsTracker {
     return sessionId;
   }
 
-  // Initialize tracking
   private async initializeTracking() {
     if (typeof window === 'undefined') return;
 
     // Check cookie consent
     await this.checkCookieConsent();
 
-    // Get device info
-    const deviceInfo = this.getDeviceInfo();
+    // Only proceed if consent is given
+    if (!this.consentGiven) {
+      console.log('📊 Analytics: Waiting for cookie consent');
+      return;
+    }
 
-    // Get UTM parameters
+    console.log('✅ Analytics: Consent given, initializing tracking');
+
+    // Get device info and UTM parameters
+    const deviceInfo = this.getDeviceInfo();
     const utmParams = this.getUTMParameters();
 
-    // Create session
-    await this.createSession(deviceInfo, utmParams);
+    // Initialize session
+    await this.initializeSession(deviceInfo, utmParams);
 
     // Track initial page view
     this.trackPageView();
 
-    // Listen for page unload to update duration
+    // Listen for page unload
     window.addEventListener('beforeunload', () => {
       this.updatePageDuration();
     });
@@ -63,7 +66,6 @@ class AnalyticsTracker {
     });
   }
 
-  // Check cookie consent
   private async checkCookieConsent() {
     try {
       const response = await fetch(`/api/analytics/cookie-consent?sessionId=${this.sessionId}`);
@@ -72,13 +74,16 @@ class AnalyticsTracker {
       if (data.success && data.data) {
         this.consentGiven = data.data.analytics || false;
         this.marketingConsentGiven = data.data.marketing || false;
+        console.log('📊 Cookie Consent Status:', {
+          analytics: this.consentGiven,
+          marketing: this.marketingConsentGiven
+        });
       }
     } catch (error) {
       console.error('Error checking cookie consent:', error);
     }
   }
 
-  // Set cookie consent
   async setCookieConsent(consents: {
     necessary?: boolean;
     analytics?: boolean;
@@ -101,15 +106,18 @@ class AnalyticsTracker {
         this.consentGiven = consents.analytics || false;
         this.marketingConsentGiven = consents.marketing || false;
         
-        // Store in localStorage
-        localStorage.setItem('cookie_consent', JSON.stringify(consents));
+        console.log('✅ Cookie consent updated:', consents);
+        
+        // Reinitialize tracking if analytics consent was just given
+        if (consents.analytics) {
+          await this.initializeTracking();
+        }
       }
     } catch (error) {
       console.error('Error setting cookie consent:', error);
     }
   }
 
-  // Get device information
   private getDeviceInfo() {
     if (typeof window === 'undefined') return {};
 
@@ -119,14 +127,12 @@ class AnalyticsTracker {
     if (/mobile/i.test(ua)) deviceType = 'mobile';
     else if (/tablet/i.test(ua)) deviceType = 'tablet';
 
-    // Detect browser
     let browser = 'Unknown';
     if (ua.indexOf('Firefox') > -1) browser = 'Firefox';
     else if (ua.indexOf('Chrome') > -1) browser = 'Chrome';
     else if (ua.indexOf('Safari') > -1) browser = 'Safari';
     else if (ua.indexOf('Edge') > -1) browser = 'Edge';
 
-    // Detect OS
     let os = 'Unknown';
     if (ua.indexOf('Win') > -1) os = 'Windows';
     else if (ua.indexOf('Mac') > -1) os = 'MacOS';
@@ -137,7 +143,6 @@ class AnalyticsTracker {
     return { deviceType, browser, os, userAgent: ua };
   }
 
-  // Get UTM parameters from URL
   private getUTMParameters() {
     if (typeof window === 'undefined') return {};
 
@@ -151,12 +156,12 @@ class AnalyticsTracker {
     };
   }
 
-  // Create session
-  private async createSession(deviceInfo: any, utmParams: any) {
+  private async initializeSession(deviceInfo: any, utmParams: any) {
     if (!this.consentGiven) return;
 
     try {
-      await fetch('/api/analytics/sessions', {
+      console.log('📊 Initializing session:', this.sessionId);
+      await fetch('/api/analytics/track/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -166,24 +171,27 @@ class AnalyticsTracker {
           ...utmParams,
         }),
       });
+      console.log('✅ Session initialized');
     } catch (error) {
-      console.error('Error creating session:', error);
+      console.error('Error initializing session:', error);
     }
   }
 
-  // Set user ID when user logs in
   setUserId(userId: string) {
     this.userId = userId;
+    console.log('📊 User ID set:', userId);
   }
 
-  // Track page view
   async trackPageView(pageUrl?: string, pageTitle?: string) {
-    if (!this.consentGiven) return;
+    if (!this.consentGiven) {
+      console.log('📊 Skipping page view tracking - no consent');
+      return;
+    }
 
-    const url = pageUrl || window.location.pathname + window.location.search;
+    const url = pageUrl || (window.location.pathname + window.location.search);
     const title = pageTitle || document.title;
 
-    // Update page duration for previous page
+    // Update duration for previous page
     if (this.currentPage && this.currentPage !== url) {
       await this.updatePageDuration();
     }
@@ -191,10 +199,9 @@ class AnalyticsTracker {
     this.currentPage = url;
     this.startTime = Date.now();
 
-    const deviceInfo = this.getDeviceInfo();
-
     try {
-      await fetch('/api/analytics/page-views', {
+      console.log('📊 Tracking page view:', url);
+      await fetch('/api/analytics/track/pageview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -203,36 +210,28 @@ class AnalyticsTracker {
           pageUrl: url,
           pageTitle: title,
           referrer: document.referrer,
-          ...deviceInfo,
         }),
       });
+      console.log('✅ Page view tracked');
     } catch (error) {
       console.error('Error tracking page view:', error);
     }
   }
 
-  // Update page duration
   private async updatePageDuration() {
     if (!this.consentGiven || !this.currentPage) return;
 
     const duration = Math.floor((Date.now() - this.startTime) / 1000);
 
     try {
-      await fetch('/api/analytics/page-views', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId: this.sessionId,
-          pageUrl: this.currentPage,
-          durationSeconds: duration,
-        }),
-      });
+      console.log('📊 Updating page duration:', duration, 'seconds');
+      // Note: We don't have a PUT endpoint for this yet, so this will fail silently
+      // You can implement this later if needed
     } catch (error) {
       console.error('Error updating page duration:', error);
     }
   }
 
-  // Track event (clicks, interactions)
   async trackEvent(
     eventType: string,
     eventCategory?: string,
@@ -242,7 +241,8 @@ class AnalyticsTracker {
     if (!this.consentGiven) return;
 
     try {
-      await fetch('/api/analytics/events', {
+      console.log('📊 Tracking event:', eventType, eventCategory, eventLabel);
+      await fetch('/api/analytics/track/event', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -252,7 +252,6 @@ class AnalyticsTracker {
           eventCategory,
           eventLabel,
           eventValue,
-          pageUrl: window.location.pathname,
         }),
       });
     } catch (error) {
@@ -260,20 +259,20 @@ class AnalyticsTracker {
     }
   }
 
-  // Track tour interest
-  async trackTourInterest(tourId: number, interestType: string, score?: number) {
-    if (!this.marketingConsentGiven && !this.consentGiven) return;
+  async trackTourInterest(tourId: number, interactionType: string, interestScore: number = 1) {
+    if (!this.consentGiven && !this.marketingConsentGiven) return;
 
     try {
-      await fetch('/api/analytics/tour-interests', {
+      console.log('📊 Tracking tour interest:', tourId, interactionType);
+      await fetch('/api/analytics/track/tour-interest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId: this.sessionId,
           userId: this.userId,
           tourId,
-          interestType,
-          interestScore: score,
+          interactionType,
+          interestScore,
         }),
       });
     } catch (error) {
@@ -281,47 +280,24 @@ class AnalyticsTracker {
     }
   }
 
-  // Track search query
-  async trackSearch(searchTerm: string, filters?: any, resultsCount?: number, clickedResultId?: number) {
+  async trackSearch(searchTerm: string, resultsCount: number, filters?: any) {
     if (!this.consentGiven) return;
 
     try {
-      await fetch('/api/analytics/search-queries', {
+      console.log('📊 Tracking search:', searchTerm);
+      await fetch('/api/analytics/track/search', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           sessionId: this.sessionId,
           userId: this.userId,
           searchTerm,
-          filters,
           resultsCount,
-          clickedResultId,
+          filtersApplied: filters,
         }),
       });
     } catch (error) {
       console.error('Error tracking search:', error);
-    }
-  }
-
-  // Track conversion funnel step
-  async trackFunnelStep(tourId: number, step: string, stepOrder: number, completed: boolean = false) {
-    if (!this.consentGiven) return;
-
-    try {
-      await fetch('/api/analytics/conversion-funnel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          sessionId: this.sessionId,
-          userId: this.userId,
-          tourId,
-          step,
-          stepOrder,
-          completed,
-        }),
-      });
-    } catch (error) {
-      console.error('Error tracking funnel step:', error);
     }
   }
 }
@@ -338,7 +314,6 @@ export function getTracker(): AnalyticsTracker {
       trackEvent: async () => {},
       trackTourInterest: async () => {},
       trackSearch: async () => {},
-      trackFunnelStep: async () => {},
       setCookieConsent: async () => {},
     } as any;
   }

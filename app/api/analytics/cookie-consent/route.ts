@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const {
       sessionId,
-      userId,
       necessary,
       analytics,
       marketing,
@@ -57,16 +56,15 @@ export async function POST(request: NextRequest) {
         message: 'Cookie consent updated',
       });
     } else {
-      // Create new consent
+      // Create new consent (without user_id since table doesn't have it)
       const result = await query(
         `INSERT INTO cookie_consents 
-         (session_id, user_id, necessary, analytics, marketing, preferences, 
-          ip_address, user_agent)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+         (session_id, necessary, analytics, marketing, preferences, 
+          ip_address, user_agent, created_at, updated_at)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, NOW(), NOW())
          RETURNING id`,
         [
           sessionId,
-          userId || null,
           necessary !== false,
           analytics || false,
           marketing || false,
@@ -95,35 +93,22 @@ export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const sessionId = searchParams.get('sessionId');
-    const userId = searchParams.get('userId');
 
-    if (!sessionId && !userId) {
+    if (!sessionId) {
       return NextResponse.json(
-        { success: false, error: 'Session ID or User ID is required' },
+        { success: false, error: 'Session ID is required' },
         { status: 400 }
       );
     }
 
-    let queryText = `
-      SELECT necessary, analytics, marketing, preferences, created_at, updated_at
-      FROM cookie_consents
-      WHERE 1=1
-    `;
-    const params: any[] = [];
-
-    if (sessionId) {
-      params.push(sessionId);
-      queryText += ` AND session_id = $${params.length}`;
-    }
-
-    if (userId) {
-      params.push(userId);
-      queryText += ` AND user_id = $${params.length}`;
-    }
-
-    queryText += ` ORDER BY created_at DESC LIMIT 1`;
-
-    const result = await query(queryText, params);
+    const result = await query(
+      `SELECT necessary, analytics, marketing, preferences, created_at, updated_at
+       FROM cookie_consents
+       WHERE session_id = $1
+       ORDER BY created_at DESC 
+       LIMIT 1`,
+      [sessionId]
+    );
 
     if (result.rows.length === 0) {
       return NextResponse.json({

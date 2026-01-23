@@ -1,158 +1,189 @@
-import { prisma } from './prisma';
-import { BookingMonthData, MonthlyRevenueData, TopTourData } from '@/types/api';
+// Analytics tracking utility
+import { v4 as uuidv4 } from 'uuid';
 
-export interface AnalyticsData {
-  totalTours: number;
-  totalBookings: number;
-  confirmedBookings: number;
-  pendingBookings: number;
-  totalUsers: number;
-  bookingsPerMonth: Array<{
-    month: string;
-    count: number;
-  }>;
-  recentBookings: Array<{
-    id: number;
-    guestName: string;
-    guestEmail: string;
-    status: string;
-    createdAt: Date;
-    tour?: {
-      id: number;
-      title: string;
-      location: string;
-    };
-  }>;
+// Get or create session ID
+export function getSessionId(): string {
+  if (typeof window === 'undefined') return '';
+  
+  let sessionId = sessionStorage.getItem('analytics_session_id');
+  if (!sessionId) {
+    sessionId = uuidv4();
+    sessionStorage.setItem('analytics_session_id', sessionId);
+  }
+  return sessionId;
 }
 
-/**
- * Get comprehensive analytics data for admin dashboard
- */
-export async function getAnalyticsData(): Promise<AnalyticsData> {
+// Get or create user ID (persists across sessions)
+export function getUserId(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('analytics_user_id') || null;
+}
+
+// Set user ID (when user logs in)
+export function setUserId(userId: string) {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem('analytics_user_id', userId);
+}
+
+// Track page view
+export async function trackPageView(pageUrl: string, pageTitle: string, referrer?: string) {
   try {
-    // Get booking statistics by status
-    const bookingStats = await prisma.booking.groupBy({
-      by: ['status'],
-      _count: true,
+    const sessionId = getSessionId();
+    const userId = getUserId();
+
+    await fetch('/api/analytics/track/pageview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        userId,
+        pageUrl,
+        pageTitle,
+        referrer: referrer || document.referrer,
+        timestamp: new Date().toISOString(),
+      }),
     });
-
-    const confirmedBookings = (bookingStats.find(s => s.status === 'confirmed')?._count as number) || 0;
-    const pendingBookings = (bookingStats.find(s => s.status === 'pending')?._count as number) || 0;
-    const totalBookings = confirmedBookings + pendingBookings;
-
-    // Get total users
-    const totalUsers = await prisma.user.count();
-
-    // Get total tours
-    const totalTours = await prisma.ecoTour.count();
-
-    // Get recent bookings with proper typing
-    const recentBookings = await prisma.booking.findMany({
-      take: 10,
-      orderBy: { createdAt: 'desc' },
-    });
-
-    // Get bookings per month for the last 6 months
-    const bookingsPerMonth = await prisma.$queryRaw`
-      SELECT 
-        DATE_TRUNC('month', "createdAt") as month,
-        COUNT(*) as count,
-        COALESCE(SUM(CASE WHEN status = 'confirmed' THEN price * participants ELSE 0 END), 0) as revenue
-      FROM "bookings"
-      WHERE "createdAt" >= NOW() - INTERVAL '6 months'
-      GROUP BY DATE_TRUNC('month', "createdAt")
-      ORDER BY month DESC
-    ` as BookingMonthData[];
-
-    const analyticsData: AnalyticsData = {
-      totalTours,
-      totalBookings,
-      confirmedBookings,
-      pendingBookings,
-      totalUsers,
-      bookingsPerMonth: (bookingsPerMonth as BookingMonthData[]).map((item: BookingMonthData) => ({
-        month: item.month,
-        count: parseInt(item.count),
-        revenue: parseFloat(item.revenue)
-      })),
-      recentBookings: recentBookings.map(booking => ({
-        id: booking.id,
-        guestName: booking.guestName,
-        guestEmail: booking.guestEmail,
-        status: booking.status,
-        createdAt: booking.createdAt,
-        tour: undefined // No relation available in current schema
-      }))
-    };
-    return analyticsData;
   } catch (error) {
-    console.error('Error fetching analytics data:', error);
-    throw new Error('Failed to fetch analytics data');
+    console.error('Error tracking page view:', error);
   }
 }
 
-/**
- * Get booking statistics by status (for backward compatibility)
- */
-export async function getBookingStats() {
-  return getAnalyticsData();
-}
-
-/**
- * Get monthly revenue data
- */
-export async function getMonthlyRevenue() {
+// Track custom event
+export async function trackEvent(
+  eventType: string,
+  eventCategory?: string,
+  eventLabel?: string,
+  eventValue?: number,
+  metadata?: Record<string, any>
+) {
   try {
-    const revenueData = await prisma.$queryRaw`
-      SELECT 
-        DATE_TRUNC('month', "createdAt") as month,
-        SUM(b."participants" * t."price") as revenue
-      FROM "bookings" b
-      JOIN "eco_tours" t ON b."tourId" = t."id"
-      WHERE b."status" = 'confirmed'
-        AND b."createdAt" >= NOW() - INTERVAL '12 months'
-      GROUP BY DATE_TRUNC('month', "createdAt")
-      ORDER BY month ASC
-    ` as MonthlyRevenueData[];
+    const sessionId = getSessionId();
+    const userId = getUserId();
 
-    return (revenueData as MonthlyRevenueData[]).map((item: MonthlyRevenueData) => ({
-      month: item.month,
-      revenue: parseFloat(item.revenue)
-    }));
+    await fetch('/api/analytics/track/event', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        userId,
+        eventType,
+        eventCategory,
+        eventLabel,
+        eventValue,
+        metadata,
+        timestamp: new Date().toISOString(),
+      }),
+    });
   } catch (error) {
-    console.error('Error fetching monthly revenue:', error);
-    throw new Error('Failed to fetch monthly revenue');
+    console.error('Error tracking event:', error);
   }
 }
 
-/**
- * Get top performing tours
- */
-export async function getTopTours(limit: number = 5) {
+// Track tour interest
+export async function trackTourInterest(
+  tourId: number,
+  interactionType: 'view' | 'click' | 'favorite' | 'share',
+  interestScore: number = 1
+) {
   try {
-    const topTours = await prisma.$queryRaw`
-      SELECT 
-        t."id",
-        t."title",
-        t."location",
-        COUNT(b."id") as bookingCount,
-        SUM(b."participants") as totalParticipants
-      FROM "eco_tours" t
-      LEFT JOIN "bookings" b ON t."id" = b."tourId"
-      GROUP BY t."id", t."title", t."location"
-      ORDER BY bookingCount DESC
-      LIMIT ${limit}
-    ` as TopTourData[];
+    const sessionId = getSessionId();
+    const userId = getUserId();
 
-    return (topTours as TopTourData[]).map((tour: TopTourData) => ({
-      id: tour.id,
-      title: tour.title,
-      location: tour.location,
-      bookingCount: parseInt(tour.bookingCount),
-      totalParticipants: parseInt(tour.totalParticipants)
-    }));
+    await fetch('/api/analytics/track/tour-interest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        userId,
+        tourId,
+        interactionType,
+        interestScore,
+      }),
+    });
   } catch (error) {
-    console.error('Error fetching top tours:', error);
-    throw new Error('Failed to fetch top tours');
+    console.error('Error tracking tour interest:', error);
+  }
+}
+
+// Track search query
+export async function trackSearch(
+  searchTerm: string,
+  resultsCount: number,
+  filters?: Record<string, any>
+) {
+  try {
+    const sessionId = getSessionId();
+    const userId = getUserId();
+
+    await fetch('/api/analytics/track/search', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        userId,
+        searchTerm,
+        resultsCount,
+        filtersApplied: filters,
+      }),
+    });
+  } catch (error) {
+    console.error('Error tracking search:', error);
+  }
+}
+
+// Initialize session (track UTM parameters, device info, etc.)
+export async function initializeSession() {
+  try {
+    const sessionId = getSessionId();
+    const userId = getUserId();
+
+    // Parse UTM parameters from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmSource = urlParams.get('utm_source');
+    const utmMedium = urlParams.get('utm_medium');
+    const utmCampaign = urlParams.get('utm_campaign');
+    const utmTerm = urlParams.get('utm_term');
+    const utmContent = urlParams.get('utm_content');
+
+    // Detect device type
+    const userAgent = navigator.userAgent;
+    let deviceType = 'desktop';
+    if (/mobile/i.test(userAgent)) deviceType = 'mobile';
+    else if (/tablet/i.test(userAgent)) deviceType = 'tablet';
+
+    // Detect browser
+    let browser = 'unknown';
+    if (userAgent.indexOf('Chrome') > -1) browser = 'Chrome';
+    else if (userAgent.indexOf('Safari') > -1) browser = 'Safari';
+    else if (userAgent.indexOf('Firefox') > -1) browser = 'Firefox';
+    else if (userAgent.indexOf('Edge') > -1) browser = 'Edge';
+
+    // Detect OS
+    let os = 'unknown';
+    if (userAgent.indexOf('Win') > -1) os = 'Windows';
+    else if (userAgent.indexOf('Mac') > -1) os = 'MacOS';
+    else if (userAgent.indexOf('Linux') > -1) os = 'Linux';
+    else if (userAgent.indexOf('Android') > -1) os = 'Android';
+    else if (userAgent.indexOf('iOS') > -1) os = 'iOS';
+
+    await fetch('/api/analytics/track/session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        sessionId,
+        userId,
+        utmSource,
+        utmMedium,
+        utmCampaign,
+        utmTerm,
+        utmContent,
+        deviceType,
+        browser,
+        os,
+        userAgent,
+      }),
+    });
+  } catch (error) {
+    console.error('Error initializing session:', error);
   }
 }
